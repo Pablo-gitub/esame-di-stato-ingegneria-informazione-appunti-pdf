@@ -1,0 +1,56 @@
+\documentclass[a4paper,12pt,openright,twoside]{book} % Usiamo 'book' per la struttura con capitoli
+
+% --- Caricamento dei tuoi file di stile personalizzati ---
+\usepackage{stili/mio_stile_esame} % Contiene i pacchetti generali e le impostazioni di base
+\usepackage{stili/impostazioni_codice} % Contiene le definizioni per listings (pseudocodice, SQL, Bash)
+
+% --- Informazioni sul documento ---
+\title{Appunti per l'Esame di Stato\\Ingegnere Junior - Settore Informazione}
+\author{Paolo Pietrelli}
+\date{\today} % Usa la data corrente
+% \subject{Preparazione Integrata} % Campo soggetto per il PDF (opzionale, già in hyperref)
+
+% --- Bibliografia (già gestita in mio_stile_esame.sty, qui solo il comando per stampare) ---
+% \printbibliography % Questo comando andrà nella sezione \backmatter
+
+\begin{document}
+\sloppy % Rende la composizione un po' meno rigida, utile per evitare overfull hbox con testo lungo
+
+\frontmatter % Pagine preliminari (numerazione romana, senza capitoli numerati)
+
+\maketitle % Stampa titolo, autore, data
+
+% Se vuoi un abstract, puoi inserirlo qui:
+% \begin{abstract}
+% Breve riassunto del contenuto complessivo dei tuoi appunti.
+% \end{abstract}
+
+\tableofcontents % Genera l'indice dei capitoli e delle sezioni
+\listoffigures % Genera la lista delle figure
+\lstlistoflistings % Genera la lista dei listati di codice (se usi newfloat=true in lstset, altrimenti usa listof=tof)
+
+\mainmatter % Inizio del contenuto principale (numerazione araba, capitoli numerati)
+
+% --- Inclusione dei Capitoli Principali ---
+% Ogni riga \include farà iniziare un nuovo capitolo in una nuova pagina.
+% Assicurati che i file .tex nelle sottocartelle dei capitoli contengano
+% almeno un \chapter{} per essere inclusi nell'indice.
+
+\include{capitoli/sistemi_operativi/riassunto_so}
+\include{capitoli/basi_di_dati/riassunto_bd}
+\include{capitoli/reti_di_calcolatori/riassunto_reti}
+\include{capitoli/programmazione_oo/riassunto_poo}
+\include{capitoli/progettazione_software/riassunto_ps}
+\include{capitoli/elettronica/riassunto_elettronica}
+\include{capitoli/sistemi_numerici/riassunto_sn}
+
+% --- Se vuoi aggiungere appendici per soluzioni dettagliate di esercizi o altro ---
+% \appendix
+% \chapter{Soluzioni Dettagliate e Approfondimenti}
+% \include{capitoli/basi_di_dati/esercizi/es_er_campi} % Esempio: inclusione di un file di esercizio
+
+\backmatter % Sezione finale del libro (ad es. bibliografia, indici analitici)
+
+\printbibliography % Stampa la bibliografia. Questo comando è fornito da biblatex.
+
+\end{document}

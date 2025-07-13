@@ -1,0 +1,72 @@
+% Questo file contiene le configurazioni di stile generali per il tuo documento di preparazione all'Esame di Stato.
+
+% --- Codifica e Lingua ---
+\usepackage[utf8]{inputenc} % Codifica dei caratteri
+\usepackage[T1]{fontenc}    % Supporto per caratteri estesi
+\usepackage[italian]{babel} % Supporto per la lingua italiana (con regole di sillabazione e tipografia)
+
+\usepackage{csquotes}
+% --- Matematica e Simboli ---
+\usepackage{amsmath,amssymb,amsfonts} % Per simboli matematici avanzati, ambienti matematici
+\usepackage{mathtools} % Estensioni di amsmath, es. \coloneqq
+
+% --- Grafici e Immagini ---
+\usepackage{graphicx} % Per includere immagini
+\graphicspath{{./immagini/}} % Definisce il percorso predefinito per le immagini
+
+% --- Tabelle ---
+\usepackage{booktabs} % Tabelle di qualità professionale (es. \toprule, \midrule, \bottomrule)
+\usepackage{multirow} % Per celle che occupano più righe in una tabella
+\usepackage{tabularx} % Tabelle con larghezza fissa e colonne estensibili
+
+% --- Sottocaption per Figure/Tabelle multiple ---
+\usepackage{subcaption} % Per subfigure/subtable, come facevi nella tesi
+
+% --- Colori ---
+\usepackage{xcolor} % Per definire e usare colori
+
+% --- Layout e Formattazione Testo ---
+\usepackage{geometry} % Per personalizzare i margini
+\geometry{a4paper, total={170mm,257mm}, left=20mm, right=20mm, top=20mm, bottom=20mm} % Esempio di margini
+
+\usepackage{setspace} % Per controllare l'interlinea
+\newcommand{\mainlinespacing}[1]{%
+    \linespread{#1}\selectfont%
+}
+
+% --- Hyperlink e PDF ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={Appunti Esame di Stato},
+    pdfauthor={Paolo Pietrelli},
+    pdfsubject={Ingegneria Informatica},
+    pdfkeywords={Esame di Stato, Informatica, Ingegneria},
+    bookmarks=true,
+    bookmarksnumbered=true,
+    pdfstartview={FitH}
+}
+
+% --- Acronimi ---
+\usepackage{acronym} % Per la lista degli acronimi
+
+% --- Elenchi personalizzati (es. per checklist o punti chiave) ---
+\usepackage{enumitem} % Migliora la gestione degli elenchi
+
+% --- PACCHETTI SPECIFICI PER LA BIBLIOGRAFIA ---
+\usepackage[backend=biber,style=numeric,citestyle=numeric]{biblatex} % <--- ASSICURATI CHE QUESTA RIGA SIA PRESENTE E NON COMMENTATA!
+\addbibresource{stili/bibtex.bib} % E che questo percorso sia corretto
+
+% --- PACCHETTO LISTINGS (per blocchi di codice) ---
+\usepackage{listings} % <--- ASSICURATI CHE QUESTA RIGA SIA PRESENTE E NON COMMENTATA!
+% NOTA: Le impostazioni dettagliate dei listings sono nel file impostazioni_codice.sty
+
+% --- Varie ---
+% \usepackage{lastpage} % Per ottenere il numero dell'ultima pagina
+% \usepackage{fancyhdr} % Per header e footer personalizzati
+% \usepackage{appendix} % Per gestire meglio le appendici
+
+% --- Fine di mio_stile_esame.sty ---

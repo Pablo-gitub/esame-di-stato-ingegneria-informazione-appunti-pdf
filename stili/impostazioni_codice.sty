@@ -1,0 +1,74 @@
+% Questo file contiene le impostazioni personalizzate per i blocchi di codice con il pacchetto listings.
+
+% Assicurati che il pacchetto 'listings' sia stato caricato nel tuo main .sty o mio_stile_esame.sty
+% es: \usepackage{listings}
+% E che 'xcolor' sia caricato per i colori del codice (già in mio_stile_esame.sty)
+% es: \usepackage{xcolor}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  commentstyle=\color{gray}\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  stringstyle=\color{red!70!black}\ttfamily\small,
+  identifierstyle=\color{black},
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  framesep=5pt,
+  frameround=tttt,
+  rulecolor=\color{black!70},
+  backgroundcolor=\color{gray!10},
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+  columns=fixed,
+  basewidth={0.5em,0.4em},
+  numbers=left,
+  stepnumber=1,
+  firstnumber=1,
+  numbersep=10pt,
+  xleftmargin=15pt,
+  xrightmargin=15pt,
+  aboveskip=1em,
+  belowskip=1em,
+  captionpos=b,
+}
+
+% --- Definizioni dei linguaggi ---
+
+% Pseudocodice (con parole chiave inglesi standard)
+\lstdefinelanguage{Pseudocode}{
+  keywords={IF, THEN, ELSE, ELSEIF, ENDIF, FOR, TO, STEP, NEXT, WHILE, DO, ENDWHILE, REPEAT, UNTIL, FUNCTION, PROCEDURE, RETURN, TRUE, FALSE, AND, OR, NOT, BEGIN, END, INPUT, OUTPUT, READ, WRITE, CALL, SET, GET},
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!60!black}\itshape,
+  basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  breaklines=true,
+  sensitive=true % Keywords sono case-sensitive
+}
+
+% SQL (con parole chiave comuni)
+\lstdefinelanguage{SQL}{
+  keywords={SELECT, FROM, WHERE, AND, OR, GROUP BY, HAVING, ORDER BY, ASC, DESC, INSERT, INTO, VALUES, UPDATE, SET, DELETE, CREATE, TABLE, ALTER, DROP, INDEX, PRIMARY KEY, FOREIGN KEY, REFERENCES, VARCHAR, INTEGER, TEXT, DATE, TIME, BOOLEAN, NULL, COUNT, SUM, AVG, MAX, MIN, AS, JOIN, INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN, ON, DISTINCT},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  stringstyle=\color{red!70!black},
+  commentstyle=\color{green!60!black}\itshape,
+  basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  breaklines=true,
+  morecomment=[l][\color{green!60!black}\itshape]{--},
+  morecomment=[s][\color{green!60!black}\itshape]{/*}{*/},
+  sensitive=false
+}
+
+% Bash (con comandi comuni)
+\lstdefinelanguage{Bash}{
+  keywords={if, then, else, elif, fi, for, in, do, done, while, until, case, esac, function, return, echo, printf, read, local, export, cd, pwd, ls, cp, mv, rm, mkdir, rmdir, cat, more, less, head, tail, grep, sed, awk, cut, sort, uniq, tr, find, xargs, chmod, chown, chgrp, su, sudo, exit, set, unset, alias, unalias, history, date, time, sleep, kill, ps, top, df, du, mount, umount, tar, gzip, gunzip, bzip2, bunzip2, zip, unzip, ssh, scp, wget, curl, env, PATH, HOME, USER, PS1, PS2, IFS, true, false},
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!60!black}\itshape,
+  stringstyle=\color{red!70!black},
+  basicstyle=\ttfamily\small,
+  showstringspaces=false,
+  breaklines=true,
+  morecomment=[l][\color{gray}\itshape]{\#}
+}
