@@ -1,2 +1,21 @@
 \babel@toc {italian}{}\relax 
 \babel@toc {italian}{}\relax 
+\contentsline {chapter}{\numberline {1}Sistemi Operativi}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Struttura e Organizzazione del Sistema Operativo}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Componenti Principali}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Modelli di Sistemi Operativi}{2}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Scheduling della CPU}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Principali Problematiche dello Scheduling}{2}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Esempi di Algoritmi di Scheduling}{3}{subsection.1.2.2}%
+\contentsline {chapter}{\numberline {2}Basi di Dati}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Modello Concettuale Entità-Relazione (ER)}{5}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Componenti Principali del Modello ER}{5}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Progettazione Logica: Normalizzazione e Forme Normali}{6}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Obiettivi della Normalizzazione}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Principali Forme Normali}{7}{subsection.2.2.2}%
+\contentsline {subsubsection}{Prima Forma Normale (1NF)}{7}{section*.4}%
+\contentsline {subsubsection}{Seconda Forma Normale (2NF)}{7}{section*.5}%
+\contentsline {subsubsection}{Terza Forma Normale (3NF)}{7}{section*.6}%
+\contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{7}{subsection.2.2.3}%
+\contentsline {subsubsection}{Categorie di Comandi SQL}{8}{section*.7}%
+\contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{8}{section*.8}%

@@ -1,0 +1,133 @@
+\chapter{Basi di Dati}
+
+Le \textbf{Basi di Dati (Database)} sono collezioni organizzate di dati che permettono un'efficiente memorizzazione, recupero e gestione delle informazioni. Sono fondamentali per la maggior parte delle applicazioni software moderne.
+
+\section{Modello Concettuale Entità-Relazione (ER)}
+Il \textbf{Modello Entità-Relazione (ER)} è uno strumento concettuale di alto livello utilizzato nella fase iniziale della progettazione di database. Permette di rappresentare il mondo reale in termini di "entità" (oggetti o concetti di interesse) e "relazioni" (associazioni tra le entità). L'obiettivo è fornire una rappresentazione intuitiva e facilmente comprensibile della struttura dei dati prima di tradurla in un modello logico.
+
+\subsection{Componenti Principali del Modello ER}
+\begin{itemize}
+    \item \textbf{Entità}: Rappresentano "cose" o "oggetti" del mondo reale su cui si vogliono memorizzare informazioni. Possono essere concrete (es. Persona, Prodotto) o astratte (es. Corso, Ordine). Nel diagramma ER, le entità sono generalmente rappresentate con un rettangolo.
+    \item \textbf{Attributi}: Sono le proprietà o caratteristiche che descrivono un'entità o una relazione. Ad esempio, un'entità "Studente" può avere attributi come "Nome", "Cognome", "Matricola", "DataNascita". Nel diagramma ER, gli attributi sono spesso rappresentati con un ovale.
+    \begin{itemize}
+        \item \textbf{Attributi Semplici/Composti}: Un attributo semplice non può essere scomposto (es. "Età"), mentre uno composto è formato da più attributi (es. "Indirizzo" composto da "Via", "Civico", "Città").
+        \item \textbf{Attributi Mono-valore/Multi-valore}: Mono-valore ha un singolo valore per istanza (es. "DataNascita"), multi-valore può avere più valori (es. "NumeriDiTelefono").
+        \item \textbf{Attributi Derivati}: Il loro valore può essere calcolato da altri attributi (es. "Età" derivata da "DataNascita").
+        \item \textbf{Chiave (Key Attribute)}: Un attributo (o un insieme di attributi) che identifica in modo univoco ogni istanza di un'entità. Viene tipicamente sottolineato nel diagramma ER.
+    \end{itemize}
+    \item \textbf{Relazioni}: Rappresentano associazioni logiche tra due o più entità. Ad esempio, un "Docente" "insegna" a un "Corso". Nel diagramma ER, le relazioni sono rappresentate con un rombo.
+    \begin{itemize}
+        \item \textbf{Cardinalità delle Relazioni}: Definisce il numero di istanze di un'entità che possono essere associate a un'istanza dell'altra entità nella relazione. Le cardinalità più comuni sono:
+        \begin{itemize}
+            \item \textbf{Uno a Uno (1:1)}: Una istanza di entità A è associata a una e una sola istanza di entità B, e viceversa (es. "Persona" - "ha" - "Patente").
+            \item \textbf{Uno a Molti (1:N)}: Una istanza di entità A è associata a zero o molte istanze di entità B, ma un'istanza di B è associata a una e una sola istanza di A (es. "Dipartimento" - "comprende" - "Docente").
+            \item \textbf{Molti a Molti (N:M)}: Una istanza di entità A è associata a zero o molte istanze di entità B, e viceversa (es. "Studente" - "frequenta" - "Corso").
+        \end{itemize}
+        \item \textbf{Partecipazione (o Dipendenza)}: Indica se l'esistenza di un'istanza di un'entità dipende dalla sua partecipazione a una relazione.
+        \begin{itemize}
+            \item \textbf{Totale (o Obbligatoria)}: Ogni istanza dell'entità deve partecipare alla relazione (indicata da una doppia linea).
+            \item \textbf{Parziale (o Opzionale)}: Un'istanza dell'entità può partecipare o meno alla relazione (indicata da una singola linea).
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\section{Progettazione Logica: Normalizzazione e Forme Normali}
+La \textbf{normalizzazione} è un processo sistematico di organizzazione dei dati in un database relazionale. Il suo scopo è ridurre la ridondanza dei dati, eliminare le anomalie di aggiornamento (inserimento, cancellazione, modifica) e migliorare l'integrità e la coerenza dei dati. La normalizzazione si basa su una serie di regole chiamate "forme normali".
+
+\subsection{Obiettivi della Normalizzazione}
+\begin{itemize}
+    \item \textbf{Riduzione della Ridondanza}: Evitare la duplicazione inutile dei dati, che spreca spazio e può portare a incongruenze.
+    \item \textbf{Miglioramento dell'Integrità dei Dati}: Assicurare che i dati siano accurati e consistenti.
+    \item \textbf{Prevenzione delle Anomalie}:
+    \begin{itemize}
+        \item \textbf{Anomalia di Inserimento}: Impossibilità di inserire un'informazione a meno che non si inseriscano anche altre informazioni non correlate.
+        \item \textbf{Anomalia di Cancellazione}: La cancellazione di un dato comporta la perdita accidentale di altre informazioni non desiderate.
+        \item \textbf{Anomalia di Aggiornamento}: La modifica di un dato ripetuto richiede l'aggiornamento di più occorrenze, con rischio di inconsistenza se non tutte vengono aggiornate.
+    \end{itemize}
+    \item \textbf{Flessibilità e Manutenibilità}: Rendere il database più facile da modificare ed estendere.
+\end{itemize}
+
+\subsection{Principali Forme Normali}
+Le forme normali sono una serie di regole progressive; per essere in una forma normale N, una relazione deve soddisfare i requisiti della forma normale N-1. Le più comuni e rilevanti per la maggior parte delle applicazioni sono la Prima, Seconda e Terza Forma Normale.
+
+\subsubsection{Prima Forma Normale (1NF)}
+Una relazione è in 1NF se e solo se:
+\begin{itemize}
+    \item Tutti gli attributi sono \textbf{atomici} (indivisibili). Non ci sono attributi con valori multipli o attributi composti che non sono stati scomposti.
+    \item Ogni record (riga) nella relazione è \textbf{unico}. Questo implica che deve esistere una chiave primaria.
+\end{itemize}
+\textbf{Esempio di Violazione}: Una colonna "NumeriDiTelefono" che contiene più numeri per un'unica riga.
+
+\subsubsection{Seconda Forma Normale (2NF)}
+Una relazione è in 2NF se e solo se:
+\begin{itemize}
+    \item È in \textbf{1NF}.
+    \item Tutti gli attributi non-chiave dipendono \textbf{completamente} dalla chiave primaria. Non ci sono dipendenze parziali, il che significa che nessun attributo non-chiave dipende solo da una parte di una chiave primaria composta.
+\end{itemize}
+\textbf{Esempio di Violazione}: In una tabella `(IDCorso, IDStudente, NomeCorso, Voto)`, se `(IDCorso, IDStudente)` è la chiave primaria, e `NomeCorso` dipende solo da `IDCorso` (e non da `IDStudente`), allora `NomeCorso` è parzialmente dipendente e viola la 2NF.
+
+\subsubsection{Terza Forma Normale (3NF)}
+Una relazione è in 3NF se e solo se:
+\begin{itemize}
+    \item È in \textbf{2NF}.
+    \item Non contiene \textbf{dipendenze transitive}. Ovvero, nessun attributo non-chiave dipende da un altro attributo non-chiave (anziché dipendere direttamente dalla chiave primaria).
+\end{itemize}
+\textbf{Esempio di Violazione}: In una tabella `(IDImpiegato, NomeImpiegato, Dipartimento, CapoDipartimento)`, se `IDImpiegato` è la chiave primaria e `CapoDipartimento` dipende da `Dipartimento` (che a sua volta dipende da `IDImpiegato`), si ha una dipendenza transitiva.
+
+\subsection{Linguaggio SQL}
+Il \textbf{Structured Query Language (SQL)} è il linguaggio standard per la gestione dei sistemi di gestione di database relazionali (RDBMS). Permette di definire, manipolare e controllare i dati.
+
+\subsubsection{Categorie di Comandi SQL}
+\begin{itemize}
+    \item \textbf{Data Definition Language (DDL)}: Utilizzato per definire e modificare la struttura del database.
+    \begin{itemize}
+        \item \textbf{CREATE}: Crea database, tabelle, viste, indici, ecc. (es. `CREATE TABLE Studenti (...)`).
+        \item \textbf{ALTER}: Modifica la struttura di oggetti esistenti (es. `ALTER TABLE Studenti ADD COLUMN Età INT`).
+        \item \textbf{DROP}: Cancella oggetti dal database (es. `DROP TABLE Studenti`).
+    \end{itemize}
+    \item \textbf{Data Manipulation Language (DML)}: Utilizzato per manipolare i dati all'interno delle tabelle.
+    \begin{itemize}
+        \item \textbf{SELECT}: Recupera dati da una o più tabelle. È la query più usata.
+        \item \textbf{INSERT}: Aggiunge nuove righe a una tabella.
+        \item \textbf{UPDATE}: Modifica righe esistenti in una tabella.
+        \item \textbf{DELETE}: Rimuove righe da una tabella.
+    \end{itemize}
+    \item \textbf{Data Control Language (DCL)}: Utilizzato per gestire i permessi di accesso ai dati.
+    \begin{itemize}
+        \item \textbf{GRANT}: Concede privilegi agli utenti.
+        \item \textbf{REVOKE}: Rimuove privilegi dagli utenti.
+    \end{itemize}
+    \item \textbf{Transaction Control Language (TCL)}: Utilizzato per gestire le transazioni (gruppi di operazioni che devono essere eseguite atomicamente).
+    \begin{itemize}
+        \item \textbf{COMMIT}: Salva le modifiche di una transazione.
+        \item \textbf{ROLLBACK}: Annulla le modifiche di una transazione.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Elementi Comuni delle Query SQL (SELECT)}
+La query \texttt{SELECT} è la più potente e versatile, permettendo di interrogare il database.
+\begin{itemize}
+    \item \textbf{SELECT}: Specifica le colonne da recuperare.
+    \begin{itemize}
+        \item \texttt{SELECT colonna1, colonna2}
+        \item \texttt{SELECT *} (tutte le colonne)
+        \item \texttt{SELECT DISTINCT colonna} (solo valori unici)
+    \end{itemize}
+    \item \textbf{FROM}: Specifica la tabella (o le tabelle) da cui recuperare i dati.
+    \item \textbf{WHERE}: Filtra le righe in base a una condizione specificata.
+    \begin{itemize}
+        \item \texttt{WHERE condizione} (es. `WHERE Età > 18`)
+        \item Operatori: `=`, `>`, `<`, `>=`, `<=`, `<>`, `LIKE` (per pattern matching), `IN`, `BETWEEN`, `IS NULL`.
+    \end{itemize}
+    \item \textbf{JOIN}: Combina righe da due o più tabelle basandosi su una colonna correlata.
+    \begin{itemize}
+        \item \textbf{INNER JOIN}: Restituisce solo le righe che hanno corrispondenze in entrambe le tabelle.
+        \item \textbf{LEFT (OUTER) JOIN}: Restituisce tutte le righe dalla tabella sinistra e le righe corrispondenti dalla tabella destra (con NULL se non ci sono corrispondenze).
+        \item \textbf{RIGHT (OUTER) JOIN}: Simile al LEFT JOIN, ma per la tabella destra.
+        \item \textbf{FULL (OUTER) JOIN}: Restituisce tutte le righe quando c'è una corrispondenza in una delle due tabelle.
+    \end{itemize}
+    \item \textbf{GROUP BY}: Raggruppa le righe che hanno gli stessi valori in una o più colonne, spesso usato con funzioni di aggregazione.
+    \item \textbf{HAVING}: Filtra i gruppi creati da `GROUP BY` in base a una condizione. Si usa con le funzioni di aggregazione.
+    \item \textbf{ORDER BY}: Ordina il set di risultati in base a una o più colonne (ASC per ascendente, DESC per discendente).
+    \item \textbf{Funzioni di Aggregazione}: Calcolano un singolo valore da un insieme di valori (es. `COUNT()`, `SUM()`, `AVG()`, `MAX()`, `MIN()`).
+\end{itemize}
