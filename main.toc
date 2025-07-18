@@ -19,3 +19,18 @@
 \contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{7}{subsection.2.2.3}%
 \contentsline {subsubsection}{Categorie di Comandi SQL}{8}{section*.7}%
 \contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{8}{section*.8}%
+\contentsline {chapter}{\numberline {3}Reti di Calcolatori}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Modello di Comunicazione Client/Server}{11}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Funzionamento del Modello Client/Server}{11}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Vantaggi e Svantaggi del Modello Client/Server}{11}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Protocollo HTTP}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Funzionamento e Applicazione in HTTP}{12}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Connessioni Stateless e Stateful}{12}{subsection.3.2.2}%
+\contentsline {subsubsection}{Stateless Connection (Connessione Senza Stato)}{12}{section*.9}%
+\contentsline {subsubsection}{Stateful Connection (Connessione Con Stato)}{12}{section*.10}%
+\contentsline {subsection}{\numberline {3.2.3}Metodi per Gestire la Persistenza dello Stato in HTTP}{13}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Standard ISO/OSI}{13}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Struttura a Sette Strati del Modello OSI}{13}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Livello di Trasporto (TCP vs UDP)}{14}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}TCP (Transmission Control Protocol)}{14}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}UDP (User Datagram Protocol)}{15}{subsection.3.4.2}%

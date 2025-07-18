@@ -1,0 +1,112 @@
+\chapter{Reti di Calcolatori}
+
+Le \textbf{reti di calcolatori} sono sistemi che permettono a dispositivi interconnessi di scambiare dati e condividere risorse. Sono la base di quasi ogni infrastruttura informatica moderna, dal World Wide Web alle reti aziendali locali.
+
+\section{Modello di Comunicazione Client/Server}
+Il \textbf{modello Client/Server} è un'architettura di rete distribuita in cui i client (richiedenti servizi) e i server (fornitori di servizi) sono entità separate che comunicano su una rete. È il modello dominante per la maggior parte delle applicazioni web e molte applicazioni enterprise.
+
+\subsection{Funzionamento del Modello Client/Server}
+\begin{itemize}
+    \item \textbf{Client}: Invia richieste di servizi al server, riceve le risposte e le presenta all'utente. Tipicamente è l'applicazione utente (es. browser web, app mobile).
+    \item \textbf{Server}: Ascolta le richieste dei client, le elabora (es. recupera dati, esegue calcoli), e invia le risposte al client. Gestisce le risorse condivise (database, file, stampanti).
+    \item \textbf{Comunicazione}: Avviene tramite protocolli di rete (es. TCP/IP) su porte specifiche. Il client avvia la connessione e la richiesta.
+\end{itemize}
+
+\subsection{Vantaggi e Svantaggi del Modello Client/Server}
+\begin{itemize}
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item \textbf{Centralizzazione}: Gestione centralizzata di dati e risorse, facilitando la sicurezza e la manutenzione.
+        \item \textbf{Scalabilità}: Possibilità di scalare il server per gestire più richieste o aggiungere più client alla rete.
+        \item \textbf{Sicurezza}: Controllo più agevole degli accessi e dei permessi sui dati centralizzati.
+        \item \textbf{Manutenzione Facilitata}: Aggiornamenti e backup possono essere eseguiti sul server senza influenzare i client.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item \textbf{Single Point of Failure (Punto Singolo di Fallimento)}: Se il server si blocca, tutti i client perdono l'accesso ai servizi.
+        \item \textbf{Collo di Bottiglia del Server}: Un server sovraccarico può rallentare l'intera rete.
+        \item \textbf{Costo}: I server e la loro manutenzione possono essere costosi.
+    \end{itemize}
+\end{itemize}
+
+\section{Protocollo HTTP}
+L'\textbf{Hypertext Transfer Protocol (HTTP)} è il protocollo applicativo fondamentale per il World Wide Web. Opera nel modello client/server ed è stateless.
+
+\subsection{Funzionamento e Applicazione in HTTP}
+\begin{itemize}
+    \item Un \textbf{client} (tipicamente un browser web) invia una \textbf{richiesta HTTP} (es. GET, POST, PUT, DELETE) a un \textbf{server web}. La richiesta include URL, metodo, header e, opzionalmente, un body.
+    \item Il \textbf{server} riceve la richiesta, la elabora (es. recupera una pagina web, esegue uno script), e invia una \textbf{risposta HTTP}. La risposta include uno stato (es. 200 OK, 404 Not Found), header e il body (es. il contenuto HTML della pagina richiesta).
+    \item La comunicazione avviene tipicamente su TCP/IP (porta 80 per HTTP, 443 per HTTPS).
+\end{itemize}
+\textbf{Esempio}: Quando un utente digita un URL nel browser, il browser è il client che invia una richiesta HTTP al server. Il server risponde con la pagina HTML e le risorse associate, che il browser poi renderizza.
+
+\subsection{Connessioni Stateless e Stateful}
+
+\subsubsection{Stateless Connection (Connessione Senza Stato)}
+\begin{itemize}
+    \item \textbf{Definizione}: Ogni richiesta inviata dal client al server è completamente indipendente e autocontenuta. Il server non mantiene alcuna informazione (stato) sulle richieste precedenti del client. Ogni richiesta include tutte le informazioni necessarie per essere elaborata.
+    \item \textbf{Vantaggi}: Scalabilità elevata (il server non deve allocare memoria per lo stato di ogni client), resilienza (se un server si blocca, un altro può prendere il suo posto senza perdere lo stato), semplicità di progettazione lato server.
+    \item \textbf{Svantaggi}: Richiede che ogni richiesta contenga potenzialmente informazioni ridondanti (es. credenziali di autenticazione), e può essere meno efficiente per operazioni che richiedono una sequenza di passaggi.
+    \item \textbf{HTTP come Stateless}: HTTP è intrinsecamente stateless. Ogni richiesta HTTP è trattata come se fosse la prima e unica richiesta tra il client e il server.
+
+\end{itemize}
+
+\subsubsection{Stateful Connection (Connessione Con Stato)}
+\begin{itemize}
+    \item \textbf{Definizione}: Il server mantiene e ricorda lo stato delle interazioni passate con un client per un certo periodo di tempo. Le richieste successive possono fare riferimento a questo stato.
+    \textbf{Vantaggi}: Minore ridondanza di informazioni nelle richieste successive, può semplificare la logica client per sequenze di operazioni complesse.
+    \item \textbf{Svantaggi}: Minore scalabilità (il server deve mantenere lo stato per ogni client attivo, consumando risorse), minore resilienza (se il server che detiene lo stato si blocca, la sessione del client viene persa), complessità maggiore.
+    \item \textbf{Esempi}: Una connessione TCP (a un livello più basso) è stateful; una sessione di login a un database.
+\end{itemize}
+
+\subsection{Metodi per Gestire la Persistenza dello Stato in HTTP}
+Dato che HTTP è stateless, per costruire applicazioni web interattive che richiedono il mantenimento dello stato (es. carrelli della spesa, sessioni utente), sono stati sviluppati diversi meccanismi:
+\begin{itemize}
+    \item \textbf{Cookies}: Piccoli frammenti di dati che il server invia al browser del client e che il browser memorizza. Ad ogni richiesta successiva verso lo stesso server, il browser invia nuovamente i cookie al server. Usati per ID di sessione, preferenze utente, tracciamento.
+    \item \textbf{Session IDs (ID di Sessione)}: Il server crea un ID univoco per ogni sessione utente e lo invia al client (spesso tramite cookie). Il server memorizza i dati della sessione sul proprio lato (nel database o in memoria cache) associati a quell'ID. Usati per mantenere lo stato di login, carrelli della spesa.
+    \item \textbf{URL Rewriting (Parametri URL)}: Lo stato viene incorporato direttamente nell'URL come parametri. Usato quando i cookie non sono disponibili.
+    \item \textbf{Hidden Form Fields}: Dati nascosti all'interno di moduli HTML che vengono inviati con ogni richiesta POST. Usati per mantenere lo stato tra le pagine di un modulo multi-step.
+    \item \textbf{Web Storage (Local Storage, Session Storage)}: API JavaScript che permettono alle applicazioni web di memorizzare dati nel browser del client (Local Storage persistente, Session Storage per la durata della sessione del browser). Usati per memorizzare dati client-side, cache di dati.
+\end{itemize}
+
+\section{Standard ISO/OSI}
+Il \textbf{modello ISO/OSI (Open Systems Interconnection)} è un modello concettuale che descrive come i sistemi di comunicazione in una rete interagiscono e cooperano. È diviso in sette strati (layer), ciascuno con responsabilità specifiche, che operano sopra lo strato precedente e forniscono servizi a quello successivo.
+
+\subsection{Struttura a Sette Strati del Modello OSI}
+\begin{enumerate}
+    \item \textbf{Strato Fisico (Physical Layer)}: Gestisce la trasmissione e ricezione di flussi di bit non strutturati e grezzi su un mezzo fisico. Definisce le specifiche elettriche, meccaniche, procedurali e funzionali. (Es. cavi Ethernet, Wi-Fi, connettori).
+    \item \textbf{Strato di Collegamento Dati (Data Link Layer)}: Fornisce la trasmissione di dati da nodo a nodo, rilevando e correggendo potenzialmente gli errori che possono verificarsi a livello fisico. Gestisce l'indirizzamento MAC e il controllo del flusso. (Es. Ethernet, PPP).
+    \item \textbf{Strato di Rete (Network Layer)}: Gestisce l'instradamento dei pacchetti attraverso la rete (routing). È responsabile dell'indirizzamento logico (IP) e della selezione del percorso migliore. (Es. IP, ICMP).
+    \item \textbf{Strato di Trasporto (Transport Layer)}: Fornisce la comunicazione end-to-end tra processi su host diversi. Assicura la consegna affidabile dei dati, il controllo di flusso e il controllo della congestione. (Es. TCP, UDP).
+    \item \textbf{Strato di Sessione (Session Layer)}: Stabilisce, gestisce e termina le sessioni di comunicazione tra applicazioni. Gestisce la sincronizzazione e il dialogo.
+    \item \textbf{Strato di Presentazione (Presentation Layer)}: Si occupa della sintassi e della semantica dei dati scambiati. Traduce i dati tra il formato dell'applicazione e il formato di rete, e gestisce la crittografia/decrittografia e la compressione.
+    \item \textbf{Strato di Applicazione (Application Layer)}: Fornisce servizi di rete direttamente alle applicazioni dell'utente finale. (Es. HTTP, FTP, SMTP, DNS).
+\end{enumerate}
+
+\section{Livello di Trasporto (TCP vs UDP)}
+Il \textbf{Livello di Trasporto} è il quarto strato del modello OSI e fornisce servizi di comunicazione end-to-end tra applicazioni in esecuzione su host diversi. I due protocolli principali a questo livello sono TCP e UDP.
+
+\subsection{TCP (Transmission Control Protocol)}
+\textbf{TCP} è un protocollo orientato alla connessione, affidabile e con controllo di flusso e congestione.
+\begin{itemize}
+    \item \textbf{Orientato alla Connessione}: Stabilisce una connessione (handshake a tre vie) prima di iniziare la trasmissione dei dati e la termina esplicitamente.
+    \item \textbf{Affidabile}: Garantisce la consegna dei dati, senza perdite o duplicazioni, e nell'ordine corretto.
+    \begin{itemize}
+        \item \textbf{Numerazione e Riconoscimenti (ACK)}: Ogni segmento inviato è numerato e il mittente si aspetta un riconoscimento (ACK) dal destinatario. Se un ACK non arriva entro un certo tempo, il segmento viene ritrasmesso.
+        \item \textbf{Checksum}: Utilizza un checksum per rilevare errori nei dati.
+    \end{itemize}
+    \item \textbf{Controllo di Flusso}: Impedisce a un mittente veloce di sovraccaricare un destinatario lento. Il destinatario comunica al mittente quanto spazio buffer è disponibile (finestra di ricezione).
+    \item \textbf{Controllo di Congestione}: Evita che un mittente invii troppi dati in una rete congestionata, riducendo la velocità di trasmissione se rileva congestione (es. tramite perdite di pacchetti o ritardi).
+    \item \textbf{Segmentazione e Riasssemblaggio}: Spezza i dati dell'applicazione in segmenti più piccoli per la trasmissione e li riassembla alla destinazione.
+    \item \textbf{Applicazioni Tipiche}: Web Browse (HTTP), trasferimento file (FTP), email (SMTP), connessioni sicure (SSH).
+\end{itemize}
+
+\subsection{UDP (User Datagram Protocol)}
+\textbf{UDP} è un protocollo senza connessione, inaffidabile e che non implementa controllo di flusso o congestione.
+\begin{itemize}
+    \item \textbf{Senza Connessione}: Non stabilisce una connessione preliminare. Ogni datagramma viene inviato indipendentemente.
+    \item \textbf{Inaffidabile (Best-Effort)}: Non garantisce la consegna dei dati, l'ordine di arrivo, né che non ci siano duplicazioni. Non ci sono ACK né ritrasmissioni automatiche.
+    \item \textbf{Nessun Controllo di Flusso/Congestione}: Trasmette i dati alla massima velocità possibile senza preoccuparsi della capacità del destinatario o della rete.
+    \item \textbf{Overhead Minimo}: Ha un header molto piccolo, il che lo rende molto efficiente in termini di overhead.
+    \item \textbf{Applicazioni Tipiche}: Streaming multimediale (audio/video), VoIP, DNS, giochi online, dove la velocità è più importante dell'affidabilità perfetta (piccole perdite possono essere accettabili).
+\end{itemize}
