@@ -1,0 +1,139 @@
+\chapter{Programmazione Orientata agli Oggetti (e Fondamenti)}
+
+La \textbf{Programmazione Orientata agli Oggetti (OOP)} è un paradigma di programmazione basato sul concetto di "oggetti", che possono contenere dati e codice. È uno dei paradigmi più diffusi per lo sviluppo di software moderno.
+
+\section{Concetti Base della Programmazione Orientata agli Oggetti (POO)}
+La POO si fonda su alcuni pilastri fondamentali che ne definiscono la struttura e il funzionamento:
+\begin{itemize}
+    \item \textbf{Classe}: Una blueprint o un modello per creare oggetti. Definisce le proprietà (attributi/campi) e i comportamenti (metodi/funzioni) che gli oggetti di quel tipo avranno. Non è un'entità fisica, ma una definizione logica.
+    \item \textbf{Oggetto}: Un'istanza di una classe. È un'entità concreta che ha uno stato (valori specifici degli attributi) e un comportamento (i metodi che può eseguire).
+    \item \textbf{Incapsulamento (Encapsulation)}: Il principio di raggruppare i dati (attributi) e le funzioni (metodi) che operano su quei dati all'interno di un'unica unità (la classe). Protegge i dati interni dall'accesso diretto esterno, permettendone la manipolazione solo tramite metodi pubblici della classe. Questo migliora la sicurezza e la manutenibilità del codice.
+    \item \textbf{Ereditarietà (Inheritance)}: Un meccanismo che permette a una classe (sottoclasse o classe derivata) di ereditare proprietà e comportamenti da un'altra classe (superclasse o classe base). Promuove il riutilizzo del codice e la creazione di gerarchie di classi che riflettono relazioni "è un tipo di".
+    \item \textbf{Polimorfismo (Polymorphism)}: Il concetto che un oggetto possa assumere molte forme. In OOP, si riferisce alla capacità di oggetti di classi diverse di rispondere allo stesso messaggio (chiamata di metodo) in modi diversi, o alla capacità di un'interfaccia di riferirsi a oggetti di diverse classi che la implementano. Si manifesta tramite:
+    \begin{itemize}
+        \item \textbf{Overriding}: Una sottoclasse fornisce un'implementazione specifica di un metodo già definito nella sua superclasse.
+        \item \textbf{Overloading}: Definire più metodi con lo stesso nome all'interno della stessa classe, ma con liste di parametri diverse (numero, tipo o ordine).
+    \end{itemize}
+\end{itemize}
+
+\section{Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}
+
+\subsection{Abstract Data Type (ADT)}
+Un \textbf{Abstract Data Type (ADT)} è una definizione matematica di una struttura dati, che specifica un insieme di dati e un insieme di operazioni che possono essere eseguite su quei dati. È "astratto" perché si concentra sul "cosa" la struttura dati fa (il suo comportamento) piuttosto che sul "come" lo fa (la sua implementazione interna). L'ADT separa l'interfaccia (pubblica) dall'implementazione (privata).
+
+\begin{itemize}
+    \item \textbf{Caratteristiche}:
+    \begin{itemize}
+        \item \textbf{Astrazione dei Dati}: Nasconde i dettagli di rappresentazione interna dei dati.
+        \item \textbf{Astrazione Funzionale}: Nasconde i dettagli di implementazione delle operazioni.
+        \item \textbf{Insieme di Operazioni}: Definisce un insieme ben preciso di funzioni o metodi che possono essere applicati ai dati.
+    \end{itemize}
+    \item \textbf{Esempi Comuni di ADT}:
+    \begin{itemize}
+        \item \textbf{ADT List (Lista)}: Un insieme ordinato di elementi. Operazioni tipiche: inserimento (add), rimozione (remove), accesso a un elemento per indice (get), dimensione (size), verifica se vuota (isEmpty). L'implementazione può essere con array, liste concatenate, ecc.
+        \item \textbf{ADT Stack (Pila)}: Una collezione di elementi che segue il principio LIFO (Last-In, First-Out). Operazioni tipiche: push (aggiungere un elemento in cima), pop (rimuovere l'elemento in cima), peek (vedere l'elemento in cima senza rimuoverlo), isEmpty.
+        \item \textbf{ADT Queue (Coda)}: Una collezione di elementi che segue il principio FIFO (First-In, First-Out). Operazioni tipiche: enqueue (aggiungere un elemento in coda), dequeue (rimuovere l'elemento in testa), peek, isEmpty.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Passaggio di Parametri nelle Chiamate di Funzione}
+Quando si chiama una funzione (o routine, o metodo), i valori o i riferimenti alle variabili vengono passati come argomenti. Esistono due meccanismi principali per il passaggio dei parametri:
+
+\subsubsection{Passaggio per Valore (Call by Value)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Viene passata una \textbf{copia del valore} dell'argomento alla funzione. La funzione opera su questa copia locale.
+    \item \textbf{Effetto}: Qualsiasi modifica apportata alla copia del parametro all'interno della funzione \textbf{non influisce} sulla variabile originale passata dal chiamante.
+    \item \textbf{Quando usato}: Per tipi di dati primitivi (interi, booleani, caratteri) nella maggior parte dei linguaggi, e per oggetti complessi quando si desidera che la funzione non alteri l'originale.
+\end{itemize}
+
+\subsubsection{Passaggio per Riferimento (Call by Reference / Call by Address)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Viene passato l'\textbf{indirizzo di memoria} della variabile originale alla funzione. La funzione accede e opera direttamente sulla variabile originale tramite questo indirizzo.
+    \item \textbf{Effetto}: Qualsiasi modifica apportata al parametro all'interno della funzione \textbf{influenza direttamente} la variabile originale passata dal chiamante.
+    \item \textbf{Quando usato}: Spesso per oggetti complessi (in linguaggi come Java, Python, C\# gli oggetti sono tipicamente passati per riferimento implicito, anche se tecnicamente è un "passaggio per valore del riferimento"), o esplicitamente in linguaggi come C++ (usando `\&` o puntatori).
+\item \textbf{Differenze Chiave}: La differenza fondamentale è se la funzione lavora su una copia (per valore) o direttamente sull'originale (per riferimento). Il passaggio per riferimento è più efficiente per oggetti grandi in quanto evita la copia, ma richiede maggiore attenzione per evitare effetti collaterali indesiderati.
+\end{itemize}
+
+\subsection{Overloading di Funzioni (o Metodi)}
+L'\textbf{Overloading di funzioni} (o metodi, nel contesto OOP) è la capacità di definire più funzioni o metodi con lo \textbf{stesso nome} all'interno dello stesso scope (solitamente la stessa classe), ma che si distinguono per avere \textbf{liste di parametri diverse}. La lista dei parametri può differire per:
+\begin{itemize}
+    \item Il \textbf{numero} di parametri.
+    \item Il \textbf{tipo} dei parametri.
+    \item L'\textbf{ordine} dei parametri.
+\end{itemize}
+Il compilatore (o l'interprete) determina quale versione del metodo chiamare basandosi sul numero e tipo degli argomenti forniti durante la chiamata.
+\textbf{Esempio}:
+\begin{lstlisting}[language=Pseudocode, caption={Esempio di Function Overloading}]
+FUNCTION Add(a: Integer, b: Integer):
+    RETURN a + b
+END FUNCTION
+
+FUNCTION Add(a: Double, b: Double):
+    RETURN a + b
+END FUNCTION
+
+FUNCTION Add(a: Integer, b: Integer, c: Integer):
+    RETURN a + b + c
+END FUNCTION
+\end{lstlisting}
+
+\section{Linguaggi Compilati e Linguaggi Interpretati}
+La distinzione tra linguaggi compilati e interpretati riguarda il modo in cui il codice sorgente viene eseguito dal computer.
+
+\subsection{Linguaggi Compilati}
+\begin{itemize}
+    \item \textbf{Descrizione}: Il codice sorgente viene tradotto (compilato) in codice macchina (o bytecode per la JVM) una sola volta da un programma chiamato "compilatore" prima dell'esecuzione. Il file eseguibile risultante può essere eseguito direttamente dal sistema operativo.
+    \item \textbf{Processo}: Codice Sorgente $\rightarrow$ Compilatore $\rightarrow$ Codice Macchina Eseguibile.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item \textbf{Prestazioni Elevate}: Il codice macchina è ottimizzato per l'hardware specifico, risultando in esecuzioni molto veloci.
+        \item \textbf{Esecuzione Indipendente}: Una volta compilato, l'eseguibile non richiede il compilatore per essere eseguito.
+        \item \textbf{Rilevamento Errori Precoce}: La maggior parte degli errori di sintassi e alcuni errori logici vengono rilevati in fase di compilazione.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item \textbf{Tempo di Compilazione}: Richiede un passaggio aggiuntivo di compilazione prima dell'esecuzione.
+        \item \textbf{Dipendenza dalla Piattaforma}: L'eseguibile compilato è specifico per una particolare architettura hardware e sistema operativo (a meno di VM come Java).
+    \end{itemize}
+    \item \textbf{Esempi}: C, C++, Java (compila in bytecode che viene interpretato/JIT compilato dalla JVM), Go, Rust.
+\end{itemize}
+
+\subsection{Linguaggi Interpretati}
+\begin{itemize}
+    \item \textbf{Descrizione}: Il codice sorgente viene eseguito riga per riga da un programma chiamato "interprete" al momento dell'esecuzione, senza una fase di compilazione preventiva in codice macchina.
+    \item \textbf{Processo}: Codice Sorgente $\rightarrow$ Interprete $\rightarrow$ Esecuzione.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item \textbf{Flessibilità e Rapidità di Sviluppo}: Non c'è un passo di compilazione, quindi le modifiche possono essere testate immediatamente.
+        \item \textbf{Indipendenza dalla Piattaforma}: Lo stesso codice sorgente può essere eseguito su qualsiasi piattaforma che abbia un interprete installato.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item \textbf{Prestazioni Generalmente Inferiori}: L'interprete analizza e traduce il codice in tempo reale, il che è più lento dell'esecuzione di codice macchina nativo.
+        \item \textbf{Rilevamento Errori Tardo}: Gli errori (anche di sintassi) vengono spesso rilevati solo a runtime, quando l'interprete tenta di eseguire la riga problematica.
+    \end{itemize}
+    \item \textbf{Esempi}: Python, JavaScript, Ruby, PHP.
+\end{itemize}
+
+\section{Algoritmi e Complessità Computazionale}
+L'\textbf{analisi della complessità computazionale} è lo studio delle risorse richieste da un algoritmo per risolvere un problema. Le risorse principali sono il tempo di esecuzione e lo spazio di memoria.
+
+\subsection{Complessità Temporale}
+Misura il tempo che un algoritmo impiega per completare la sua esecuzione, in funzione della dimensione dell'input. Viene espressa utilizzando la \textbf{notazione O-grande (Big O notation)} ($O(n)$), che descrive il tasso di crescita superiore del tempo di esecuzione dell'algoritmo al crescere della dimensione dell'input.
+\begin{itemize}
+    \item \textbf{O(1) - Tempo Costante}: Il tempo di esecuzione non dipende dalla dimensione dell'input.
+    \item \textbf{O(log n) - Tempo Logaritmico}: Il tempo di esecuzione cresce logaritmicamente con la dimensione dell'input (es. ricerca binaria).
+    \item \textbf{O(n) - Tempo Lineare}: Il tempo di esecuzione cresce linearmente con la dimensione dell'input (es. scansione di un array).
+    \item \textbf{O(n log n) - Tempo Lineare-Logaritmico}: Tempo di esecuzione per algoritmi di ordinamento efficienti (es. Merge Sort, Quick Sort).
+    \item \textbf{O($n^2$) - Tempo Quadratico}: Il tempo di esecuzione è proporzionale al quadrato della dimensione dell'input (es. algoritmi di ordinamento semplici come Bubble Sort, nested loops).
+    \item \textbf{O($2^n$) - Tempo Esponenziale}: Il tempo di esecuzione cresce esponenzialmente con la dimensione dell'input (es. problemi NP-completi non ottimizzati, ricerca esaustiva).
+\end{itemize}
+
+\subsection{Complessità Spaziale}
+Misura la quantità di memoria ausiliaria (oltre all'input stesso) che un algoritmo richiede per completare la sua esecuzione, in funzione della dimensione dell'input. Anche questa è espressa con la notazione O-grande.
+
+\begin{itemize}
+    \item \textbf{O(1) - Spazio Costante}: L'algoritmo utilizza una quantità fissa di memoria, indipendentemente dalla dimensione dell'input.
+    \item \textbf{O(n) - Spazio Lineare}: La memoria richiesta cresce linearmente con la dimensione dell'input (es. memorizzare una copia dell'input).
+    \item \textbf{O(n²) - Spazio Quadratico}: La memoria richiesta cresce quadraticamente con la dimensione dell'input (es. memorizzare una matrice $N \times N$).
+\end{itemize}

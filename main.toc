@@ -34,3 +34,27 @@
 \contentsline {section}{\numberline {3.4}Livello di Trasporto (TCP vs UDP)}{14}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}TCP (Transmission Control Protocol)}{14}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}UDP (User Datagram Protocol)}{15}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Programmazione Orientata agli Oggetti (e Fondamenti)}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Concetti Base della Programmazione Orientata agli Oggetti (POO)}{17}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}{18}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Abstract Data Type (ADT)}{18}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Passaggio di Parametri nelle Chiamate di Funzione}{18}{subsection.4.2.2}%
+\contentsline {subsubsection}{Passaggio per Valore (Call by Value)}{18}{section*.11}%
+\contentsline {subsubsection}{Passaggio per Riferimento (Call by Reference / Call by Address)}{19}{section*.12}%
+\contentsline {subsection}{\numberline {4.2.3}Overloading di Funzioni (o Metodi)}{19}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Linguaggi Compilati e Linguaggi Interpretati}{19}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Linguaggi Compilati}{20}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Linguaggi Interpretati}{20}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Algoritmi e Complessità Computazionale}{21}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Complessità Temporale}{21}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Complessità Spaziale}{21}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {5}Progettazione del Software}{23}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Analisi dei Requisiti}{23}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Tipi di Requisiti}{23}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Diagrammi di Casi d'Uso UML (Use Case Diagrams)}{24}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Progettazione dell'Architettura del Sistema Software}{24}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Design Patterns (Pattern Architetturali e di Progettazione)}{24}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Diagrammi UML di Classi e di Deployment}{25}{subsection.5.2.2}%
+\contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{25}{section*.13}%
+\contentsline {subsubsection}{Diagrammi di Deployment (Deployment Diagrams)}{25}{section*.14}%
+\contentsline {section}{\numberline {5.3}Implementazione e Diagrammi di Sequenza UML}{26}{section.5.3}%

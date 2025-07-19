@@ -1,0 +1,121 @@
+\chapter{Progettazione del Software}
+
+La \textbf{Progettazione del Software} è il processo di definizione dell'architettura, dei componenti, delle interfacce e di altri attributi di un sistema o di un componente. È una fase cruciale nel ciclo di vita dello sviluppo del software, che traduce i requisiti in un piano dettagliato per la costruzione del sistema.
+
+\section{Analisi dei Requisiti}
+L'\textbf{analisi dei requisiti} è il processo di definizione, documentazione e mantenimento dei requisiti software. È la fase iniziale di qualsiasi progetto software e mira a comprendere le esigenze degli stakeholder per il sistema da costruire.
+
+\subsection{Tipi di Requisiti}
+I requisiti possono essere classificati in due categorie principali:
+\begin{itemize}
+    \item \textbf{Requisiti Funzionali}: Descrivono ciò che il sistema \textit{deve fare}. Definiscono le funzioni, i servizi e i comportamenti specifici che il sistema deve fornire agli utenti.
+    \begin{itemize}
+        \item \textbf{Esempi}: "Il sistema deve consentire la registrazione di nuovi utenti.", "Il sistema deve calcolare la somma delle vendite giornaliere.", "Il sistema deve permettere la visualizzazione del calendario delle partite."
+    \end{itemize}
+    \item \textbf{Requisiti Non Funzionali (o di Qualità)}: Descrivono come il sistema \textit{deve funzionare}. Definiscono le caratteristiche di qualità, i vincoli e gli attributi del sistema, piuttosto che le sue funzionalità specifiche. Spesso influenzano l'architettura e l'implementazione.
+    \begin{itemize}
+        \item \textbf{Esempi}:
+        \begin{itemize}
+            \item \textbf{Prestazioni}: "Il sistema deve rispondere a una query entro 2 secondi."
+            \item \textbf{Scalabilità}: "Il sistema deve supportare 1000 utenti concorrenti."
+            \item \textbf{Sicurezza}: "Il sistema deve autenticare gli utenti tramite username e password con criptazione."
+            \item \textbf{Usabilità}: "L'interfaccia utente deve essere intuitiva e di facile apprendimento."
+            \item \textbf{Affidabilità}: "Il sistema deve essere disponibile il 99.9\% del tempo."
+            \item \textbf{Manutenibilità}: "Il codice deve essere modulare e ben documentato."
+            \item \textbf{Portabilità}: "Il sistema deve funzionare su Windows e Linux."
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Diagrammi di Casi d'Uso UML (Use Case Diagrams)}
+I \textbf{Diagrammi di Casi d'Uso} sono uno strumento UML (Unified Modeling Language) utilizzato nell'analisi dei requisiti funzionali. Descrivono le interazioni tra gli utenti (attori) e il sistema, rappresentando le diverse funzionalità che il sistema offre dal punto di vista dell'utente.
+\begin{itemize}
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Attore (Actor)}: Rappresenta un ruolo esterno che interagisce con il sistema (persona, altro sistema, dispositivo). Disegnato come un omino stilizzato.
+        \item \textbf{Caso d'Uso (Use Case)}: Rappresenta una funzionalità specifica del sistema, un servizio che il sistema fornisce all'attore. Disegnato come un ovale.
+        \item \textbf{Confine del Sistema (System Boundary)}: Un rettangolo che racchiude i casi d'uso, distinguendo ciò che è all'interno del sistema da ciò che è esterno.
+        \item \textbf{Relazioni}:
+        \begin{itemize}
+            \item \textbf{Associazione}: L'interazione tra un attore e un caso d'uso (linea semplice).
+            \item \textbf{Include}: Un caso d'uso include la funzionalità di un altro caso d'uso (freccia tratteggiata da caso d'uso includente a caso d'uso incluso, con etichetta `<<include>>`).
+            \item \textbf{Extend}: Un caso d'uso estende il comportamento di un altro caso d'uso in circostanze specifiche (freccia tratteggiata da caso d'uso estendente a caso d'uso esteso, con etichetta `<<extend>>`).
+            \item \textbf{Generalizzazione}: Una relazione di ereditarietà tra attori o casi d'uso (freccia con punta triangolare).
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Scopo}: Fornire una visione ad alto livello dei requisiti funzionali, facilitare la comunicazione tra stakeholder e sviluppatori, e servire da base per la progettazione successiva.
+\end{itemize}
+
+\section{Progettazione dell'Architettura del Sistema Software}
+La \textbf{progettazione dell'architettura del software} definisce la struttura di alto livello di un sistema software, delineando come i suoi componenti interagiscono e sono organizzati. Include la scelta di pattern architetturali e di design.
+
+\subsection{Design Patterns (Pattern Architetturali e di Progettazione)}
+I \textbf{Design Patterns} sono soluzioni riutilizzabili a problemi comuni che si presentano nella progettazione del software. Non sono soluzioni pronte all'uso, ma modelli da adattare al contesto specifico.
+
+\begin{itemize}
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item \textbf{Riutilizzo di Soluzioni Comprovate}: Utilizzano approcci che hanno dimostrato di funzionare.
+        \item \textbf{Vocabolario Condiviso}: Facilitano la comunicazione tra gli sviluppatori.
+        \item \textbf{Miglioramento della Qualità del Codice}: Portano a codice più manutenibile, scalabile e flessibile.
+    \end{itemize}
+    \item \textbf{Esempi Comuni}:
+    \begin{itemize}
+        \item \textbf{MVC (Model-View-Controller)}: Un pattern architetturale che separa l'applicazione in tre componenti interconnessi per gestire meglio l'interfaccia utente.
+        \begin{itemize}
+            \item \textbf{Model}: Gestisce i dati e la logica di business.
+            \item \textbf{View}: Si occupa della presentazione dei dati all'utente.
+            \item \textbf{Controller}: Gestisce l'input dell'utente e coordina Model e View.
+        \end{itemize}
+        \item \textbf{Singleton}: Garantisce che una classe abbia una sola istanza e fornisce un punto di accesso globale a essa. Utile per risorse uniche come gestori di configurazione o log.
+        \item \textbf{Factory Method}: Definisce un'interfaccia per creare un oggetto, ma lascia alle sottoclassi la decisione di quale classe istanziare. Permette di creare oggetti senza specificare la classe esatta che verrà creata.
+        \item \textbf{Observer}: Definisce una dipendenza uno-a-molti tra oggetti in modo che quando un oggetto cambia stato, tutti i suoi dipendenti vengono notificati e aggiornati automaticamente. Utile per eventi e notifiche.
+        \item \textbf{Strategy}: Definisce una famiglia di algoritmi, incapsula ciascuno di essi e li rende intercambiabili. Permette all'algoritmo di variare indipendentemente dai client che lo usano.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Diagrammi UML di Classi e di Deployment}
+
+\subsubsection{Diagrammi delle Classi (Class Diagrams)}
+I \textbf{Diagrammi delle Classi} sono diagrammi strutturali UML che mostrano la struttura statica di un sistema, le classi, i loro attributi, i loro metodi e le relazioni tra le classi.
+\begin{itemize}
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Classi}: Rappresentate da un rettangolo diviso in tre sezioni: nome della classe, attributi, e metodi.
+        \item \textbf{Relazioni}:
+        \begin{itemize}
+            \item \textbf{Associazione}: Connessione tra istanze di classi (linea semplice, può avere molteplicità).
+            \item \textbf{Aggregazione}: Una forma debole di relazione "parte di", dove un oggetto può esistere indipendentemente dal contenitore (diamante vuoto).
+            \item \textbf{Composizione}: Una forma forte di relazione "parte di", dove il componente non può esistere senza il contenitore (diamante pieno).
+            \item \textbf{Generalizzazione (Ereditarietà)}: Una classe eredita da un'altra (freccia con punta triangolare non piena).
+            \item \textbf{Realizzazione (Implementazione di Interfaccia)}: Una classe implementa un'interfaccia (linea tratteggiata con punta triangolare non piena).
+            \item \textbf{Dipendenza}: Un cambiamento in una classe può influenzare un'altra (linea tratteggiata con freccia).
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Scopo}: Modellare il design logico del database, la struttura del codice e le relazioni tra le classi.
+\end{itemize}
+
+\subsubsection{Diagrammi di Deployment (Deployment Diagrams)}
+I \textbf{Diagrammi di Deployment} sono diagrammi strutturali UML che mostrano la configurazione fisica dei nodi hardware (computer, server, dispositivi) e come i componenti software sono distribuiti su questi nodi.
+\begin{itemize}
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Nodo (Node)}: Una risorsa computazionale fisica o logica (hardware, ambiente di esecuzione software). Rappresentato da un cubo 3D.
+        \item \textbf{Artefatto (Artifact)}: Un prodotto fisico risultante dal processo di sviluppo (file eseguibile, libreria, file di configurazione). Rappresentato da un documento con l'icona di un artefatto.
+        \item \textbf{Comunicazione (Communication Path)}: Una linea che connette i nodi, indicando un percorso di comunicazione.
+    \end{itemize}
+    \item \textbf{Scopo}: Visualizzare la topologia di sistema, la distribuzione dei componenti software sull'hardware e le interazioni fisiche. Utile per architetture distribuite.
+\end{itemize}
+
+\section{Implementazione e Diagrammi di Sequenza UML}
+I \textbf{Diagrammi di Sequenza} sono diagrammi di interazione UML che mostrano l'ordine cronologico dei messaggi scambiati tra oggetti in un'interazione. Sono usati per modellare la logica di una funzionalità o di un algoritmo.
+\begin{itemize}
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Lifeline (Linea di Vita)}: Rappresenta la partecipazione di un oggetto o attore all'interazione (linea verticale tratteggiata).
+        \item \textbf{Attore}: Utente o sistema esterno che avvia l'interazione.
+        \item \textbf{Messaggio}: Chiamata di metodo o comunicazione tra lifeline (freccia orizzontale).
+        \item \textbf{Barra di Attivazione (Activation Bar)}: Indica il periodo di tempo durante il quale un oggetto è attivo e sta eseguendo un'operazione.
+    \end{itemize}
+    \item \textbf{Scopo}: Dettagliare il flusso di controllo e di dati per funzionalità specifiche, spesso come implementazione di casi d'uso. Sono utili per visualizzare come diversi oggetti collaborano per raggiungere un obiettivo.
+\end{itemize}
