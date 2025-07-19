@@ -1,0 +1,101 @@
+\chapter{Sistemi Numerici}
+
+I \textbf{sistemi numerici} sono metodi per rappresentare i numeri utilizzando simboli specifici e regole ben definite. In informatica, la rappresentazione binaria è fondamentale, ma è cruciale anche capire come i numeri negativi vengono gestiti, in particolare tramite il complemento a due.
+
+\section{Rappresentazione per Numeri Interi}
+I numeri interi possono essere rappresentati in diversi modi all'interno di un sistema digitale. Le rappresentazioni più comuni per i numeri con segno includono segno e modulo, complemento a uno, e complemento a due. Il complemento a due è la rappresentazione più utilizzata nei sistemi digitali moderni per la sua efficienza nelle operazioni aritmetiche.
+
+\subsection{Complemento a Due}
+La rappresentazione in \textbf{complemento a due} è il metodo più diffuso per rappresentare numeri interi con segno nei sistemi digitali. Offre il vantaggio di semplificare le operazioni di somma e sottrazione, poiché la sottrazione può essere implementata come una somma con il complemento a due del sottraendo, eliminando la necessità di circuiti dedicati alla sottrazione.
+
+\subsubsection{Principio di Funzionamento}
+\begin{itemize}
+    \item Un numero positivo in complemento a due è rappresentato esattamente come nella notazione binaria pura (senza segno), con il bit più significativo (MSB) pari a 0.
+    \item Un numero negativo in complemento a due è ottenuto complementando (invertendo) tutti i bit del suo valore assoluto (passando dal 0 all'1 e viceversa) e poi sommando 1 al risultato. Il bit più significativo (MSB) sarà sempre 1 per i numeri negativi.
+    \item Il bit più significativo (MSB) indica il segno: 0 per i positivi, 1 per i negativi.
+    \item Il range di valori rappresentabile con $N$ bit in complemento a due va da $-2^{N-1}$ a $2^{N-1}-1$. Ad esempio, con 8 bit, si possono rappresentare numeri da $-128$ a $127$.
+\end{itemize}
+
+\subsubsection{Derivazione della Rappresentazione in Complemento a Due}
+Per convertire un numero decimale negativo in complemento a due (con $N$ bit):
+\begin{enumerate}
+    \item Prendi il valore assoluto del numero decimale (positivo).
+    \item Converti il valore assoluto in binario su $N$ bit.
+    \item Inverti tutti i bit (complemento a uno, 0 diventa 1, 1 diventa 0).
+    \item Somma 1 al risultato binario.
+\end{enumerate}
+Per convertire un numero binario in complemento a due a decimale:
+\begin{itemize}
+    \item Se il MSB è 0: il numero è positivo. Convertilo come un normale binario senza segno.
+    \item Se il MSB è 1: il numero è negativo.
+    \begin{enumerate}
+        \item Inverti tutti i bit del numero binario.
+        \item Somma 1 al risultato binario.
+        \item Converti questo risultato binario in decimale e anteponi il segno meno.
+    \end{enumerate}
+\end{itemize}
+
+\subsubsection{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}
+Per rappresentare il numero decimale -15 in complemento a due su 16 bit:
+\begin{enumerate}
+    \item \textbf{Valore assoluto}: $|-15| = 15$.
+    \item \textbf{15 in binario su 16 bit}: $0000\,0000\,0000\,1111_2$.
+    \item \textbf{Inverti tutti i bit (complemento a uno)}: $1111\,1111\,1111\,0000_2$.
+    \item \textbf{Somma 1}: $1111\,1111\,1111\,0000_2 + 1_2 = 1111\,1111\,1111\,0001_2$.
+\end{enumerate}
+Quindi, la rappresentazione in complemento a due di -15 su 16 bit è $1111\,1111\,1111\,0001_2$.
+
+\section{Operazioni Aritmetiche con Complemento a Due}
+Il vantaggio principale del complemento a due è che le operazioni di addizione e sottrazione possono essere eseguite utilizzando lo stesso circuito per l'addizione.
+
+\subsection{Addizione}
+L'addizione di due numeri (positivi o negativi) in complemento a due viene eseguita come una normale addizione binaria. Qualsiasi bit di riporto che esce dal bit più significativo (MSB) viene semplicemente ignorato.
+\begin{itemize}
+    \item \textbf{Esempio}: $5 + (-2)$ su 4 bit ($N=4$, range da -8 a 7)
+    \begin{itemize}
+        \item $5_{10} = 0101_2$
+        \item $-2_{10}$:
+        \begin{itemize}
+            \item $2_{10} = 0010_2$
+            \item Complemento a uno: $1101_2$
+            \item Somma 1: $1101_2 + 1_2 = 1110_2$ (che è $-2_{10}$ in complemento a due)
+        \end{itemize}
+        \item \textbf{Somma}:
+        \begin{lstlisting}[language=Pseudocode]
+  0101  (5)
++ 1110  (-2)
+-----
+ 10011
+        \end{lstlisting}
+        Il bit di riporto (il primo 1 a sinistra) viene ignorato. Il risultato è $0011_2 = 3_{10}$, che è corretto.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Sottrazione}
+La sottrazione $A - B$ è implementata come la somma $A + (-B)$. Per calcolare $-B$, si determina il complemento a due di $B$.
+\begin{itemize}
+    \item \textbf{Esempio}: $5 - 2$ su 4 bit ($N=4$, range da -8 a 7)
+    \begin{itemize}
+        \item $5_{10} = 0101_2$
+        \item $-2_{10} = 1110_2$ (già calcolato sopra)
+        \item \textbf{Sottrazione come somma}: $5 + (-2)$
+        \begin{lstlisting}[language=Pseudocode]
+  0101  (5)
++ 1110  (-2)
+-----
+ 10011
+        \end{lstlisting}
+        Ignorando il riporto, il risultato è $0011_2 = 3_{10}$, che è corretto.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Overflow}
+L'\textbf{overflow} si verifica quando il risultato di un'operazione aritmetica supera il range di valori rappresentabili con il numero di bit a disposizione.
+\begin{itemize}
+    \item \textbf{Rilevamento}: Si verifica un overflow se:
+    \begin{itemize}
+        \item Si sommano due numeri positivi e il risultato è negativo.
+        \item Si sommano due numeri negativi e il risultato è positivo.
+        \item Un modo più formale per rilevarlo è controllare se il riporto nel bit del segno (MSB) è diverso dal riporto fuori dal bit del segno.
+    \end{itemize}
+\end{itemize}

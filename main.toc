@@ -58,3 +58,23 @@
 \contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{25}{section*.13}%
 \contentsline {subsubsection}{Diagrammi di Deployment (Deployment Diagrams)}{25}{section*.14}%
 \contentsline {section}{\numberline {5.3}Implementazione e Diagrammi di Sequenza UML}{26}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Elettronica}{27}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}{27}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Struttura del Transistore MOS (nMOS)}{27}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Principio di Funzionamento (nMOS)}{28}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}{28}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}{29}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Circuiti CMOS (Complementary MOS)}{29}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Invertitore CMOS}{29}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}{30}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Applicazioni Notevoli dell'Invertitore CMOS}{30}{subsection.6.2.3}%
+\contentsline {chapter}{\numberline {7}Sistemi Numerici}{33}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Rappresentazione per Numeri Interi}{33}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Complemento a Due}{33}{subsection.7.1.1}%
+\contentsline {subsubsection}{Principio di Funzionamento}{33}{section*.15}%
+\contentsline {subsubsection}{Derivazione della Rappresentazione in Complemento a Due}{33}{section*.16}%
+\contentsline {subsubsection}{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}{34}{section*.17}%
+\contentsline {section}{\numberline {7.2}Operazioni Aritmetiche con Complemento a Due}{34}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Addizione}{34}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Sottrazione}{35}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Overflow}{35}{subsection.7.2.3}%

@@ -1,0 +1,99 @@
+\chapter{Elettronica}
+
+L'\textbf{Elettronica} è la branca dell'ingegneria e della fisica che si occupa del controllo del flusso di elettroni, tipicamente attraverso dispositivi semiconduttori, per costruire circuiti e sistemi che elaborano informazioni o controllano energia. È alla base di tutti i dispositivi digitali e di molteplici sistemi analogici moderni.
+
+\section{Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}
+Il \textbf{transistore MOS} è il dispositivo fondamentale della microelettronica moderna e la spina dorsale di microprocessori, memorie e altri circuiti integrati. È un transistore a effetto di campo (FET), dove la corrente tra due terminali (Source e Drain) è controllata da un campo elettrico generato da una tensione applicata a un terzo terminale (Gate).
+
+\subsection{Struttura del Transistore MOS (nMOS)}
+Per comprendere il funzionamento, si consideri la realizzazione più comune: l'nMOS (n-channel Metal-Oxide-Semiconductor).
+\begin{itemize}
+    \item \textbf{Substrato (Bulk/Body)}: Generalmente di tipo P per un nMOS. È il materiale semiconduttore di base su cui viene costruito il dispositivo.
+    \item \textbf{Source (S) e Drain (D)}: Due regioni altamente drogate (N+ per nMOS) impiantate nel substrato P. Sono simmetriche e collegate ai terminali esterni. Il Source è tipicamente la sorgente di portatori di carica, il Drain è dove fluiscono.
+    \item \textbf{Canale}: La regione del substrato (P) tra Source e Drain. È qui che si formerà il canale di conduzione per il flusso di corrente.
+    \item \textbf{Ossido di Gate ($SiO_2$)}: Uno strato isolante molto sottile (diossido di silicio) deposto sopra il canale. Agisce come dielettrico, isolando elettricamente il Gate dal canale.
+    \item \textbf{Gate (G)}: Uno strato conduttivo (metallo o polisilicio) deposto sopra l'ossido di gate. È il terminale di controllo attraverso il quale si applica la tensione per creare il campo elettrico.
+    \item \textbf{Terminali}: Gate (G), Source (S), Drain (D), Bulk/Substrate (B). Spesso il Bulk è collegato al Source o a una tensione fissa (es. massa per nMOS, $V_{DD}$ per pMOS).
+\end{itemize}
+
+\subsection{Principio di Funzionamento (nMOS)}
+Il funzionamento del transistore MOS dipende dalla tensione applicata tra Gate e Source ($V_{GS}$) e tra Drain e Source ($V_{DS}$). Si basa sulla modulazione della conduttività del canale tramite un campo elettrico.
+\begin{itemize}
+    \item \textbf{Interdizione (Cut-off Region)}:
+    \begin{itemize}
+        \item \textbf{Condizione}: $V_{GS} < V_{TH}$ (Tensione di Soglia).
+        \item \textbf{Descrizione}: Non c'è un campo elettrico sufficiente per attrarre elettroni al canale. Non si forma un canale di conduzione tra Source e Drain. La corrente $I_{DS}$ è praticamente nulla (solo una piccola corrente di leakage). Il transistore agisce come un interruttore aperto.
+    \end{itemize}
+    \item \textbf{Conduzione (quando $V_{GS} > V_{TH}$)}:
+    \begin{itemize}
+        \item Quando una tensione positiva $V_{GS}$ sufficiente (maggiore di $V_{TH}$) viene applicata al Gate, il campo elettrico attrae gli elettroni (portatori minoritari nel substrato P) verso la superficie del semiconduttore, sotto l'ossido.
+        \item Si forma uno strato sottile di elettroni, creando un \textbf{canale di conduzione} a bassa resistenza tra Source e Drain.
+        \item Se si applica una tensione $V_{DS} > 0$, una corrente $I_{DS}$ fluirà attraverso questo canale.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}
+Una volta che il transistore è in conduzione, il suo comportamento (e la corrente $I_{DS}$) dipende dalla relazione tra $V_{GS}$ e $V_{DS}$.
+\begin{itemize}
+    \item \textbf{Regione di Triodo (o Lineare/Ohmica)}:
+    \begin{itemize}
+        \item \textbf{Condizioni}: $V_{GS} > V_{TH}$ e $V_{DS} < (V_{GS} - V_{TH})$.
+        \item \textbf{Descrizione}: Il canale è completamente formato e la sua profondità è relativamente uniforme. Il transistore si comporta come una resistenza controllata in tensione, e la corrente $I_{DS}$ è approssimativamente lineare rispetto a $V_{DS}$.
+    \item \textbf{Applicazione}: Usata come interruttore chiuso (ON) in circuiti digitali (con bassa resistenza) o come resistenza variabile in circuiti analogici.
+    \end{itemize}
+    \item \textbf{Regione di Saturazione}:
+    \begin{itemize}
+        \item \textbf{Condizioni}: $V_{GS} > V_{TH}$ e $V_{DS} \geq (V_{GS} - V_{TH})$.
+        \item \textbf{Descrizione}: Aumentando $V_{DS}$, la tensione canale-gate verso il lato del Drain si riduce. Quando $V_{DS}$ raggiunge $V_{GS} - V_{TH}$, il canale si "pizzica" (pinch-off) vicino al Drain. Oltre questo punto, ulteriori aumenti di $V_{DS}$ non aumentano significativamente la corrente $I_{DS}$, che diventa quasi costante.
+    \item \textbf{Applicazione}: Questa è la regione di funzionamento preferita per gli amplificatori (circuiti analogici) in quanto si comporta come una sorgente di corrente controllata in tensione, e per gli stati ON (logico '1') in circuiti digitali per un'elevata impedenza di uscita.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}
+Il transistore MOS ha soppiantato in gran parte il BJT nella microelettronica digitale e in molte applicazioni analogiche grazie a diversi vantaggi chiave:
+\begin{itemize}
+    \item \textbf{Alta Impedenza di Ingresso}: Il gate del MOS è isolato dall'ossido, il che lo rende quasi idealmente un circuito aperto con una corrente di gate praticamente nulla ($I_G \approx 0$). Questo riduce il carico sui circuiti precedenti e semplifica il design degli stadi di ingresso. Il BJT, invece, è controllato in corrente (corrente di base) e presenta un'impedenza di ingresso inferiore.
+    \item \textbf{Minore Dissipazione di Potenza Statica (in CMOS)}: Nelle configurazioni Complementary MOS (CMOS), quando il circuito è in stato stabile (non commuta), uno dei transistori è sempre spento, eliminando un percorso di corrente diretto tra alimentazione e massa. Questo porta a una dissipazione di potenza statica estremamente bassa, fondamentale per dispositivi a batteria e circuiti ad alta integrazione. I BJT, anche quando "spenti", possono avere correnti di leakage maggiori e configurazioni logiche basate su BJT tendono a dissipare più potenza.
+    \item \textbf{Scalabilità e Densità di Integrazione}: I MOS possono essere miniaturizzati molto più facilmente rispetto ai BJT, permettendo la realizzazione di circuiti integrati con miliardi di transistori su un singolo chip. La loro struttura planare si presta bene alla fabbricazione su larga scala.
+    \item \textbf{Costo di Fabbricazione}: Il processo di fabbricazione MOS è generalmente più semplice e meno costoso rispetto a quello BJT, che richiede più passaggi di drogaggio e diffusione.
+    \item \textbf{Immunità al Rumore (in CMOS)}: I circuiti CMOS hanno buoni margini di rumore, rendendoli robusti contro le fluttuazioni di tensione indesiderate.
+\end{itemize}
+Nonostante ciò, i BJT mantengono vantaggi in alcune applicazioni specifiche (es. alta frequenza, alta potenza) grazie a una maggiore transconduttanza e velocità in particolari contesti.
+
+\section{Circuiti CMOS (Complementary MOS)}
+La tecnologia \textbf{CMOS} è il design più diffuso per la realizzazione di circuiti integrati digitali, caratterizzata dall'uso complementare di transistori nMOS e pMOS.
+
+\subsection{Invertitore CMOS}
+L'\textbf{invertitore CMOS} è la porta logica fondamentale in tecnologia CMOS, che realizza la funzione NOT (negazione logica). Produce un'uscita opposta all'ingresso.
+\begin{itemize}
+    \item \textbf{Realizzazione}: È composto da due transistori MOS collegati in serie tra $V_{DD}$ e GND, con i gate collegati insieme a formare l'ingresso (IN) e i drain collegati a formare l'uscita (OUT).
+    \begin{itemize}
+        \item Un \textbf{pMOS} (pull-up network) è collegato tra $V_{DD}$ e OUT. Il pMOS conduce quando il suo gate è basso.
+        \item Un \textbf{nMOS} (pull-down network) è collegato tra OUT e GND. L'nMOS conduce quando il suo gate è alto.
+    \end{itemize}
+    \item \textbf{Funzionamento}:
+    \begin{itemize}
+        \item \textbf{Ingresso Alto (Logico '1', $V_{IN} = V_{DD}$)}: L'nMOS è ON (conduce), creando un percorso a bassa resistenza tra OUT e GND. Il pMOS è OFF (interdetto). L'uscita $V_{OUT}$ è tirata a GND (Logico '0').
+        \item \textbf{Ingresso Basso (Logico '0', $V_{IN} = GND$)}: Il pMOS è ON (conduce), creando un percorso a bassa resistenza tra OUT e $V_{DD}$. L'nMOS è OFF (interdetto). L'uscita $V_{OUT}$ è tirata a $V_{DD}$ (Logico '1').
+    \end{itemize}
+\end{itemize}
+
+\subsection{Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}
+Gli invertitori CMOS offrono vantaggi significativi rispetto alle implementazioni più vecchie che usavano un transistore (BJT o MOS) con una resistenza di carico:
+\begin{itemize}
+    \item \textbf{Minore Dissipazione di Potenza Statica (Vantaggio Primario)}: Nello stato stabile (ingresso alto o basso), uno dei due transistori (nMOS o pMOS) è sempre spento. Non c'è un percorso di corrente diretto da $V_{DD}$ a GND. La corrente statica è limitata a correnti di leakage quasi nulle, risultando in un consumo di potenza estremamente basso a riposo. Gli invertitori con carico resistivo, invece, dissipano continuamente potenza quando l'uscita è nello stato "basso", poiché la corrente fluisce attraverso il resistore di carico e il transistore acceso.
+    \item \textbf{Migliori Margini di Rumore}: Le curve di trasferimento tensione-tensione degli invertitori CMOS sono quasi ideali, con una transizione molto ripida tra i due stati logici. Questo fornisce ampi margini di rumore, rendendo i circuiti più robusti alle fluttuazioni di tensione indesiderate.
+    \item \textbf{Prestazioni Simmetriche (Potenziale)}: Con un corretto dimensionamento dei transistori (rapporto $W/L$), i tempi di salita (charge time) e di discesa (discharge time) dell'uscita possono essere resi quasi simmetrici. Negli invertitori con resistore, il tempo di salita (carica del condensatore di carico attraverso il resistore) è tipicamente più lento del tempo di discesa.
+    \item \textbf{Densità di Integrazione}: I transistori MOS occupano meno area rispetto ai resistori su chip, consentendo una maggiore densità di circuiti.
+\item \textbf{Ampio Range di Tensione Operativa}: I circuiti CMOS possono operare su un'ampia gamma di tensioni di alimentazione mantenendo buone prestazioni.
+\end{itemize}
+
+\subsection{Applicazioni Notevoli dell'Invertitore CMOS}
+L'invertitore CMOS è un blocco costruttivo fondamentale per una vasta gamma di applicazioni:
+\begin{itemize}
+    \item \textbf{Porta Logica Fondamentale}: È il componente di base da cui vengono costruite tutte le altre porte logiche digitali (NAND, NOR, XOR, latch, flip-flop) in tecnologia CMOS.
+    \item \textbf{Buffer e Driver}: Utilizzando cascate di invertitori, si possono creare buffer (per aumentare la capacità di pilotaggio di un segnale) o driver per linee lunghe o carichi capacitivi elevati (es. clock network nei microprocessori).
+    \item \textbf{Celle di Memoria}: Due invertitori CMOS collegati in back-to-back formano un latch, che è la cella di memoria fondamentale nelle SRAM (Static RAM), capace di memorizzare un bit.
+    \item \textbf{Oscillatori ad Anello (Ring Oscillators)}: Una catena di un numero dispari di invertitori, con l'uscita dell'ultimo collegata all'ingresso del primo, crea un oscillatore che produce un'onda quadra. Usati per testare le prestazioni di velocità e per generare segnali di clock.
+    \item \textbf{Livelli di Tensione}: Possono essere usati per convertire livelli di tensione logici tra diversi standard o blocchi di circuiti.
+\end{itemize}
