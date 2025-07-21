@@ -31,6 +31,34 @@ Il \textbf{Modello Entità-Relazione (ER)} è uno strumento concettuale di alto 
     \end{itemize}
 \end{itemize}
 
+\subsection{Rappresentazione Grafica del Diagramma ER}
+La rappresentazione visuale del modello Entità-Relazione utilizza simboli standardizzati per facilitare la comprensione della struttura del database.
+\begin{itemize}
+    \item \textbf{Entità}: Rettangolo. Se è un'entità debole, il rettangolo è doppio.
+    \item \textbf{Attributi}: Ovale.
+    \begin{itemize}
+        \item \textbf{Chiave Primaria}: Ovale con il nome dell'attributo sottolineato.
+        \item \textbf{Attributo Composto}: Ovale collegato ad altri ovali più piccoli.
+        \item \textbf{Attributo Multi-valore}: Doppio ovale.
+        \item \textbf{Attributo Derivato}: Ovale tratteggiato.
+    \end{itemize}
+    \item \textbf{Relazioni}: Rombo. Se è una relazione identificativa (per entità deboli), il rombo è doppio.
+    \item \textbf{Connessioni}: Linee che collegano entità e relazioni.
+    \item \textbf{Cardinalità e Partecipazione}: Le cardinalità sono indicate con numeri o simboli sulle linee di connessione (es. 1, N, M). La partecipazione (minima, massima) è indicata con notazioni come $(min, max)$ o da linee:
+    \begin{itemize}
+        \item \textbf{Linea singola}: Partecipazione parziale (0 o 1).
+        \item \textbf{Doppia linea}: Partecipazione totale (almeno 1).
+        \item \textbf{Notazione (min, max)}: Es. $(0, N)$ per zero a molti, $(1, N)$ per uno a molti.
+    \end{itemize}
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    % Inserirai qui l'immagine di un Esempio di Diagramma ER
+    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_er_esempio.png}
+    \caption{Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione.}
+    \label{fig:diagramma_er_uml}
+\end{figure}
+
 \section{Progettazione Logica: Normalizzazione e Forme Normali}
 La \textbf{normalizzazione} è un processo sistematico di organizzazione dei dati in un database relazionale. Il suo scopo è ridurre la ridondanza dei dati, eliminare le anomalie di aggiornamento (inserimento, cancellazione, modifica) e migliorare l'integrità e la coerenza dei dati. La normalizzazione si basa su una serie di regole chiamate "forme normali".
 
@@ -131,3 +159,87 @@ La query \texttt{SELECT} è la più potente e versatile, permettendo di interrog
     \item \textbf{ORDER BY}: Ordina il set di risultati in base a una o più colonne (ASC per ascendente, DESC per discendente).
     \item \textbf{Funzioni di Aggregazione}: Calcolano un singolo valore da un insieme di valori (es. `COUNT()`, `SUM()`, `AVG()`, `MAX()`, `MIN()`).
 \end{itemize}
+
+\subsubsection{Esempi di Operatori e Funzioni SQL Comuni}
+Oltre agli elementi base delle query \lstinline{SELECT}, SQL offre un'ampia gamma di operatori e funzioni per manipolare e filtrare i dati in modo più complesso.
+\begin{itemize}
+    \item \textbf{Operatori Logici}:
+    \begin{itemize}
+        \item \lstinline{AND}: Combina due condizioni, entrambe devono essere vere.
+        \item \lstinline{OR}: Combina due condizioni, almeno una deve essere vera.
+        \item \lstinline{NOT}: Nega una condizione.
+    \end{itemize}
+    \begin{lstlisting}[language=SQL, caption={Esempio Operatori Logici}]
+SELECT FirstName, LastName
+FROM Students
+WHERE Age > 20 AND City = 'Bologna';
+    \end{lstlisting}
+    \item \textbf{Operatori di Confronto}:
+    \begin{itemize}
+        \item \lstinline{=}: Uguale a.
+        \item \lstinline{<>} o \lstinline{!=}: Diverso da.
+        \item \lstinline{<}, \lstinline{>}, \lstinline{<=}, \lstinline{>=}: Minore, maggiore, minore o uguale, maggiore o uguale.
+        \item \lstinline{BETWEEN min AND max}: Valore compreso in un intervallo (inclusi gli estremi).
+        \item \lstinline{LIKE pattern}: Ricerca stringhe che corrispondono a un pattern (es. \lstinline{LIKE 'A%'}).
+        \item \lstinline{IN (value1, value2, ...)}: Valore presente in una lista di valori.
+        \item \lstinline{IS NULL} / \lstinline{IS NOT NULL}: Verifica se un valore è NULL.
+    \end{itemize}
+    \begin{lstlisting}[language=SQL, caption={Esempio Operatori di Confronto}]
+SELECT ProductName, Price
+FROM Products
+WHERE Price BETWEEN 10.00 AND 50.00
+  AND ProductName LIKE 'Book%';
+
+SELECT OrderID
+FROM Orders
+WHERE DeliveryDate IS NULL;
+    \end{lstlisting}
+    \item \textbf{Funzioni Stringa}:
+    \begin{itemize}
+        \item \lstinline{CONCAT(s1, s2, ...)}: Concatena stringhe.
+        \item \lstinline{SUBSTRING(string, start, length)}: Estrae una sottostringa.
+        \item \lstinline{LENGTH(string)}: Restituisce la lunghezza di una stringa.
+        \item \lstinline{UPPER(string)} / \lstinline{LOWER(string)}: Converte in maiuscolo/minuscolo.
+    \end{itemize}
+    \begin{lstlisting}[language=SQL, caption={Esempio Funzioni Stringa}]
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName
+FROM Users
+WHERE LENGTH(FirstName) > 5;
+
+SELECT UPPER(CategoryName)
+FROM Categories;
+    \end{lstlisting}
+    \item \textbf{Funzioni Numeriche}:
+    \begin{itemize}
+        \item \lstinline{ROUND(number, decimal_places)}: Arrotonda un numero.
+        \item \lstinline{ABS(number)}: Valore assoluto.
+    \end{itemize}
+    \begin{lstlisting}[language=SQL, caption={Esempio Funzioni Numeriche}]
+SELECT ROUND(UnitPrice * Quantity, 2) AS RoundedTotal
+FROM OrderDetails;
+
+SELECT ABS(Balance)
+FROM BankAccounts;
+    \end{lstlisting}
+    \item \textbf{Funzioni Data/Ora}:
+    \begin{itemize}
+        \item \lstinline{NOW()}: Data e ora correnti.
+        \item \lstinline{CURDATE()}: Data corrente.
+        \item \lstinline{DATE_ADD(date, INTERVAL value unit)}: Aggiunge un intervallo a una data.
+    \end{itemize}
+    \begin{lstlisting}[language=SQL, caption={Esempio Funzioni Data/Ora}]
+SELECT EventName, EventDate
+FROM Events
+WHERE EventDate > CURDATE();
+
+SELECT DATE_ADD(EventDate, INTERVAL 7 DAY) AS ExpectedEventDate
+FROM Events;
+    \end{lstlisting}
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    % Inserirai qui l'immagine di un Esempio di Query SQL complessa
+    % \includegraphics[width=0.8\textwidth]{immagini/query_sql_esempio.png}
+    \caption{Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}
+    \label{fig:query_sql_esempio}
+\end{figure}

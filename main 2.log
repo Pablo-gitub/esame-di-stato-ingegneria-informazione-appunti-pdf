@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.14)  21 JUL 2025 13:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.14)  19 JUL 2025 10:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -687,7 +687,8 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'italian'.
- (./main.aux (./capitoli/sistemi_operativi/riassunto_sistemi_operativi.aux) (./capitoli/basi_di_dati/riassunto_basi_di_dati.aux) (./capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori.aux) (./capitoli/programmazione_oo/riassunto_programmazione_oo.aux) (./capitoli/progettazione_software/riassunto_progettazione_software.aux) (./capitoli/elettronica/riassunto_elettronica.aux) (./capitoli/sistemi_numerici/riassunto_sistemi_numerici.aux))
+
+No file main.aux.
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
@@ -710,7 +711,7 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 16.
 LaTeX Font Info:    ... okay on input line 16.
 LaTeX Info: Redefining \it@ocap on input line 16.
 LaTeX Info: Redefining \it@ccap on input line 16.
- (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count462
 \scratchdimen=\dimen266
@@ -769,13 +770,12 @@ Package caption Info: End \AtBeginDocument code.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring ON on input line 16.
-(./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
 Package biblatex Info: Trying to load language 'italian'...
 Package biblatex Info: ... file 'italian.lbx' found.
- (/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/lbx/italian.lbx
+(/usr/local/texlive/2025/texmf-dist/tex/latex/biblatex/lbx/italian.lbx
 File: italian.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
 )
 Package biblatex Info: Input encoding 'utf8' detected.
@@ -806,28 +806,25 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 [2
 
-] (./main.toc
-
-[3])
+]
+No file main.toc.
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
 
 
-[4] (./main.lof
-Underfull \hbox (badness 1496) in paragraph at lines 10--10
- [][] [][][]\T1/cmr/m/n/12 Rappresentazione gra-fi-ca del-le re-la-zio-ni co-mu-ni tra Ca-si d'U-so in UML 
- []
+[3]
 
-)
+[4
+
+]
+No file main.lof.
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
 
 
-[5
-
-]
+[5]
 
 [6
 
@@ -950,6 +947,77 @@ Capitolo 4.
 
 [20]
 
+./capitoli/programmazione_oo/riassunto_programmazione_oo.tex:57: LaTeX Error: Invalid UTF-8 byte sequence (Ã\lst@FillFixed@).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57 ...o: "Dopo la funzione: 5" (myNumber non Ã¨ 
+                                                  cambiato)
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+./capitoli/programmazione_oo/riassunto_programmazione_oo.tex:57: LaTeX Error: Invalid UTF-8 byte "A8.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57 ...o: "Dopo la funzione: 5" (myNumber non Ã¨ 
+                                                  cambiato)
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+./capitoli/programmazione_oo/riassunto_programmazione_oo.tex:64: Misplaced alignment tab character &.
+l.64 ...citamente in linguaggi come C++ (usando `&
+                                                  ` o puntatori).
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+
+./capitoli/programmazione_oo/riassunto_programmazione_oo.tex:76: LaTeX Error: Invalid UTF-8 byte sequence (Ã\lst@FillFixed@).
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.76 ...so: "Dopo la funzione: 11" (myArray[0] Ã¨ 
+                                                  cambiato)
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+./capitoli/programmazione_oo/riassunto_programmazione_oo.tex:76: LaTeX Error: Invalid UTF-8 byte "A8.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.76 ...so: "Dopo la funzione: 11" (myArray[0] Ã¨ 
+                                                  cambiato)
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+
 
 Overfull \hbox (15.5632pt too wide) has occurred while \output is active
 \T1/cmr/m/sl/12 4.2.  STRUTTURE DATI ASTRATTE (ADT) E FONDAMENTALI DI PROGRAMMAZIONE \T1/cmr/m/n/12 21
@@ -960,7 +1028,7 @@ Overfull \hbox (15.5632pt too wide) has occurred while \output is active
 [22]
 
 [23]
-Underfull \hbox (badness 1038) in paragraph at lines 158--159
+Underfull \hbox (badness 1038) in paragraph at lines 180--181
 []\T1/cmr/bx/n/12 O(1) - Spa-zio Co-stan-te\T1/cmr/m/n/12 : L'al-go-rit-mo uti-liz-za una quan-ti-tà fis-sa di me-mo-ria,
  []
 
@@ -987,118 +1055,16 @@ Underfull \hbox (badness 4144) in paragraph at lines 64--66
 
 [26]
 
-[27]
-<immagini/uml_use_case_relazioni.png, id=629, 965.6075pt x 693.59125pt>
-File: immagini/uml_use_case_relazioni.png Graphic file (type png)
-<use immagini/uml_use_case_relazioni.png>
-Package pdftex.def Info: immagini/uml_use_case_relazioni.png  used on input line 103.
-(pdftex.def)             Requested size: 386.95897pt x 277.95016pt.
-<immagini/diagramma_casi_uso_ristorante.jpg, id=631, 1027.84pt x 679.53876pt>
-File: immagini/diagramma_casi_uso_ristorante.jpg Graphic file (type jpg)
-<use immagini/diagramma_casi_uso_ristorante.jpg>
-Package pdftex.def Info: immagini/diagramma_casi_uso_ristorante.jpg  used on input line 112.
-(pdftex.def)             Requested size: 435.32422pt x 287.80992pt.
+[27])
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[28 <./immagini/uml_use_case_relazioni.png>]
-<immagini/uml_class_base_automobile.png, id=640, 379.4175pt x 282.05376pt>
-File: immagini/uml_class_base_automobile.png Graphic file (type png)
-<use immagini/uml_class_base_automobile.png>
-Package pdftex.def Info: immagini/uml_class_base_automobile.png  used on input line 136.
-(pdftex.def)             Requested size: 217.66211pt x 161.80951pt.
-<immagini/uml_class_scheda_anagrafica_struttura.png, id=641, 379.4175pt x 282.05376pt>
-File: immagini/uml_class_scheda_anagrafica_struttura.png Graphic file (type png)
-<use immagini/uml_class_scheda_anagrafica_struttura.png>
-Package pdftex.def Info: immagini/uml_class_scheda_anagrafica_struttura.png  used on input line 139.
-(pdftex.def)             Requested size: 217.66211pt x 161.80951pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<immagini/uml_class_modificatori_visibilita.png, id=642, 379.4175pt x 282.05376pt>
-File: immagini/uml_class_modificatori_visibilita.png Graphic file (type png)
-<use immagini/uml_class_modificatori_visibilita.png>
-Package pdftex.def Info: immagini/uml_class_modificatori_visibilita.png  used on input line 147.
-(pdftex.def)             Requested size: 338.58632pt x 251.70703pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<immagini/uml_class_ereditarieta_generica.png, id=643, 379.4175pt x 282.05376pt>
-File: immagini/uml_class_ereditarieta_generica.png Graphic file (type png)
-<use immagini/uml_class_ereditarieta_generica.png>
-Package pdftex.def Info: immagini/uml_class_ereditarieta_generica.png  used on input line 156.
-(pdftex.def)             Requested size: 338.58632pt x 251.70703pt.
-<immagini/uml_class_ereditarieta_multipla_interfacce.png, id=644, 379.4175pt x 282.05376pt>
-File: immagini/uml_class_ereditarieta_multipla_interfacce.png Graphic file (type png)
-<use immagini/uml_class_ereditarieta_multipla_interfacce.png>
-Package pdftex.def Info: immagini/uml_class_ereditarieta_multipla_interfacce.png  used on input line 163.
-(pdftex.def)             Requested size: 338.58632pt x 251.70703pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[29 <./immagini/diagramma_casi_uso_ristorante.jpg>]
-<immagini/uml_class_aggregazione_esempio.png, id=653, 290.08376pt x 224.84pt>
-File: immagini/uml_class_aggregazione_esempio.png Graphic file (type png)
-<use immagini/uml_class_aggregazione_esempio.png>
-Package pdftex.def Info: immagini/uml_class_aggregazione_esempio.png  used on input line 178.
-(pdftex.def)             Requested size: 217.66211pt x 168.70848pt.
-<immagini/uml_class_composizione_esempio.png, id=654, 290.08376pt x 224.84pt>
-File: immagini/uml_class_composizione_esempio.png Graphic file (type png)
-<use immagini/uml_class_composizione_esempio.png>
-Package pdftex.def Info: immagini/uml_class_composizione_esempio.png  used on input line 181.
-(pdftex.def)             Requested size: 217.66211pt x 168.70848pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<immagini/uml_class_sistema_e_commerce.png, id=655, 342.27875pt x 282.05376pt>
-File: immagini/uml_class_sistema_e_commerce.png Graphic file (type png)
-<use immagini/uml_class_sistema_e_commerce.png>
-Package pdftex.def Info: immagini/uml_class_sistema_e_commerce.png  used on input line 190.
-(pdftex.def)             Requested size: 435.32422pt x 358.75516pt.
-<immagini/uml_class_sistema_chat_corretto.png, id=656, 342.27875pt x 155.58125pt>
-File: immagini/uml_class_sistema_chat_corretto.png Graphic file (type png)
-<use immagini/uml_class_sistema_chat_corretto.png>
-Package pdftex.def Info: immagini/uml_class_sistema_chat_corretto.png  used on input line 196.
-(pdftex.def)             Requested size: 435.32422pt x 197.88985pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[30 <./immagini/uml_class_base_automobile.png> <./immagini/uml_class_scheda_anagrafica_struttura.png> <./immagini/uml_class_modificatori_visibilita.png>]
-
-[31 <./immagini/uml_class_ereditarieta_generica.png> <./immagini/uml_class_ereditarieta_multipla_interfacce.png>]
-
-[32 <./immagini/uml_class_aggregazione_esempio.png> <./immagini/uml_class_composizione_esempio.png> <./immagini/uml_class_sistema_e_commerce.png>]
-Underfull \hbox (badness 1097) in paragraph at lines 216--218
-[]\T1/cmr/bx/n/12 Frammenti Com-bi-na-ti (Com-bi-ned Frag-men-ts)\T1/cmr/m/n/12 : Co-strut-ti per mo-stra-re
- []
-
-
-
-[33 <./immagini/uml_class_sistema_chat_corretto.png>])
-
-[34]
+[28]
 \openout2 = `capitoli/elettronica/riassunto_elettronica.aux'.
 
  (./capitoli/elettronica/riassunto_elettronica.tex
 Capitolo 6.
 
 
-[35
+[29
 
 
 
@@ -1122,18 +1088,18 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 
-[36]
+[30]
 
-[37]
+[31]
 
-[38])
+[32])
 
-[39]
+[33]
 \openout2 = `capitoli/sistemi_numerici/riassunto_sistemi_numerici.aux'.
 
  (./capitoli/sistemi_numerici/riassunto_sistemi_numerici.tex
 
-[40
+[34
 
 
 
@@ -1142,13 +1108,13 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Capitolo 7.
 
 
-[41]
+[35]
 
-[42])
+[36])
 
-[43]
+[37]
 
-[44
+[38
 
 
 
@@ -1161,25 +1127,43 @@ LaTeX Warning: Empty bibliography on input line 54.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 0A29A84BC21BFB4AB44E112BD633A208;17047.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  C06965AC8866710AF5B25CD88DBCC92B;17345.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 25396 strings out of 473190
- 441153 string characters out of 5715800
- 1431101 words of memory out of 5000000
- 48046 multiletter control sequences out of 15000+600000
+ 25172 strings out of 473190
+ 433887 string characters out of 5715800
+ 1407449 words of memory out of 5000000
+ 47868 multiletter control sequences out of 15000+600000
  577372 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,9n,95p,1298b,2203s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on main.pdf (52 pages, 1401367 bytes).
+ 90i,6n,95p,1298b,2175s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on main.pdf (46 pages, 426507 bytes).
 PDF statistics:
- 910 PDF objects out of 1000 (max. 8388607)
- 783 compressed objects within 8 object streams
- 249 named destinations out of 1000 (max. 500000)
- 568 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 550 PDF objects out of 1000 (max. 8388607)
+ 455 compressed objects within 5 object streams
+ 227 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -2,8 +2,21 @@
 \babel@toc {italian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione.}}{6}{figure.caption.4}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{11}{figure.caption.11}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}}{28}{figure.caption.18}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}}{29}{figure.caption.20}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}}{30}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}}{30}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}}{31}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}}{31}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{32}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{32}{figure.caption.31}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{33}{figure.caption.32}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Esempio di Diagramma di Sequenza UML che mostra l'interazione temporale degli oggetti per una funzionalità.}}{33}{figure.caption.34}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Esempio di Diagramma di Deployment UML che illustra la distribuzione dei componenti software sull'infrastruttura hardware.}}{34}{figure.caption.36}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

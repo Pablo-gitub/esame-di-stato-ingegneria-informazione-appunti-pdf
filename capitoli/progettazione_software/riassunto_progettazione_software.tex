@@ -74,48 +74,178 @@ I \textbf{Design Patterns} sono soluzioni riutilizzabili a problemi comuni che s
     \end{itemize}
 \end{itemize}
 
-\subsection{Diagrammi UML di Classi e di Deployment}
+\subsection{Diagrammi UML (Unified Modeling Language)}
+Il \textbf{Unified Modeling Language (UML)} è un linguaggio di modellazione standardizzato, ampiamente utilizzato nell'ingegneria del software per specificare, visualizzare, costruire e documentare gli artefatti di un sistema software. Offre una notazione grafica per rappresentare vari aspetti di un sistema, dalla sua struttura statica al suo comportamento dinamico.
 
-\subsubsection{Diagrammi delle Classi (Class Diagrams)}
-I \textbf{Diagrammi delle Classi} sono diagrammi strutturali UML che mostrano la struttura statica di un sistema, le classi, i loro attributi, i loro metodi e le relazioni tra le classi.
+\subsubsection{Diagrammi dei Casi d'Uso (Use Case Diagrams)}
+I \textbf{Diagrammi dei Casi d'Uso} sono diagrammi comportamentali UML utilizzati nella fase di analisi dei requisiti. Descrivono le interazioni tra gli utenti (attori) e il sistema, rappresentando le diverse funzionalità che il sistema offre dal punto di vista dell'utente. Si concentrano sul "cosa" il sistema fa per i suoi attori, piuttosto che sul "come" lo fa.
 \begin{itemize}
+    \item \textbf{Scopo}: Identificare e documentare i requisiti funzionali del sistema. Forniscono una visione ad alto livello delle funzionalità, facilitano la comunicazione tra stakeholder e sviluppatori.
     \item \textbf{Componenti Principali}:
     \begin{itemize}
-        \item \textbf{Classi}: Rappresentate da un rettangolo diviso in tre sezioni: nome della classe, attributi, e metodi.
+        \item \textbf{Attore (Actor)}: Un ruolo esterno (persona, altro sistema, dispositivo hardware) che interagisce con il sistema. Rappresentato da un omino stilizzato.
+        \item \textbf{Caso d'Uso (Use Case)}: Una funzionalità specifica del sistema, un servizio che il sistema fornisce all'attore. Rappresentato da un ovale.
+        \item \textbf{Confine del Sistema (System Boundary)}: Un rettangolo che racchiude i casi d'uso, distinguendo ciò che è all'interno del sistema da ciò che è esterno.
         \item \textbf{Relazioni}:
         \begin{itemize}
-            \item \textbf{Associazione}: Connessione tra istanze di classi (linea semplice, può avere molteplicità).
-            \item \textbf{Aggregazione}: Una forma debole di relazione "parte di", dove un oggetto può esistere indipendentemente dal contenitore (diamante vuoto).
-            \item \textbf{Composizione}: Una forma forte di relazione "parte di", dove il componente non può esistere senza il contenitore (diamante pieno).
-            \item \textbf{Generalizzazione (Ereditarietà)}: Una classe eredita da un'altra (freccia con punta triangolare non piena).
-            \item \textbf{Realizzazione (Implementazione di Interfaccia)}: Una classe implementa un'interfaccia (linea tratteggiata con punta triangolare non piena).
-            \item \textbf{Dipendenza}: Un cambiamento in una classe può influenzare un'altra (linea tratteggiata con freccia).
+            \item \textbf{Associazione}: L'interazione tra un attore e un caso d'uso (linea semplice).
+            \item \textbf{Include (`<<include>>`)}: Indica che un caso d'uso include la funzionalità di un altro caso d'uso. La freccia è tratteggiata, va dal caso d'uso includente a quello incluso. Usato per riutilizzare comportamenti comuni.
+            \item \textbf{Extend (`<<extend>>`)}: Indica che un caso d'uso estende il comportamento di un altro caso d'uso in circostanze specifiche. La freccia è tratteggiata, va dal caso d'uso estendente a quello esteso. Usato per funzionalità opzionali o eccezionali.
+            \item \textbf{Generalizzazione}: Una relazione di ereditarietà tra attori o casi d'uso (freccia con punta triangolare non piena).
         \end{itemize}
     \end{itemize}
-    \item \textbf{Scopo}: Modellare il design logico del database, la struttura del codice e le relazioni tra le classi.
 \end{itemize}
+
+\paragraph{Esempio: Relazioni tra Casi d'Uso}
+La comprensione delle relazioni `Include`, `Extend` e `Generalizzazione` è cruciale per modellare accuratamente il comportamento del sistema e i requisiti opzionali o riutilizzabili.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{immagini/uml_use_case_relazioni.png} % Immagine da Pagina 2 del tuo UML.pdf
+    \caption{Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}
+    \label{fig:uml_use_case_relazioni}
+\end{figure}
+
+\paragraph{Esempio Completo: Sistema di Ristorazione}
+Un esempio pratico aiuta a consolidare la comprensione di come i casi d'uso e le loro relazioni si applichino in un contesto reale. Il diagramma seguente mostra le funzionalità di un sistema di gestione per un ristorante, illustrando le interazioni tra clienti, personale e il sistema stesso.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/diagramma_casi_uso_ristorante.jpg} % Immagine da Pagina 1 del tuo UML.pdf
+    \caption{Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}
+    \label{fig:diagramma_casi_uso_ristorante_completo}
+\end{figure}
+
+\subsubsection{Diagrammi delle Classi (Class Diagrams)}
+I \textbf{Diagrammi delle Classi} sono diagrammi strutturali UML che mostrano la struttura statica di un sistema, le classi, i loro attributi (dati), i loro metodi (operazioni) e le relazioni tra le classi. Sono fondamentali per la progettazione orientata agli oggetti e per modellare il design logico del database.
+
+\begin{itemize}
+    \item \textbf{Scopo}: Modellare il design logico del sistema, la struttura del codice, le relazioni tra le classi e le dipendenze. Utile per visualizzare l'architettura del software a livello di classi.
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Classe}: Rappresentata da un rettangolo diviso in tre sezioni: nome della classe, attributi (con visibilità e tipo), e metodi (con visibilità, parametri e tipo di ritorno).
+        \item \textbf{Visibilità (Visibility)}: Indica l'accessibilità degli attributi e metodi, rappresentata da simboli specifici (\lstinline{+}, \lstinline{-}, \lstinline{\#}, \lstinline{\textasciitilde}).
+        \item \textbf{Relazioni}: Specificano le associazioni tra le classi.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Struttura Base e Attributi}
+Un diagramma delle classi inizia con la rappresentazione della singola classe, evidenziando il suo nome, i suoi attributi (le proprietà) e le sue operazioni (i metodi).
+\begin{figure}[h!]
+    \centering
+    \subcaptionbox{Struttura di una Classe (Automobile)\label{fig:class_base_automobile}}{%
+        \includegraphics[width=0.45\textwidth]{immagini/uml_class_base_automobile.png}%
+    }\quad
+    \subcaptionbox{Classe con Metodi e Attributi (Scheda Anagrafica)\label{fig:class_scheda_anagrafica}}{%
+        \includegraphics[width=0.45\textwidth]{immagini/uml_class_scheda_anagrafica_struttura.png}%
+    }
+    \caption{Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}
+    \label{fig:struttura_base_classi}
+\end{figure}
+
+L'uso di modificatori di visibilità definisce l'accessibilità di questi attributi e metodi, come mostrato nell'esempio dei Clienti e Fornitori.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{immagini/uml_class_modificatori_visibilita.png}
+    \caption{Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}
+    \label{fig:class_modificatori}
+\end{figure}
+
+\paragraph{Relazioni di Generalizzazione (Ereditarietà)}
+La generalizzazione indica che una classe (sottoclasse) eredita proprietà e comportamenti da un'altra classe (superclasse). Questo promuove il riutilizzo del codice.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{immagini/uml_class_ereditarieta_generica.png}
+    \caption{Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}
+    \label{fig:class_ereditarieta}
+\end{figure}
+In contesti come Java, dove l'ereditarietà multipla non è ammessa (a differenza di C++), le interfacce vengono utilizzate per ovviare a questa limitazione, permettendo a una classe di implementare più interfacce.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{immagini/uml_class_ereditarieta_multipla_interfacce.png}
+    \caption{Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}
+    \label{fig:class_ereditarieta_multipla}
+\end{figure}
+
+\paragraph{Relazioni Strutturali: Aggregazione e Composizione}
+Aggregazione e composizione sono forme specifiche di associazione che esprimono relazioni "parte di" tra classi, distinguendosi per la dipendenza esistenziale della parte rispetto al tutto.
+\begin{itemize}
+    \item \textbf{Aggregazione}: Rappresenta una relazione uno a molti in cui l'oggetto "parte" può esistere indipendentemente dall'oggetto "tutto" (es. un libro può esistere senza una mensola specifica). Viene rappresentata con una freccia con la punta a diamante vuota all'estremità del "tutto".
+    \item \textbf{Composizione}: Una forma più forte di aggregazione, che implica una esclusività. La "parte" non può esistere da sola senza il "tutto", e la distruzione del "tutto" comporta la distruzione delle "parti" (es. una pagina non può esistere senza il suo libro). Il diamante si disegna pieno.
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \subcaptionbox{Esempio di Aggregazione (Mensola e Libro)\label{fig:class_aggregazione_esempio}}{%
+        \includegraphics[width=0.45\textwidth]{immagini/uml_class_aggregazione_esempio.png}%
+    }\quad
+    \subcaptionbox{Esempio di Composizione (Libro e Pagina)\label{fig:class_composizione_esempio}}{%
+        \includegraphics[width=0.45\textwidth]{immagini/uml_class_composizione_esempio.png}%
+    }
+    \caption{Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}
+    \label{fig:class_aggregazione_composizione}
+\end{figure}
+
+\paragraph{Esempi Complessi di Diagrammi delle Classi}
+Per illustrare l'applicazione di queste relazioni in contesti più ampi, consideriamo sistemi con diverse classi interconnesse, come un sistema e-commerce o un'applicazione di chat. Questi esempi mostrano come le classi interagiscono per formare un sistema coerente.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/uml_class_sistema_e_commerce.png} % Assicurati che l'immagine sia salvata con questo nome e percorso
+    \caption{Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}
+    \label{fig:class_sistema_e_commerce}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/uml_class_sistema_chat_corretto.png} % Assicurati che l'immagine sia salvata con questo nome e percorso
+    \caption{Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}
+    \label{fig:class_sistema_chat}
+\end{figure}
+
+\subsubsection{Diagrammi di Sequenza (Sequence Diagrams)}
+I \textbf{Diagrammi di Sequenza} sono diagrammi comportamentali (di interazione) UML che mostrano l'ordine cronologico dei messaggi scambiati tra oggetti o attori in un'interazione specifica. Sono usati per modellare la logica di una funzionalità o di un algoritmo, illustrando come diversi oggetti collaborano per raggiungere un obiettivo.
+\begin{itemize}
+    \item \textbf{Scopo}: Dettagliare il flusso di controllo e di dati per funzionalità specifiche, spesso come implementazione di casi d'uso. Utili per visualizzare l'interazione dinamica e l'ordine delle chiamate.
+    \item \textbf{Componenti Principali}:
+    \begin{itemize}
+        \item \textbf{Lifeline (Linea di Vita)}: Rappresenta la partecipazione di un oggetto o attore all'interazione, mostrata come una linea verticale tratteggiata. In cima alla lifeline c'è un rettangolo (per gli oggetti) o un omino (per gli attori).
+        \item \textbf{Attore}: Utente o sistema esterno che avvia o partecipa all'interazione.
+        \item \textbf{Messaggio}: Una comunicazione o chiamata di metodo tra lifeline, rappresentata da una freccia orizzontale. Possono essere:
+        \begin{itemize}
+            \item \textbf{Sincroni}: Freccia piena, indica una chiamata bloccante in attesa di risposta.
+            \item \textbf{Asincroni}: Freccia con punta aperta, indica una chiamata non bloccante.
+            \item \textbf{Risposta}: Freccia tratteggiata, indica il ritorno di un valore o la fine di una chiamata sincrona.
+        \end{itemize}
+        \item \textbf{Barra di Attivazione (Activation Bar/Execution Occurrence)}: Un rettangolo sottile posizionato verticalmente sulla lifeline, che indica il periodo di tempo durante il quale un oggetto è attivo e sta eseguendo un'operazione o aspettando una risposta.
+        \item \textbf{Frammenti Combinati (Combined Fragments)}: Costrutti per mostrare strutture di controllo logico:
+        \begin{itemize}
+            \item \textbf{alt (alternative)}: Per mostrare blocchi if-else.
+            \item \textbf{opt (optional)}: Per mostrare un blocco if.
+            \item \textbf{loop (loop)}: Per mostrare iterazioni.
+            \item \textbf{par (parallel)}: Per mostrare esecuzioni parallele.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    % Placeholder per l'immagine del Diagramma di Sequenza UML
+    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_sequenza_esempio.png}
+    \caption{Esempio di Diagramma di Sequenza UML che mostra l'interazione temporale degli oggetti per una funzionalità.}
+    \label{fig:diagramma_sequenza_uml_specifico}
+\end{figure}
 
 \subsubsection{Diagrammi di Deployment (Deployment Diagrams)}
 I \textbf{Diagrammi di Deployment} sono diagrammi strutturali UML che mostrano la configurazione fisica dei nodi hardware (computer, server, dispositivi) e come i componenti software sono distribuiti su questi nodi.
 \begin{itemize}
+    \item \textbf{Scopo}: Visualizzare la topologia fisica del sistema, la distribuzione dei componenti software sull'hardware e le interazioni fisiche tra i nodi. Utile per architetture distribuite e pianificazione dell'infrastruttura.
     \item \textbf{Componenti Principali}:
     \begin{itemize}
-        \item \textbf{Nodo (Node)}: Una risorsa computazionale fisica o logica (hardware, ambiente di esecuzione software). Rappresentato da un cubo 3D.
-        \item \textbf{Artefatto (Artifact)}: Un prodotto fisico risultante dal processo di sviluppo (file eseguibile, libreria, file di configurazione). Rappresentato da un documento con l'icona di un artefatto.
-        \item \textbf{Comunicazione (Communication Path)}: Una linea che connette i nodi, indicando un percorso di comunicazione.
+        \item \textbf{Nodo (Node)}: Una risorsa computazionale fisica o logica (hardware come un server, un PC, un dispositivo mobile; o un ambiente di esecuzione software come un Docker container, una JVM). Rappresentato da un cubo 3D.
+        \item \textbf{Artefatto (Artifact)}: Un prodotto fisico risultante dal processo di sviluppo del software (file eseguibile, libreria, file JAR, file di configurazione, script). Rappresentato da un documento con l'icona di un artefatto.
+        \item \textbf{Componente (Component)}: Una parte modulare e sostituibile del sistema con interfacce ben definite. Può essere distribuito su un nodo.
+        \item \textbf{Comunicazione (Communication Path)}: Una linea che connette i nodi, indicando un percorso di comunicazione tra di essi (es. TCP/IP, HTTP).
     \end{itemize}
-    \item \textbf{Scopo}: Visualizzare la topologia di sistema, la distribuzione dei componenti software sull'hardware e le interazioni fisiche. Utile per architetture distribuite.
 \end{itemize}
-
-\section{Implementazione e Diagrammi di Sequenza UML}
-I \textbf{Diagrammi di Sequenza} sono diagrammi di interazione UML che mostrano l'ordine cronologico dei messaggi scambiati tra oggetti in un'interazione. Sono usati per modellare la logica di una funzionalità o di un algoritmo.
-\begin{itemize}
-    \item \textbf{Componenti Principali}:
-    \begin{itemize}
-        \item \textbf{Lifeline (Linea di Vita)}: Rappresenta la partecipazione di un oggetto o attore all'interazione (linea verticale tratteggiata).
-        \item \textbf{Attore}: Utente o sistema esterno che avvia l'interazione.
-        \item \textbf{Messaggio}: Chiamata di metodo o comunicazione tra lifeline (freccia orizzontale).
-        \item \textbf{Barra di Attivazione (Activation Bar)}: Indica il periodo di tempo durante il quale un oggetto è attivo e sta eseguendo un'operazione.
-    \end{itemize}
-    \item \textbf{Scopo}: Dettagliare il flusso di controllo e di dati per funzionalità specifiche, spesso come implementazione di casi d'uso. Sono utili per visualizzare come diversi oggetti collaborano per raggiungere un obiettivo.
-\end{itemize}
+\begin{figure}[h!]
+    \centering
+    % Placeholder per l'immagine del Diagramma di Deployment UML
+    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_deployment_esempio.png}
+    \caption{Esempio di Diagramma di Deployment UML che illustra la distribuzione dei componenti software sull'infrastruttura hardware.}
+    \label{fig:diagramma_deployment_uml}
+\end{figure}

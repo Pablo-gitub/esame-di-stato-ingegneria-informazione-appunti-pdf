@@ -45,6 +45,17 @@ Quando si chiama una funzione (o routine, o metodo), i valori o i riferimenti al
     \item \textbf{Effetto}: Qualsiasi modifica apportata alla copia del parametro all'interno della funzione \textbf{non influisce} sulla variabile originale passata dal chiamante.
     \item \textbf{Quando usato}: Per tipi di dati primitivi (interi, booleani, caratteri) nella maggior parte dei linguaggi, e per oggetti complessi quando si desidera che la funzione non alteri l'originale.
 \end{itemize}
+\begin{lstlisting}[language=Pseudocode, caption={Esempio di Passaggio per Valore}]
+FUNCTION ModificaValore(numero: Integer):
+    numero = numero + 10
+    PRINT "Dentro la funzione: ", numero
+END FUNCTION
+
+DECLARE myNumber: Integer = 5
+CALL ModificaValore(myNumber)
+PRINT "Dopo la funzione: ", myNumber 
+// Output atteso: "Dopo la funzione: 5" (myNumber non e' cambiato)
+\end{lstlisting}
 
 \subsubsection{Passaggio per Riferimento (Call by Reference / Call by Address)}
 \begin{itemize}
@@ -53,6 +64,17 @@ Quando si chiama una funzione (o routine, o metodo), i valori o i riferimenti al
     \item \textbf{Quando usato}: Spesso per oggetti complessi (in linguaggi come Java, Python, C\# gli oggetti sono tipicamente passati per riferimento implicito, anche se tecnicamente è un "passaggio per valore del riferimento"), o esplicitamente in linguaggi come C++ (usando `\&` o puntatori).
 \item \textbf{Differenze Chiave}: La differenza fondamentale è se la funzione lavora su una copia (per valore) o direttamente sull'originale (per riferimento). Il passaggio per riferimento è più efficiente per oggetti grandi in quanto evita la copia, ma richiede maggiore attenzione per evitare effetti collaterali indesiderati.
 \end{itemize}
+\begin{lstlisting}[language=Pseudocode, caption={Esempio di Passaggio per Riferimento}]
+FUNCTION ModificaArray(arrayRef: Array of Integer):
+    arrayRef[0] = arrayRef[0] + 10
+    PRINT "Dentro la funzione: ", arrayRef[0]
+END FUNCTION
+
+DECLARE myArray: Array of Integer = [1, 2, 3]
+CALL ModificaArray(myArray)
+PRINT "Dopo la funzione: ", myArray[0] 
+// Output atteso: "Dopo la funzione: 11" (myArray[0] e' cambiato)
+\end{lstlisting}
 
 \subsection{Overloading di Funzioni (o Metodi)}
 L'\textbf{Overloading di funzioni} (o metodi, nel contesto OOP) è la capacità di definire più funzioni o metodi con lo \textbf{stesso nome} all'interno dello stesso scope (solitamente la stessa classe), ma che si distinguono per avere \textbf{liste di parametri diverse}. La lista dei parametri può differire per:
