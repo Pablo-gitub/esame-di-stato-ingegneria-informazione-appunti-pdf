@@ -45,13 +45,242 @@ I sistemi operativi possono essere strutturati secondo diversi modelli architett
     \end{itemize}
 \end{itemize}
 
+\section{Gestione della Memoria}
+La \textbf{gestione della memoria} è una delle funzioni fondamentali del sistema operativo, responsabile di allocare e deallocare la memoria ai processi, di proteggere la memoria per evitare interferenze tra i processi e di fornire un'astrazione della memoria fisica per gli sviluppatori. L'obiettivo principale è massimizzare l'utilizzo della CPU mantenendo molti processi in memoria e fornendo un meccanismo efficiente per accedere ai dati.
+
+\subsection{Memoria Virtuale}
+La \textbf{memoria virtuale} è una tecnica che permette a un sistema operativo di compensare la carenza di memoria fisica (RAM) usando la memoria secondaria (spazio su disco) per simulare più RAM. Questo permette ai programmi di usare più memoria di quella fisicamente disponibile e facilita il multitasking, isolando lo spazio di indirizzamento di ogni processo. Le tecniche principali per implementare la memoria virtuale sono la paginazione e la segmentazione.
+
+\subsubsection{Paginazione (Paging)}
+La paginazione è una tecnica di gestione della memoria virtuale che suddivide lo spazio di indirizzamento logico di un processo in blocchi di dimensione fissa chiamati \textbf{pagine}. La memoria fisica è anch'essa divisa in blocchi della stessa dimensione, chiamati \textbf{frame}.
+\begin{itemize}
+    \item \textbf{Funzionamento}: Quando un processo viene caricato, le sue pagine possono essere caricate in frame non contigui della memoria fisica. La traduzione dell'indirizzo logico (virtuale) in indirizzo fisico avviene tramite una \textbf{Page Table} (Tabella delle Pagine). Ogni processo ha la propria Page Table, che mappa le pagine logiche ai frame fisici.
+    \item \textbf{Traduzione dell'Indirizzo}: L'indirizzo logico è diviso in due parti: il numero di pagina (page number, p) e l'offset all'interno della pagina (offset, d). La Page Table usa il numero di pagina per trovare il frame corrispondente, e l'offset viene aggiunto al frame address per ottenere l'indirizzo fisico.
+    \item \textbf{TLB (Translation Lookaside Buffer)}: Una cache hardware veloce che memorizza le mappature pagina-frame usate più frequentemente per accelerare il processo di traduzione degli indirizzi e compensare il fatto che ogni accesso alla memoria richiede due accessi (uno alla Page Table e uno al dato).
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item Elimina la \textbf{frammentazione esterna} (non ci sono buchi inutilizzati tra i blocchi allocati).
+        \item Semplifica l'allocazione della memoria.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item Introduce la \textbf{frammentazione interna} (il frame finale potrebbe non essere completamente riempito dalla pagina, lasciando spazio inutilizzato).
+        \item Overhead della Page Table (può essere grande e richiede memoria).
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Segmentazione (Segmentation)}
+La segmentazione è una tecnica di gestione della memoria che permette di visualizzare la memoria come una collezione di segmenti di dimensione variabile. Ogni segmento corrisponde a un'unità logica del programma (es. codice, dati, stack, subroutine).
+\begin{itemize}
+    \item \textbf{Funzionamento}: L'indirizzo logico è composto da un numero di segmento e un offset. La \textbf{Segment Table} (Tabella dei Segmenti) memorizza l'indirizzo base e la lunghezza di ciascun segmento in memoria fisica. La traduzione avviene verificando che l'offset non superi la lunghezza del segmento e aggiungendo l'offset all'indirizzo base del segmento.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item Riflette la visione logica del programma (moduli, funzioni).
+        \item Facilita la protezione e la condivisione di segmenti tra processi.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item Soffre di \textbf{frammentazione esterna} (spazi liberi tra i segmenti che possono essere troppo piccoli per nuove allocazioni).
+        \item La gestione delle dimensioni variabili dei segmenti è più complessa.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Algoritmi di Allocazione della Memoria (per Blocchi Contigui)}
+Quando la memoria fisica viene allocata in blocchi contigui (come nella segmentazione o senza memoria virtuale), il sistema operativo deve decidere quale blocco libero assegnare a una richiesta di memoria.
+\begin{itemize}
+    \item \textbf{First Fit}:
+    \begin{itemize}
+        \item \textbf{Descrizione}: Alloca il primo blocco libero che trova che sia abbastanza grande da soddisfare la richiesta.
+        \item \textbf{Vantaggi}: Veloce da implementare, spesso porta a buoni risultati.
+        \item \textbf{Svantaggi}: Può lasciare molti piccoli blocchi liberi all'inizio della lista, o frammentare blocchi grandi.
+    \end{itemize}
+    \item \textbf{Best Fit}:
+    \begin{itemize}
+        \item \textbf{Descrizione}: Alloca il blocco libero più piccolo che sia comunque sufficientemente grande a soddisfare la richiesta.
+        \item \textbf{Vantaggi}: Lascia i blocchi liberi più grandi intatti per richieste future, riducendo la frammentazione interna.
+        \item \textbf{Svantaggi}: Richiede una scansione completa della lista dei blocchi liberi (o una ricerca in una lista ordinata), quindi è più lento. Genera molti blocchi liberi molto piccoli.
+    \end{itemize}
+    \item \textbf{Worst Fit}:
+    \begin{itemize}
+        \item \textbf{Descrizione}: Alloca il blocco libero più grande disponibile.
+        \item \textbf{Vantaggi}: Si cerca di lasciare un blocco residuo il più grande possibile dopo l'allocazione, teoricamente utile per richieste future.
+        \item \textbf{Svantaggi}: Spesso è l'algoritmo peggiore in termini di frammentazione. Rende la ricerca più lenta e frammenta i blocchi più grandi.
+    \end{itemize}
+\end{itemize}
+
+\section{Gestione dei File System}
+La \textbf{gestione dei file system} è un componente fondamentale del sistema operativo, responsabile di organizzare, archiviare e recuperare i dati su dispositivi di memoria secondaria (come dischi rigidi, SSD). Fornisce un'interfaccia logica per l'utente e le applicazioni per interagire con i dati, astraendo i dettagli di basso livello dell'hardware di archiviazione.
+
+\subsection{Organizzazione Fisica dei Dati su Disco}
+La memoria secondaria è tipicamente organizzata in unità di archiviazione fisiche che il file system gestisce.
+\begin{itemize}
+    \item \textbf{Settori}: La più piccola unità fisica di memorizzazione su un disco.
+    \item \textbf{Blocchi (o Cluster)}: L'unità di trasferimento logica più piccola riconosciuta dal file system. Un blocco è composto da uno o più settori contigui. La dimensione del blocco è un compromesso: blocchi grandi riducono l'overhead di I/O ma aumentano la frammentazione interna; blocchi piccoli aumentano l'overhead di I/O ma riducono la frammentazione interna.
+    \item \textbf{Cilindri/Tracce}: Concetti fisici legati ai dischi rotanti (hard disk), dove le tracce sono anelli concentrici e i cilindri sono l'insieme di tracce alla stessa distanza dal centro su tutti i piatti.
+\end{itemize}
+
+\subsubsection{Struttura delle Directory}
+Le directory sono strutture che organizzano i file e altre directory in una gerarchia.
+\begin{itemize}
+    \item \textbf{Struttura a Singolo Livello}: Tutti i file sono nella stessa directory. Semplice, ma difficile da gestire per molti utenti/file.
+    \item \textbf{Struttura a Due Livelli}: Ogni utente ha la propria directory principale, separata dagli altri. Impedisce conflitti di nomi tra utenti, ma non offre organizzazione interna.
+    \item \textbf{Struttura Ad Albero (Gerarchica)}: La struttura più comune, con una directory radice e sottodirectory. Offre flessibilità e organizzazione.
+    \item \textbf{Grafo Aciclico Diretto (DAG)}: Permette la condivisione di file e directory tra diversi percorsi (tramite link hard o soft/symbolic).
+\item \textbf{Implementazione Interna}: Le directory possono essere implementate come liste di voci (nome file, puntatore a i-node/FAT entry) o tabelle hash per una ricerca più veloce.
+\end{itemize}
+
+\subsection{Metodi di Allocazione dei File}
+Il metodo di allocazione determina come i blocchi di un file sono memorizzati e gestiti sul disco, influenzando l'efficienza di accesso e la gestione dello spazio.
+
+\subsubsection{Allocazione Contigua}
+\begin{itemize}
+    \item \textbf{Descrizione}: Ogni file è memorizzato come un blocco contiguo di blocchi sul disco. Il file system memorizza solo l'indirizzo del primo blocco e la lunghezza del file.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item Semplice da implementare.
+        \item Ottime prestazioni per l'accesso sequenziale e diretto (un solo seek per leggere un file intero, accesso diretto immediato a qualsiasi blocco).
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item \textbf{Frammentazione Esterna}: Con il tempo, lo spazio libero sul disco si frammenta in piccoli buchi non contigui, rendendo difficile trovare blocchi contigui grandi per nuovi file, anche se c'è molto spazio totale disponibile.
+        \item Difficile prevedere la dimensione finale dei file.
+        \item Richiede compattazione periodica per recuperare spazio contiguo (operazione costosa).
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Allocazione Collegata (Linked Allocation)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Ogni file è una lista collegata di blocchi su disco. Ogni blocco contiene un puntatore al blocco successivo. Il file system memorizza solo l'indirizzo del primo blocco.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item Nessuna frammentazione esterna.
+        \item Allocazione dinamica e facile espansione dei file.
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item Lento per l'accesso diretto/casuale (bisogna seguire la catena di puntatori).
+        \item Spazio sprecato per i puntatori in ogni blocco (anche se questo è spesso mitigato da una File Allocation Table - FAT).
+        \item Rischio di perdita dell'intera catena se un puntatore è corrotto.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Allocazione Indicizzata (Indexed Allocation)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Ogni file ha un blocco indice dedicato, che è un array di puntatori ai blocchi di dati effettivi del file. Il file system memorizza solo l'indirizzo del blocco indice.
+    \item \textbf{Vantaggi}:
+    \begin{itemize}
+        \item Combina i vantaggi dell'allocazione contigua e collegata: supporta sia l'accesso sequenziale che diretto.
+        \item Nessuna frammentazione esterna.
+        \item Facile espansione (aggiungendo puntatori al blocco indice o blocchi indice multipli/gerarchici).
+    \end{itemize}
+    \item \textbf{Svantaggi}:
+    \begin{itemize}
+        \item Overhead dello spazio per i blocchi indice.
+        \item La dimensione del file è limitata dalla dimensione del blocco indice.
+    \end{itemize}
+    \item \textbf{Implementazione Comune}: \textbf{i-nodes (Unix/Linux)}: Ogni file ha un i-node che contiene metadati del file e un array di puntatori ai blocchi di dati, inclusi puntatori a blocchi indiretti per file di grandi dimensioni.
+\textbf{FAT (File Allocation Table - MS-DOS/Windows)}: Una tabella sul disco che memorizza le catene di blocchi per ogni file. Non è esattamente un blocco indice per file singoli, ma un array centrale di puntatori.
+\end{itemize}
+
+\section{Sincronizzazione e Deadlock}
+Nei sistemi operativi multi-programmati o multi-thread, dove più processi o thread condividono risorse e dati, è fondamentale garantire la \textbf{sincronizzazione} per mantenere la coerenza dei dati e prevenire condizioni di errore come le race condition. La mancanza di sincronizzazione può portare anche a situazioni di \textbf{deadlock}.
+
+\subsection{Problemi di Sincronizzazione}
+\begin{itemize}
+    \item \textbf{Race Condition (Condizione di Corsa)}: Si verifica quando più processi o thread accedono e manipolano dati condivisi concorrentemente, e il risultato finale dell'esecuzione dipende dall'ordine in cui le operazioni dei processi/thread si intersecano. Il risultato non è predicibile.
+    \item \textbf{Sezione Critica (Critical Section)}: Una sezione di codice in cui un processo o thread accede a risorse condivise (variabili, file, periferiche). L'obiettivo della sincronizzazione è garantire che, in un dato istante, al massimo un processo/thread sia nella sua sezione critica per quella risorsa.
+    \item \textbf{Problema della Sezione Critica (Critical Section Problem)}: Progettare protocolli per garantire che i processi cooperanti accedano alle sezioni critiche in modo sicuro, rispettando le seguenti condizioni:
+    \begin{itemize}
+        \item \textbf{Mutua Esclusione (Mutual Exclusion)}: Se un processo è nella sua sezione critica, nessun altro processo può entrare nella propria sezione critica.
+        \item \textbf{Progresso (Progress)}: Se nessun processo è nella sezione critica e alcuni processi vogliono entrare, solo quei processi che non sono nella loro sezione remainder possono partecipare alla decisione di quale processo entrerà nella sezione critica successiva, e questa decisione non deve essere ritardata indefinitamente.
+        \item \textbf{Attesa Limitata (Bounded Waiting)}: Esiste un limite al numero di volte in cui altri processi possono entrare nelle loro sezioni critiche dopo che un processo ha richiesto di entrare nella sua sezione critica e prima che la sua richiesta venga soddisfatta. Questo previene la starvation.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Meccanismi di Sincronizzazione}
+Diversi strumenti e meccanismi sono stati sviluppati per risolvere il problema della sezione critica:
+\begin{itemize}
+    \item \textbf{Lock}: Un meccanismo semplice che permette di acquisire e rilasciare un blocco su una risorsa. Prima di entrare nella sezione critica, un processo acquisisce il lock; dopo essere uscito, lo rilascia. Se il lock è già acquisito, il processo deve attendere.
+    \item \textbf{Semafori}: Un tipo di variabile intera (generalmente non negativa) a cui si può accedere solo tramite due operazioni atomiche:
+    \begin{itemize}
+        \item \textbf{\lstinline{wait()}} (o \lstinline{P()}): Decrementa il valore del semaforo. Se il valore diventa negativo, il processo viene bloccato.
+        \item \textbf{\lstinline{signal()}} (o \lstinline{V()}): Incrementa il valore del semaforo. Se ci sono processi bloccati sul semaforo, uno di essi viene sbloccato.
+        \item \textbf{Semafori Binari (Mutex Lock)}: Valori 0 o 1. Usati per la mutua esclusione.
+        \item \textbf{Semafori Contatori}: Valori interi. Usati per gestire l'accesso a un numero finito di risorse.
+    \end{itemize}
+    \item \textbf{Esempio di Problema Produttore-Consumatore con Semafori}:
+    Un problema classico di sincronizzazione dove un produttore genera dati e li inserisce in un buffer, mentre un consumatore preleva dati dal buffer.
+    \begin{lstlisting}[language=Pseudocode, numbers=none]
+// Semafori:
+// empty: contatore (inizializzato a N, dimensione buffer) -> numero di slot vuoti
+// full: contatore (inizializzato a 0) -> numero di slot pieni
+// mutex: binario (inizializzato a 1) -> mutua esclusione per accesso al buffer
+
+Producer:
+  LOOP
+    produce item
+    CALL wait(empty)
+    CALL wait(mutex)
+    add item to buffer
+    CALL signal(mutex)
+    CALL signal(full)
+  END LOOP
+
+Consumer:
+  LOOP
+    CALL wait(full)
+    CALL wait(mutex)
+    remove item from buffer
+    CALL signal(mutex)
+    CALL signal(empty)
+    consume item
+  END LOOP
+    \end{lstlisting}
+    \item \textbf{Monitor}: Un costrutto di sincronizzazione di alto livello che incapsula dati condivisi e le procedure che li manipolano. Garantisce che, in ogni momento, al massimo un processo possa essere attivo all'interno del monitor. Utilizza \textbf{variabili di condizione} con operazioni `wait()` e `signal()` per sospendere e riattivare i processi che devono attendere specifiche condizioni sui dati condivisi.
+\end{itemize}
+
+\subsection{Deadlock (Interblocco)}
+Il \textbf{deadlock} è una situazione in cui due o più processi sono bloccati indefinitamente, in attesa di una risorsa detenuta da un altro processo bloccato.
+
+\subsubsection{Condizioni Necessarie per il Deadlock (Condizioni di Coffman)}
+Il deadlock può verificarsi se e solo se tutte e quattro le seguenti condizioni sono presenti contemporaneamente:
+\begin{enumerate}
+    \item \textbf{Mutua Esclusione (Mutual Exclusion)}: Almeno una risorsa deve essere tenuta in modalità non-condivisibile, cioè al massimo un processo può usarla alla volta.
+    \item \textbf{Attesa e Mantenimento (Hold and Wait)}: Un processo deve detenere almeno una risorsa ed essere in attesa di acquisirne altre attualmente detenute da altri processi.
+    \item \textbf{Non-Preemptive (Nessuna Preemption)}: Le risorse non possono essere sottratte a un processo che le detiene; possono essere rilasciate solo volontariamente dal processo che le detiene.
+    \item \textbf{Attesa Circolare (Circular Wait)}: Deve esistere una catena circolare di due o più processi, in cui ogni processo in attesa nella catena sta aspettando una risorsa detenuta dal processo successivo nella catena.
+\end{enumerate}
+
+\subsubsection{Strategie di Gestione del Deadlock}
+Per affrontare il deadlock, i sistemi operativi possono adottare diverse strategie:
+\begin{itemize}
+    \item \textbf{Prevenzione del Deadlock (Deadlock Prevention)}:
+        * Obiettivo: Garantire che almeno una delle quattro condizioni necessarie non si verifichi.
+        * Come: Negando una o più condizioni (es. non permettere l'attesa e mantenimento, assegnare tutte le risorse all'inizio).
+        * Svantaggi: Spesso porta a un basso utilizzo delle risorse e a un throughput ridotto.
+    \item \textbf{Evitamento del Deadlock (Deadlock Avoidance)}:
+        * Obiettivo: Richiede che il sistema abbia informazioni a priori sulle risorse che un processo richiederà. Il sistema verifica se lo stato corrente è "sicuro" (se esiste una sequenza di esecuzione dei processi che eviterà il deadlock).
+        * Algoritmo Esempio: Algoritmo del banchiere.
+        * Vantaggi: Meno restrittivo della prevenzione, migliore utilizzo delle risorse.
+        * Svantaggi: Richiede conoscenza a priori, può essere computazionalmente costoso.
+    \item \textbf{Rilevamento e Ripristino del Deadlock (Deadlock Detection and Recovery)}:
+        * Obiettivo: Permettere che il deadlock si verifichi, rilevarlo e poi ripristinare il sistema da esso.
+        * Rilevamento: Si usa un algoritmo di rilevamento del ciclo nel grafo di allocazione delle risorse.
+        * Ripristino:
+            * Terminazione del processo: Terminare uno o più processi coinvolti nel deadlock.
+            * Preemption della risorsa: Sottrarre risorse a un processo e assegnarle a un altro.
+        * Svantaggi: Comporta un overhead per il rilevamento e la perdita di lavoro per il ripristino.
+    \item \textbf{Ignorare il Problema}:
+        * Questo è l'approccio più comune in molti sistemi operativi (es. Unix/Linux, Windows), assumendo che il deadlock sia un evento raro e che sia meno costoso lasciarlo gestire all'amministratore (riavvio del sistema) piuttosto che implementare algoritmi complessi.
+\end{itemize}
+
 \section{Scheduling della CPU}
-Lo \textbf{scheduling della CPU} è l'attività di selezionare quale processo, tra quelli pronti per l'esecuzione, deve essere assegnato alla CPU in un dato momento. Ha un impatto cruciale sulle performance complessive del sistema.
+Lo \textbf{scheduling della CPU} è l'attività di selezionare quale processo, tra quelli pronti per l'esecuzione, deve essere assegnato alla CPU in un dato momento. È una funzione fondamentale del sistema operativo che ha un impatto cruciale sulle performance complessive del sistema, influenzando parametri come il throughput (numero di processi completati per unità di tempo), il tempo di risposta (tempo tra richiesta e prima risposta), e l'equità nella distribuzione delle risorse della CPU tra i processi.
 
 \subsection{Principali Problematiche dello Scheduling}
 Lo scheduling deve affrontare diverse sfide e problematiche per bilanciare l'efficienza e l'equità:
 \begin{itemize}
-    \item \textbf{Ottimizzazione degli obiettivi}: Bilanciare metriche contrastanti come massimizzare il throughput (numero di processi completati per unità di tempo), minimizzare il tempo di risposta (tempo tra richiesta e prima risposta), minimizzare il tempo di attesa e garantire l'equità tra i processi.
+    \item \textbf{Ottimizzazione degli obiettivi}: Bilanciare metriche contrastanti come massimizzare il throughput, minimizzare il tempo di risposta, minimizzare il tempo di attesa e garantire l'equità tra i processi.
     \item \textbf{Contesto Switching (Cambio di Contesto)}: L'overhead di tempo necessario per salvare lo stato di un processo in esecuzione e caricare lo stato del prossimo processo da eseguire. Questo tempo è "sprecato" e non contribuisce all'esecuzione del lavoro utile.
     \item \textbf{Starvation (Inedia)}: Un processo a bassa priorità potrebbe non essere mai eseguito se processi a priorità più alta arrivano continuamente e monopolizzano la CPU.
     \item \textbf{Deadlock}: Sebbene sia una problematica più ampia della gestione della concorrenza, situazioni di deadlock possono emergere in sistemi con scheduling se le risorse non sono gestite correttamente, bloccando indefinitamente i processi.
@@ -59,38 +288,113 @@ Lo scheduling deve affrontare diverse sfide e problematiche per bilanciare l'eff
 \end{itemize}
 
 \subsection{Esempi di Algoritmi di Scheduling}
-Diversi algoritmi sono stati sviluppati per affrontare le problematiche dello scheduling, ognuno con i propri compromessi:
+Diversi algoritmi sono stati sviluppati per affrontare le problematiche dello scheduling, ognuno con i propri compromessi tra efficienza, equità e complessità di implementazione.
+
+\subsubsection{First-Come, First-Served (FCFS)}
 \begin{itemize}
-    \item \textbf{First-Come, First-Served (FCFS)}:
+    \item \textbf{Descrizione}: Non preemptive. I processi vengono eseguiti nell'ordine in cui arrivano nella coda dei processi pronti. Una volta che un processo ottiene la CPU, la tiene fino al completamento o fino a quando non esegue un'operazione di I/O.
+    \item \textbf{Vantaggi}: Semplice da implementare e comprendere.
+    \item \textbf{Svantaggi}:
     \begin{itemize}
-        \item \textbf{Descrizione}: Non preemptive. I processi vengono eseguiti nell'ordine in cui arrivano.
-        \item \textbf{Vantaggi}: Semplice da implementare.
-        \item \textbf{Svantaggi}: "Effetto convoglio", dove un processo lungo blocca tutti gli altri, aumentando il tempo medio di attesa.
+        \item \textbf{"Effetto Convoglio"}: Un processo con un tempo di esecuzione molto lungo può bloccare tutti i processi successivi più brevi, aumentando notevolmente il tempo medio di attesa.
+        \item Tempo di risposta e throughput possono essere scarsi in scenari sfavorevoli.
     \end{itemize}
-    \item \textbf{Shortest-Job-First (SJF)}:
+    \item \textbf{Esempio}: Consideriamo i processi P1 (burst time 24), P2 (burst time 3), P3 (burst time 3) che arrivano nell'ordine P1, P2, P3.
+    \begin{lstlisting}[numbers=none, language=Pseudocode]
+Gantt Chart (FCFS):
+| P1 (24) | P2 (3) | P3 (3) |
+0        24       27       30
+Tempo di attesa:
+P1 = 0
+P2 = 24
+P3 = 27
+Tempo medio di attesa = (0 + 24 + 27) / 3 = 17
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Shortest-Job-First (SJF)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Può essere preemptive (chiamato Shortest-Remaining-Time-First, SRTF) o non preemptive. Assegna la CPU al processo che ha il tempo di esecuzione stimato più breve.
+    \item \textbf{Vantaggi}: Ottimale per minimizzare il tempo medio di attesa per un dato insieme di processi.
+    \item \textbf{Svantaggi}:
     \begin{itemize}
-        \item \textbf{Descrizione}: Può essere preemptive (Shortest-Remaining-Time-First, SRTF) o non preemptive. Il processo con il tempo di esecuzione stimato più breve viene eseguito per primo.
-        \item \textbf{Vantaggi}: Ottimale per minimizzare il tempo medio di attesa.
-        \item \textbf{Svantaggi}: Difficile conoscere a priori la durata esatta di un job; può portare a starvation per processi lunghi.
+        \item \textbf{Difficoltà di stima}: È difficile conoscere a priori la durata esatta del "burst time" di un processo (si usano stime basate sulla storia passata).
+        \item \textbf{Starvation}: Processi lunghi potrebbero non essere mai eseguiti se arrivano continuamente processi più brevi.
     \end{itemize}
-    \item \textbf{Priority Scheduling}:
+    \item \textbf{Esempio (Non Preemptive)}: Processi P1 (burst 7), P2 (burst 4), P3 (burst 1), P4 (burst 4). Arrivano quasi contemporaneamente.
+    \begin{lstlisting}[numbers=none, language=Pseudocode]
+Gantt Chart (SJF Non-Preemptive):
+| P3 (1) | P2 (4) | P4 (4) | P1 (7) |
+0        1        5        9        16
+Tempo di attesa:
+P3 = 0
+P2 = 1
+P4 = 5
+P1 = 9
+Tempo medio di attesa = (0 + 1 + 5 + 9) / 4 = 3.75
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Priority Scheduling}
+\begin{itemize}
+    \item \textbf{Descrizione}: Può essere preemptive o non preemptive. Ad ogni processo viene assegnata una priorità (un numero intero, dove un numero più basso può indicare una priorità più alta, o viceversa). La CPU viene assegnata al processo con la priorità più alta.
+    \item \textbf{Vantaggi}: Permette di prioritizzare lavori critici o importanti del sistema.
+    \item \textbf{Svantaggi}:
     \begin{itemize}
-        \item \textbf{Descrizione}: Può essere preemptive o non preemptive. Ai processi viene assegnata una priorità numerica o concettuale, e viene eseguito quello con la priorità più alta.
-        \item \textbf{Vantaggi}: Prioritizza lavori critici o importanti.
-        \item \textbf{Svantaggi}: Può portare a starvation per processi a bassa priorità; una soluzione è l'aging (aumentare la priorità di un processo che aspetta da troppo tempo).
+        \item \textbf{Starvation}: Processi a bassa priorità potrebbero non essere mai eseguiti se processi a priorità più alta arrivano continuamente.
+        \item \textbf{Soluzione per Starvation (Aging)}: La priorità di un processo che aspetta da troppo tempo viene gradualmente aumentata.
     \end{itemize}
-    \item \textbf{Round Robin (RR)}:
+    \item \textbf{Esempio}: Processi P1 (burst 10, priority 3), P2 (burst 1, priority 1), P3 (burst 2, priority 4), P4 (burst 1, priority 5), P5 (burst 5, priority 2). (Priorità più basse = priorità più alte).
+    \begin{lstlisting}[numbers=none, language=Pseudocode]
+Gantt Chart (Priority Scheduling, Non-Preemptive):
+| P2 (1) | P5 (5) | P1 (10) | P3 (2) | P4 (1) |
+0        1        6         16       18       19
+Tempo di attesa (processi ordinati per arrivo, non priorita'):
+P1 = 6
+P2 = 0
+P3 = 16
+P4 = 18
+P5 = 1
+Tempo medio di attesa = (6 + 0 + 16 + 18 + 1) / 5 = 8.2
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Round Robin (RR)}
+\begin{itemize}
+    \item \textbf{Descrizione}: Preemptive. Progettato per sistemi time-sharing. Ogni processo ottiene una piccola porzione di tempo di CPU, chiamata "quantum" (o time slice), solitamente da 10 a 100 millisecondi. Se un processo non finisce entro il quantum, viene preempted e messo in coda alla fine della coda dei processi pronti.
+    \item \textbf{Vantaggi}:
     \begin{itemize}
-        \item \textbf{Descrizione}: Preemptive. Ogni processo ottiene una piccola porzione di tempo di CPU (quantum). Se non finisce entro il quantum, viene preempted e messo in coda per il prossimo turno.
-        \item \textbf{Vantaggi}: Equo, garantisce un buon tempo di risposta per processi interattivi.
-        \item \textbf{Svantaggi}: L'overhead del context switching aumenta se il quantum è troppo piccolo; le performance degradano se il quantum è troppo grande (tende a FCFS).
+        \item \textbf{Equità}: Garantisce che nessun processo aspetti per un tempo eccessivamente lungo.
+        \item \textbf{Buon Tempo di Risposta}: Adatto per processi interattivi, dando l'impressione che tutti i processi siano eseguiti contemporaneamente.
     \end{itemize}
-    \item \textbf{Multilevel Queue Scheduling}:
+    \item \textbf{Svantaggi}:
     \begin{itemize}
-        \item \textbf{Descrizione}: I processi sono divisi in diverse code, ognuna con il proprio algoritmo di scheduling (es. una coda per processi foreground con RR, una per processi background con FCFS).
+        \item L'overhead del context switching aumenta se il quantum è troppo piccolo (troppi cambi di contesto).
+        \item Le performance degradano se il quantum è troppo grande (il RR tende a comportarsi come FCFS).
+        \item Può essere meno efficiente se i processi hanno durate molto diverse.
     \end{itemize}
-    \item \textbf{Multilevel Feedback Queue Scheduling}:
-    \begin{itemize}
-        \item \textbf{Descrizione}: Permette ai processi di muoversi tra le code in base al loro comportamento (es. un processo che usa molto la CPU scende di priorità, un processo che aspetta molto sale). È uno degli schedulatori più generali e complessi.
-    \end{itemize}
+    \item \textbf{Esempio}: Processi P1 (burst 24), P2 (burst 3), P3 (burst 3). Quantum = 4.
+    \begin{lstlisting}[numbers=none, language=Pseudocode]
+Gantt Chart (Round Robin, Quantum=4):
+| P1 (4) | P2 (3) | P3 (3) | P1 (4) | P1 (4) | P1 (4) | P1 (4) | P1 (4) |
+0        4        7        10       14       18       22       26       30
+Tempo di attesa:
+P1 = (4+3+3+3+3) = 16 (somma dei tempi non consecutivi)
+P2 = 4
+P3 = 7
+Tempo medio di attesa = (16 + 4 + 7) / 3 = 9
+    \end{lstlisting}
+\end{itemize}
+
+\subsubsection{Multilevel Queue Scheduling}
+\begin{itemize}
+    \item \textbf{Descrizione}: I processi sono divisi in diverse code, ognuna con il proprio algoritmo di scheduling. Le code possono avere priorità fisse tra di loro, oppure essere gestite con time slices diversi per ogni coda.
+    \item \textbf{Esempio}: Coda foreground (processi interattivi) con Round Robin; Coda background (processi batch) con FCFS. I processi non si muovono tra le code.
+\end{itemize}
+
+\subsubsection{Multilevel Feedback Queue Scheduling}
+\begin{itemize}
+    \item \textbf{Descrizione}: Permette ai processi di muoversi tra le code in base al loro comportamento. Se un processo usa troppo la CPU, viene spostato in una coda con priorità inferiore o un quantum più grande. Se un processo aspetta molto, può essere spostato in una coda con priorità più alta.
+    \item \textbf{Vantaggi}: Altamente configurabile, può approssimare SJF senza conoscere i burst time, può prevenire la starvation (tramite l'aging), e offrire una buona risposta per processi interattivi.
+    \item \textbf{Svantaggi}: Molto complesso da implementare e ottimizzare, richiede molti parametri (numero di code, algoritmo per ogni coda, quando spostare i processi tra code).
 \end{itemize}

@@ -4,96 +4,121 @@
 \contentsline {section}{\numberline {1.1}Struttura e Organizzazione del Sistema Operativo}{1}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Componenti Principali}{1}{subsection.1.1.1}%
 \contentsline {subsection}{\numberline {1.1.2}Modelli di Sistemi Operativi}{2}{subsection.1.1.2}%
-\contentsline {section}{\numberline {1.2}Scheduling della CPU}{2}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Principali Problematiche dello Scheduling}{2}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Esempi di Algoritmi di Scheduling}{3}{subsection.1.2.2}%
-\contentsline {chapter}{\numberline {2}Basi di Dati}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Modello Concettuale Entità-Relazione (ER)}{5}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Componenti Base e Rappresentazione Grafica}{5}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Dettagli degli Attributi e Identificatori}{5}{subsection.2.1.2}%
-\contentsline {subsubsection}{Identificatori}{6}{section*.5}%
-\contentsline {subsection}{\numberline {2.1.3}Dettagli delle Relazioni e Cardinalità}{6}{subsection.2.1.3}%
-\contentsline {subsection}{\numberline {2.1.4}Generalizzazione nel Modello ER}{7}{subsection.2.1.4}%
-\contentsline {subsection}{\numberline {2.1.5}Esempi Complessi di Schemi ER}{7}{subsection.2.1.5}%
-\contentsline {subsection}{\numberline {2.1.6}Esempi Complessi di Schemi ER}{7}{subsection.2.1.6}%
-\contentsline {subsubsection}{Esercizio 2: Sistema Cinema/Film}{8}{section*.10}%
-\contentsline {subsubsection}{Esercizio 7: Sistema Campionato di Calcio}{10}{section*.12}%
-\contentsline {subsubsection}{Esercizio 11: Sistema Gare Ciclistiche}{11}{section*.14}%
-\contentsline {section}{\numberline {2.2}Progettazione Logica: Normalizzazione e Forme Normali}{12}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Obiettivi della Normalizzazione}{12}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Principali Forme Normali}{12}{subsection.2.2.2}%
-\contentsline {subsubsection}{Prima Forma Normale (1NF)}{13}{section*.16}%
-\contentsline {subsubsection}{Seconda Forma Normale (2NF)}{13}{section*.17}%
-\contentsline {subsubsection}{Terza Forma Normale (3NF)}{13}{section*.18}%
-\contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{13}{subsection.2.2.3}%
-\contentsline {subsubsection}{Categorie di Comandi SQL}{13}{section*.19}%
-\contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{14}{section*.20}%
-\contentsline {subsubsection}{Esempi di Operatori e Funzioni SQL Comuni}{15}{section*.21}%
-\contentsline {chapter}{\numberline {3}Reti di Calcolatori}{17}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Modello di Comunicazione Client/Server}{17}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Funzionamento del Modello Client/Server}{17}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Vantaggi e Svantaggi del Modello Client/Server}{17}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Protocollo HTTP}{18}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Funzionamento e Applicazione in HTTP}{18}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Connessioni Stateless e Stateful}{18}{subsection.3.2.2}%
-\contentsline {subsubsection}{Stateless Connection (Connessione Senza Stato)}{18}{section*.23}%
-\contentsline {subsubsection}{Stateful Connection (Connessione Con Stato)}{18}{section*.24}%
-\contentsline {subsection}{\numberline {3.2.3}Metodi per Gestire la Persistenza dello Stato in HTTP}{19}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Standard ISO/OSI}{19}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Struttura a Sette Strati del Modello OSI}{19}{subsection.3.3.1}%
-\contentsline {section}{\numberline {3.4}Livello di Trasporto (TCP vs UDP)}{20}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}TCP (Transmission Control Protocol)}{20}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}UDP (User Datagram Protocol)}{21}{subsection.3.4.2}%
-\contentsline {chapter}{\numberline {4}Programmazione Orientata agli Oggetti (e Fondamenti)}{23}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Concetti Base della Programmazione Orientata agli Oggetti (POO)}{23}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}{24}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Abstract Data Type (ADT)}{24}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Passaggio di Parametri nelle Chiamate di Funzione}{24}{subsection.4.2.2}%
-\contentsline {subsubsection}{Passaggio per Valore (Call by Value)}{24}{section*.25}%
-\contentsline {subsubsection}{Passaggio per Riferimento (Call by Reference / Call by Address)}{25}{section*.26}%
-\contentsline {subsection}{\numberline {4.2.3}Overloading di Funzioni (o Metodi)}{25}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Linguaggi Compilati e Linguaggi Interpretati}{26}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Linguaggi Compilati}{26}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Linguaggi Interpretati}{27}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Algoritmi e Complessità Computazionale}{27}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Complessità Temporale}{27}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Complessità Spaziale}{28}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}Progettazione del Software}{29}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Analisi dei Requisiti}{29}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Tipi di Requisiti}{29}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Diagrammi di Casi d'Uso UML (Use Case Diagrams)}{30}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Progettazione dell'Architettura del Sistema Software}{30}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Design Patterns (Pattern Architetturali e di Progettazione)}{30}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Diagrammi UML (Unified Modeling Language)}{31}{subsection.5.2.2}%
-\contentsline {subsubsection}{Diagrammi dei Casi d'Uso (Use Case Diagrams)}{31}{section*.27}%
-\contentsline {paragraph}{Esempio: Relazioni tra Casi d'Uso}{32}{section*.28}%
-\contentsline {paragraph}{Esempio Completo: Sistema di Ristorazione}{32}{section*.30}%
-\contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{32}{section*.32}%
-\contentsline {paragraph}{Struttura Base e Attributi}{33}{section*.33}%
-\contentsline {paragraph}{Relazioni di Generalizzazione (Ereditarietà)}{33}{section*.36}%
-\contentsline {paragraph}{Relazioni Strutturali: Aggregazione e Composizione}{33}{section*.39}%
-\contentsline {paragraph}{Esempi Complessi di Diagrammi delle Classi}{34}{section*.41}%
-\contentsline {subsubsection}{Diagrammi di Sequenza (Sequence Diagrams)}{35}{section*.44}%
-\contentsline {paragraph}{Componenti Principali dei Diagrammi di Sequenza}{37}{section*.45}%
-\contentsline {paragraph}{Esempio 1: Flusso di Aggiornamento Dati in MVC}{38}{section*.46}%
-\contentsline {paragraph}{Esempio 2: Flusso di Prestito in un Sistema Biblioteca}{38}{section*.48}%
-\contentsline {chapter}{\numberline {6}Elettronica}{41}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}{41}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Struttura del Transistore MOS (nMOS)}{41}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Principio di Funzionamento (nMOS)}{42}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}{42}{subsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.1.4}Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}{43}{subsection.6.1.4}%
-\contentsline {section}{\numberline {6.2}Circuiti CMOS (Complementary MOS)}{43}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Invertitore CMOS}{43}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}{44}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Applicazioni Notevoli dell'Invertitore CMOS}{44}{subsection.6.2.3}%
-\contentsline {chapter}{\numberline {7}Sistemi Numerici}{47}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Rappresentazione per Numeri Interi}{47}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Complemento a Due}{47}{subsection.7.1.1}%
-\contentsline {subsubsection}{Principio di Funzionamento}{47}{section*.50}%
-\contentsline {subsubsection}{Derivazione della Rappresentazione in Complemento a Due}{47}{section*.51}%
-\contentsline {subsubsection}{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}{48}{section*.52}%
-\contentsline {section}{\numberline {7.2}Operazioni Aritmetiche con Complemento a Due}{48}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Addizione}{48}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Sottrazione}{49}{subsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.2.3}Overflow}{49}{subsection.7.2.3}%
+\contentsline {section}{\numberline {1.2}Gestione della Memoria}{2}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Memoria Virtuale}{3}{subsection.1.2.1}%
+\contentsline {subsubsection}{Paginazione (Paging)}{3}{section*.4}%
+\contentsline {subsubsection}{Segmentazione (Segmentation)}{3}{section*.5}%
+\contentsline {subsection}{\numberline {1.2.2}Algoritmi di Allocazione della Memoria (per Blocchi Contigui)}{4}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Gestione dei File System}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Organizzazione Fisica dei Dati su Disco}{5}{subsection.1.3.1}%
+\contentsline {subsubsection}{Struttura delle Directory}{5}{section*.6}%
+\contentsline {subsection}{\numberline {1.3.2}Metodi di Allocazione dei File}{5}{subsection.1.3.2}%
+\contentsline {subsubsection}{Allocazione Contigua}{5}{section*.7}%
+\contentsline {subsubsection}{Allocazione Collegata (Linked Allocation)}{6}{section*.8}%
+\contentsline {subsubsection}{Allocazione Indicizzata (Indexed Allocation)}{6}{section*.9}%
+\contentsline {section}{\numberline {1.4}Sincronizzazione e Deadlock}{7}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Problemi di Sincronizzazione}{7}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Meccanismi di Sincronizzazione}{7}{subsection.1.4.2}%
+\contentsline {subsection}{\numberline {1.4.3}Deadlock (Interblocco)}{8}{subsection.1.4.3}%
+\contentsline {subsubsection}{Condizioni Necessarie per il Deadlock (Condizioni di Coffman)}{8}{section*.10}%
+\contentsline {subsubsection}{Strategie di Gestione del Deadlock}{9}{section*.11}%
+\contentsline {section}{\numberline {1.5}Scheduling della CPU}{9}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Principali Problematiche dello Scheduling}{10}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Esempi di Algoritmi di Scheduling}{10}{subsection.1.5.2}%
+\contentsline {subsubsection}{First-Come, First-Served (FCFS)}{10}{section*.12}%
+\contentsline {subsubsection}{Shortest-Job-First (SJF)}{11}{section*.13}%
+\contentsline {subsubsection}{Priority Scheduling}{11}{section*.14}%
+\contentsline {subsubsection}{Round Robin (RR)}{12}{section*.15}%
+\contentsline {subsubsection}{Multilevel Queue Scheduling}{12}{section*.16}%
+\contentsline {subsubsection}{Multilevel Feedback Queue Scheduling}{13}{section*.17}%
+\contentsline {chapter}{\numberline {2}Basi di Dati}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Modello Concettuale Entità-Relazione (ER)}{15}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Componenti Base e Rappresentazione Grafica}{15}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Dettagli degli Attributi e Identificatori}{15}{subsection.2.1.2}%
+\contentsline {subsubsection}{Identificatori}{16}{section*.19}%
+\contentsline {subsection}{\numberline {2.1.3}Dettagli delle Relazioni e Cardinalità}{16}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Generalizzazione nel Modello ER}{17}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}Esempi Complessi di Schemi ER}{17}{subsection.2.1.5}%
+\contentsline {subsection}{\numberline {2.1.6}Esempi Complessi di Schemi ER}{17}{subsection.2.1.6}%
+\contentsline {subsubsection}{Esercizio 2: Sistema Cinema/Film}{18}{section*.24}%
+\contentsline {subsubsection}{Esercizio 7: Sistema Campionato di Calcio}{20}{section*.26}%
+\contentsline {subsubsection}{Esercizio 11: Sistema Gare Ciclistiche}{21}{section*.28}%
+\contentsline {section}{\numberline {2.2}Progettazione Logica: Normalizzazione e Forme Normali}{22}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Perché la Normalizzazione è Importante}{22}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Forme Normali: Livelli di Normalizzazione}{23}{subsection.2.2.2}%
+\contentsline {subsubsection}{Prima Forma Normale (1NF)}{23}{section*.31}%
+\contentsline {subsubsection}{Seconda Forma Normale (2NF)}{23}{section*.33}%
+\contentsline {subsubsection}{Terza Forma Normale (3NF)}{24}{section*.35}%
+\contentsline {subsubsection}{Oltre la Terza Forma Normale: BCNF, 4NF, 5NF}{25}{section*.39}%
+\contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{26}{subsection.2.2.3}%
+\contentsline {subsubsection}{Categorie di Comandi SQL}{26}{section*.40}%
+\contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{26}{section*.41}%
+\contentsline {subsubsection}{Esempi di Operatori e Funzioni SQL Comuni}{27}{section*.42}%
+\contentsline {chapter}{\numberline {3}Reti di Calcolatori}{31}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Modello di Comunicazione Client/Server}{31}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Funzionamento del Modello Client/Server}{31}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Vantaggi e Svantaggi del Modello Client/Server}{31}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Protocollo HTTP}{32}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Funzionamento e Applicazione in HTTP}{32}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Connessioni Stateless e Stateful}{32}{subsection.3.2.2}%
+\contentsline {subsubsection}{Stateless Connection (Connessione Senza Stato)}{32}{section*.44}%
+\contentsline {subsubsection}{Stateful Connection (Connessione Con Stato)}{32}{section*.45}%
+\contentsline {subsection}{\numberline {3.2.3}Metodi per Gestire la Persistenza dello Stato in HTTP}{33}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Standard ISO/OSI}{33}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Struttura a Sette Strati del Modello OSI}{33}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Livello di Trasporto (TCP vs UDP)}{34}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}TCP (Transmission Control Protocol)}{34}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}UDP (User Datagram Protocol)}{35}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Programmazione Orientata agli Oggetti (e Fondamenti)}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Concetti Base della Programmazione Orientata agli Oggetti (POO)}{37}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}{38}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Abstract Data Type (ADT)}{38}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Passaggio di Parametri nelle Chiamate di Funzione}{38}{subsection.4.2.2}%
+\contentsline {subsubsection}{Passaggio per Valore (Call by Value)}{38}{section*.46}%
+\contentsline {subsubsection}{Passaggio per Riferimento (Call by Reference / Call by Address)}{39}{section*.47}%
+\contentsline {subsection}{\numberline {4.2.3}Overloading di Funzioni (o Metodi)}{39}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Linguaggi Compilati e Linguaggi Interpretati}{40}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Linguaggi Compilati}{40}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Linguaggi Interpretati}{41}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Algoritmi e Complessità Computazionale}{41}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Complessità Temporale}{41}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Complessità Spaziale}{42}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {5}Progettazione del Software}{43}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Analisi dei Requisiti}{43}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Tipi di Requisiti}{43}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Diagrammi di Casi d'Uso UML (Use Case Diagrams)}{44}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Progettazione dell'Architettura del Sistema Software}{44}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Design Patterns (Pattern Architetturali e di Progettazione)}{44}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Diagrammi UML (Unified Modeling Language)}{45}{subsection.5.2.2}%
+\contentsline {subsubsection}{Diagrammi dei Casi d'Uso (Use Case Diagrams)}{45}{section*.48}%
+\contentsline {paragraph}{Esempio: Relazioni tra Casi d'Uso}{46}{section*.49}%
+\contentsline {paragraph}{Esempio Completo: Sistema di Ristorazione}{46}{section*.51}%
+\contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{46}{section*.53}%
+\contentsline {paragraph}{Struttura Base e Attributi}{47}{section*.54}%
+\contentsline {paragraph}{Relazioni di Generalizzazione (Ereditarietà)}{47}{section*.57}%
+\contentsline {paragraph}{Relazioni Strutturali: Aggregazione e Composizione}{47}{section*.60}%
+\contentsline {paragraph}{Esempi Complessi di Diagrammi delle Classi}{48}{section*.62}%
+\contentsline {subsubsection}{Diagrammi di Sequenza (Sequence Diagrams)}{49}{section*.65}%
+\contentsline {paragraph}{Componenti Principali dei Diagrammi di Sequenza}{51}{section*.66}%
+\contentsline {paragraph}{Esempio 1: Flusso di Aggiornamento Dati in MVC}{52}{section*.67}%
+\contentsline {paragraph}{Esempio 2: Flusso di Prestito in un Sistema Biblioteca}{52}{section*.69}%
+\contentsline {chapter}{\numberline {6}Elettronica}{55}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}{55}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Struttura del Transistore MOS (nMOS)}{55}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Principio di Funzionamento (nMOS)}{56}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}{56}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}{57}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Circuiti CMOS (Complementary MOS)}{57}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Invertitore CMOS}{57}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}{58}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Applicazioni Notevoli dell'Invertitore CMOS}{58}{subsection.6.2.3}%
+\contentsline {chapter}{\numberline {7}Sistemi Numerici}{61}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Rappresentazione per Numeri Interi}{61}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Complemento a Due}{61}{subsection.7.1.1}%
+\contentsline {subsubsection}{Principio di Funzionamento}{61}{section*.71}%
+\contentsline {subsubsection}{Derivazione della Rappresentazione in Complemento a Due}{61}{section*.72}%
+\contentsline {subsubsection}{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}{62}{section*.73}%
+\contentsline {section}{\numberline {7.2}Operazioni Aritmetiche con Complemento a Due}{62}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Addizione}{62}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Sottrazione}{63}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Overflow}{63}{subsection.7.2.3}%

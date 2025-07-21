@@ -10,10 +10,10 @@ La rappresentazione in \textbf{complemento a due} è il metodo più diffuso per 
 
 \subsubsection{Principio di Funzionamento}
 \begin{itemize}
-    \item Un numero positivo in complemento a due è rappresentato esattamente come nella notazione binaria pura (senza segno), con il bit più significativo (MSB) pari a 0.
-    \item Un numero negativo in complemento a due è ottenuto complementando (invertendo) tutti i bit del suo valore assoluto (passando dal 0 all'1 e viceversa) e poi sommando 1 al risultato. Il bit più significativo (MSB) sarà sempre 1 per i numeri negativi.
-    \item Il bit più significativo (MSB) indica il segno: 0 per i positivi, 1 per i negativi.
-    \item Il range di valori rappresentabile con $N$ bit in complemento a due va da $-2^{N-1}$ a $2^{N-1}-1$. Ad esempio, con 8 bit, si possono rappresentare numeri da $-128$ a $127$.
+    \item Un numero positivo in complemento a due è rappresentato esattamente come nella notazione binaria pura (senza segno), con il bit più significativo (MSB, most significant byte) pari a $0$.
+    \item Un numero negativo in complemento a due è ottenuto complementando (invertendo) tutti i bit del suo valore assoluto (passando da $0$ a $1$ e viceversa) e poi sommando $1$ al risultato. Il bit più significativo (MSB) sarà sempre $1$ per i numeri negativi.
+    \item Il bit più significativo (MSB) indica il segno: $0$ per i positivi, $1$ per i negativi.
+    \item Il range di valori rappresentabile con $N$ bit in complemento a due va da $-2^{N-1}$ a $2^{N-1}-1$. Ad esempio, con $8$ bit, si possono rappresentare numeri da $-128$ a $127$.
 \end{itemize}
 
 \subsubsection{Derivazione della Rappresentazione in Complemento a Due}
@@ -21,16 +21,16 @@ Per convertire un numero decimale negativo in complemento a due (con $N$ bit):
 \begin{enumerate}
     \item Prendi il valore assoluto del numero decimale (positivo).
     \item Converti il valore assoluto in binario su $N$ bit.
-    \item Inverti tutti i bit (complemento a uno, 0 diventa 1, 1 diventa 0).
-    \item Somma 1 al risultato binario.
+    \item Inverti tutti i bit (complemento a uno, $0$ diventa $1$, $1$ diventa $0$).
+    \item Somma $1$ al risultato binario.
 \end{enumerate}
 Per convertire un numero binario in complemento a due a decimale:
 \begin{itemize}
-    \item Se il MSB è 0: il numero è positivo. Convertilo come un normale binario senza segno.
-    \item Se il MSB è 1: il numero è negativo.
+    \item Se il MSB è $0$: il numero è positivo. Convertilo come un normale binario senza segno.
+    \item Se il MSB è $1$: il numero è negativo.
     \begin{enumerate}
         \item Inverti tutti i bit del numero binario.
-        \item Somma 1 al risultato binario.
+        \item Somma $1$ al risultato binario.
         \item Converti questo risultato binario in decimale e anteponi il segno meno.
     \end{enumerate}
 \end{itemize}
@@ -61,13 +61,13 @@ L'addizione di due numeri (positivi o negativi) in complemento a due viene esegu
             \item Somma 1: $1101_2 + 1_2 = 1110_2$ (che è $-2_{10}$ in complemento a due)
         \end{itemize}
         \item \textbf{Somma}:
-        \begin{lstlisting}[language=Pseudocode]
+        \begin{lstlisting}[language=Pseudocode, numbers=none]
   0101  (5)
 + 1110  (-2)
 -----
  10011
         \end{lstlisting}
-        Il bit di riporto (il primo 1 a sinistra) viene ignorato. Il risultato è $0011_2 = 3_{10}$, che è corretto.
+        Il bit di riporto (il primo $1$ a sinistra) viene ignorato. Il risultato è $0011_2 = 3_{10}$, che è corretto.
     \end{itemize}
 \end{itemize}
 
@@ -79,7 +79,7 @@ La sottrazione $A - B$ è implementata come la somma $A + (-B)$. Per calcolare $
         \item $5_{10} = 0101_2$
         \item $-2_{10} = 1110_2$ (già calcolato sopra)
         \item \textbf{Sottrazione come somma}: $5 + (-2)$
-        \begin{lstlisting}[language=Pseudocode]
+        \begin{lstlisting}[language=Pseudocode, numbers=none]
   0101  (5)
 + 1110  (-2)
 -----

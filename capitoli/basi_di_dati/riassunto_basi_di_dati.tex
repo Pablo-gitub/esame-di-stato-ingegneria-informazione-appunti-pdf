@@ -166,45 +166,87 @@ CLASSIFICAGENERALE (NumeroTappa, AnnoEdizione, CompetizioneCodice, CiclistaCodic
 \section{Progettazione Logica: Normalizzazione e Forme Normali}
 La \textbf{normalizzazione} è un processo sistematico di organizzazione dei dati in un database relazionale. Il suo scopo è ridurre la ridondanza dei dati, eliminare le anomalie di aggiornamento (inserimento, cancellazione, modifica) e migliorare l'integrità e la coerenza dei dati. La normalizzazione si basa su una serie di regole chiamate "forme normali".
 
-\subsection{Obiettivi della Normalizzazione}
+\subsection{Perché la Normalizzazione è Importante}
+La normalizzazione è cruciale per diversi motivi:
 \begin{itemize}
-    \item \textbf{Riduzione della Ridondanza}: Evitare la duplicazione inutile dei dati, che spreca spazio e può portare a incongruenze.
-    \item \textbf{Miglioramento dell'Integrità dei Dati}: Assicurare che i dati siano accurati e consistenti.
+    \item \textbf{Riduzione della Ridondanza}: Evitare la duplicazione inutile dei dati, che spreca spazio e può portare a incongruenze. La ridondanza può causare spreco di memoria a causa della memorizzazione multipla della stessa informazione.
+    \item \textbf{Miglioramento dell'Integrità e Coerenza dei Dati}: Assicurare che i dati siano accurati e consistenti. Si ha incoerenza quando lo stesso campo ha valori diversi in tabelle diverse, fenomeno che può verificarsi quando le tabelle non sono aggiornate o l'aggiornamento non è stato effettuato correttamente.
     \item \textbf{Prevenzione delle Anomalie}:
     \begin{itemize}
         \item \textbf{Anomalia di Inserimento}: Impossibilità di inserire un'informazione a meno che non si inseriscano anche altre informazioni non correlate.
         \item \textbf{Anomalia di Cancellazione}: La cancellazione di un dato comporta la perdita accidentale di altre informazioni non desiderate.
         \item \textbf{Anomalia di Aggiornamento}: La modifica di un dato ripetuto richiede l'aggiornamento di più occorrenze, con rischio di inconsistenza se non tutte vengono aggiornate.
     \end{itemize}
-    \item \textbf{Flessibilità e Manutenibilità}: Rendere il database più facile da modificare ed estendere.
+    \item \textbf{Efficienza del Database}: Una struttura di database normalizzata consente un accesso più rapido ed efficiente ai dati, migliorando le prestazioni di query e operazioni di recupero.
+    \item \textbf{Flessibilità e Manutenibilità}: Rende il database più facile da comprendere, gestire e modificare.
 \end{itemize}
 
-\subsection{Principali Forme Normali}
-Le forme normali sono una serie di regole progressive; per essere in una forma normale N, una relazione deve soddisfare i requisiti della forma normale N-1. Le più comuni e rilevanti per la maggior parte delle applicazioni sono la Prima, Seconda e Terza Forma Normale.
+\subsection{Forme Normali: Livelli di Normalizzazione}
+Esistono vari livelli di normalizzazione, noti come "forme normali", che certificano la qualità dello schema del database. Ogni forma normale definisce un insieme di regole che lo schema del database deve rispettare per garantire un livello crescente di integrità e coerenza.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{immagini/nf_diagramma_venn.png} % Immagine nf_diagramma_venn.png
+    \caption{Diagramma di Venn delle Forme Normali (1NF, 2NF, 3NF, BCNF, 4NF, 5NF), che mostra la loro relazione gerarchica.}
+    \label{fig:nf_venn_diagram}
+\end{figure}
 
 \subsubsection{Prima Forma Normale (1NF)}
-Una relazione è in 1NF se e solo se:
+Una relazione è in \textbf{Prima Forma Normale (1NF)} se e solo se:
 \begin{itemize}
-    \item Tutti gli attributi sono \textbf{atomici} (indivisibili). Non ci sono attributi con valori multipli o attributi composti che non sono stati scomposti.
-    \item Ogni record (riga) nella relazione è \textbf{unico}. Questo implica che deve esistere una chiave primaria.
+    \item Non presenta attributi multipli (non ci sono gruppi ripetitivi di attributi all'interno di una singola tabella). Tutti gli attributi sono atomici (indivisibili).
+    \item Esiste una chiave primaria (un insieme di attributi che identifica in modo univoco ogni tupla della relazione).
 \end{itemize}
-\textbf{Esempio di Violazione}: Una colonna "NumeriDiTelefono" che contiene più numeri per un'unica riga.
+\textbf{Esempio di Violazione e Normalizzazione a 1NF}:
+Consideriamo una tabella "Voti" dove un singolo campo contiene più valori, come i voti di uno studente per semestri diversi in una stessa riga.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/nf_1nf_esempio_voti.png} % Immagine nf_1nf_esempio_voti.png
+    \caption{Esempio di una tabella non in 1NF e la sua normalizzazione a 1NF, eliminando l'attributo multi-valore.}
+    \label{fig:nf_1nf_esempio_voti}
+\end{figure}
+Nella tabella non in 1NF, il campo "Voto" contiene più voti e semestri. Per normalizzare, si scompone la riga in più righe, una per ogni voto/semestre, assicurando che ogni attributo sia atomico.
 
 \subsubsection{Seconda Forma Normale (2NF)}
-Una relazione è in 2NF se e solo se:
-\begin{itemize}
-    \item È in \textbf{1NF}.
-    \item Tutti gli attributi non-chiave dipendono \textbf{completamente} dalla chiave primaria. Non ci sono dipendenze parziali, il che significa che nessun attributo non-chiave dipende solo da una parte di una chiave primaria composta.
-\end{itemize}
-\textbf{Esempio di Violazione}: In una tabella `(IDCorso, IDStudente, NomeCorso, Voto)`, se `(IDCorso, IDStudente)` è la chiave primaria, e `NomeCorso` dipende solo da `IDCorso` (e non da `IDStudente`), allora `NomeCorso` è parzialmente dipendente e viola la 2NF.
+Una relazione si dice in \textbf{Seconda Forma Normale (2NF)} quando è in 1NF e tutti i campi non-chiave dipendono funzionalmente dall'intera chiave primaria, e non solo da una sua parte. La 2NF elimina la dipendenza parziale degli attributi dalla chiave e riguarda relazioni con chiavi composte (formate da più attributi).
+\textbf{Esempio di Violazione e Normalizzazione a 2NF}:
+Consideriamo una relazione con chiave composta (es. Codice\_atleta, Numero\_gara) e un attributo non-chiave (Nome\_atleta) che dipende solo da una parte della chiave (Codice\_atleta).
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{immagini/nf_2nf_esempio_atleta.png} % Immagine nf_2nf_esempio_atleta.png
+    \caption{Esempio di una tabella non in 2NF e la sua normalizzazione a 2NF tramite scomposizione in due relazioni.}
+    \label{fig:nf_2nf_esempio_atleta}
+\end{figure}
+La soluzione è scomporre la relazione originale in due relazioni, una per la parte della chiave che determina l'attributo (es. Atleti(Codice\_atleta, Nome\_atleta)) e un'altra per la chiave completa con gli altri attributi (es. Risultati(Codice\_atleta, Numero\_gara, Tempo)).
 
 \subsubsection{Terza Forma Normale (3NF)}
-Una relazione è in 3NF se e solo se:
-\begin{itemize}
-    \item È in \textbf{2NF}.
-    \item Non contiene \textbf{dipendenze transitive}. Ovvero, nessun attributo non-chiave dipende da un altro attributo non-chiave (anziché dipendere direttamente dalla chiave primaria).
-\end{itemize}
-\textbf{Esempio di Violazione}: In una tabella `(IDImpiegato, NomeImpiegato, Dipartimento, CapoDipartimento)`, se `IDImpiegato` è la chiave primaria e `CapoDipartimento` dipende da `Dipartimento` (che a sua volta dipende da `IDImpiegato`), si ha una dipendenza transitiva.
+Una relazione si dice in \textbf{Terza Forma Normale (3NF)} quando è in 2NF e tutti gli attributi non-chiave dipendono dalla chiave primaria soltanto, ossia non esistono attributi che dipendono da altri attributi non-chiave (non esistono dipendenze transitive).
+\textbf{Esempio di Violazione e Normalizzazione a 3NF (Esempio 1: Computer)}:
+Consideriamo una tabella "Computer" dove attributi come "Velocità" dipendono da "Codice Processore", che a sua volta dipende da "Codice". Questa è una dipendenza transitiva.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/nf_3nf_esempio_computer_non_normalizzato.png} % Immagine nf_3nf_esempio_computer_non_normalizzato.png
+    \caption{Esempio di una tabella "Computer" non in 3NF a causa di dipendenze transitive.}
+    \label{fig:nf_3nf_computer_non_norm}
+\end{figure}
+La soluzione è scomporre la relazione originale in relazioni separate per eliminare le dipendenze transitive.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/nf_3nf_esempio_computer_normalizzato.png} % Immagine nf_3nf_esempio_computer_normalizzato.png
+    \caption{Normalizzazione della tabella "Computer" a 3NF, scomponendo le relazioni per eliminare le dipendenze transitive.}
+    \label{fig:nf_3nf_computer_norm}
+\end{figure}
+\textbf{Esempio 2: Impiegato/Dipartimento}:
+In una relazione "Impiegato" con attributi (CodImpiegato, Nome, Reparto, CapoReparto), se "CodImpiegato" è la chiave primaria e "CapoReparto" dipende da "Reparto" (che è un attributo non-chiave), si ha una dipendenza transitiva.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{immagini/nf_3nf_esempio_impiegato.png} % Immagine nf_3nf_esempio_impiegato.png
+    \caption{Esempio di una tabella "Impiegato" non in 3NF per dipendenza transitiva.}
+    \label{fig:nf_3nf_impiegato}
+\end{figure}
+La soluzione è quella di scomporre la relazione "Impiegato" in due relazioni: una relazione Impiegati(CodImpiegato, Nome, Reparto) e una relazione Dipartimenti(Reparto, CapoReparto), eliminando così la dipendenza transitiva.
+
+\subsubsection{Oltre la Terza Forma Normale: BCNF, 4NF, 5NF}
+Esistono forme normali ancora più elevate come la \textbf{Forma Normale di Boyce e Codd (BCNF)}, la \textbf{Quarta Forma Normale (4NF)} e la \textbf{Quinta Forma Normale (5NF)}. Queste affrontano casi più specifici e complessi di dipendenze (es. dipendenze multi-valore). Tuttavia, in molti casi pratici, la normalizzazione fino alla 3NF è sufficiente per garantire un database efficiente e affidabile.
 
 \subsection{Linguaggio SQL}
 Il \textbf{Structured Query Language (SQL)} è il linguaggio standard per la gestione dei sistemi di gestione di database relazionali (RDBMS). Permette di definire, manipolare e controllare i dati.
