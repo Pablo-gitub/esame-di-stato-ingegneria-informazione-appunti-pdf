@@ -16,7 +16,7 @@
 \contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{32}{figure.caption.29}%
 \contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{32}{figure.caption.31}%
 \contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{33}{figure.caption.32}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Esempio di Diagramma di Sequenza UML che mostra l'interazione temporale degli oggetti per una funzionalità.}}{33}{figure.caption.34}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Esempio di Diagramma di Deployment UML che illustra la distribuzione dei componenti software sull'infrastruttura hardware.}}{34}{figure.caption.36}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}}{34}{figure.caption.36}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}}{35}{figure.caption.38}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

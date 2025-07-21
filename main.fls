@@ -416,6 +416,16 @@ INPUT ./immagini/uml_class_sistema_chat_corretto.png
 INPUT ./immagini/uml_class_sistema_chat_corretto.png
 INPUT ./immagini/uml_class_sistema_chat_corretto.png
 INPUT ./immagini/uml_class_sistema_chat_corretto.png
+INPUT ./immagini/uml_sequence_mvc_update.png
+INPUT ./immagini/uml_sequence_mvc_update.png
+INPUT ./immagini/uml_sequence_mvc_update.png
+INPUT ./immagini/uml_sequence_mvc_update.png
+INPUT ./immagini/uml_sequence_mvc_update.png
+INPUT ./immagini/uml_sequence_prestito_biblioteca.jpg
+INPUT ./immagini/uml_sequence_prestito_biblioteca.jpg
+INPUT ./immagini/uml_sequence_prestito_biblioteca.jpg
+INPUT ./immagini/uml_sequence_prestito_biblioteca.jpg
+INPUT ./immagini/uml_sequence_prestito_biblioteca.jpg
 INPUT ./capitoli/elettronica/riassunto_elettronica.tex
 INPUT ./capitoli/elettronica/riassunto_elettronica.tex
 OUTPUT capitoli/elettronica/riassunto_elettronica.aux

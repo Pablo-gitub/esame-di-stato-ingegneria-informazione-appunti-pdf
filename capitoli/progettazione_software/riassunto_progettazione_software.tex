@@ -199,53 +199,55 @@ Per illustrare l'applicazione di queste relazioni in contesti più ampi, conside
 \end{figure}
 
 \subsubsection{Diagrammi di Sequenza (Sequence Diagrams)}
-I \textbf{Diagrammi di Sequenza} sono diagrammi comportamentali (di interazione) UML che mostrano l'ordine cronologico dei messaggi scambiati tra oggetti o attori in un'interazione specifica. Sono usati per modellare la logica di una funzionalità o di un algoritmo, illustrando come diversi oggetti collaborano per raggiungere un obiettivo.
+Un \textbf{Diagramma di Sequenza}, o in inglese \textit{Sequence Diagram}, è un diagramma appartenente alla famiglia del linguaggio \textbf{UML (Unified Modeling Language)}, che viene utilizzato principalmente per rappresentare le interazioni tra gli oggetti, rispettando l'ordine sequenziale in cui avvengono questi scambi di messaggi. Sono utili non solo agli sviluppatori per modellare il comportamento di un'applicazione, ma anche ai dirigenti di un'azienda, in quanto possono riprodurre il comportamento dei vari elementi del sistema che costituiscono il business, mostrando come interagiscono tra loro. Lo staff tecnico di un'organizzazione potrebbe avvalersi di questi diagrammi per documentare un comportamento. Ad esempio, durante la fase di progettazione, architetti e sviluppatori possono utilizzare questo schema per aggiungere o eliminare le interazioni tra le componenti del sistema.
+
+È possibile utilizzare i diagrammi di sequenza a diversi livelli durante il processo di sviluppo:
 \begin{itemize}
-    \item \textbf{Scopo}: Dettagliare il flusso di controllo e di dati per funzionalità specifiche, spesso come implementazione di casi d'uso. Utili per visualizzare l'interazione dinamica e l'ordine delle chiamate.
-    \item \textbf{Componenti Principali}:
+    \item Nella fase di \textbf{analisi}, possono aiutare ad identificare le classi di cui un sistema ha bisogno e ciò che gli oggetti di classe fanno nelle interazioni.
+    \item Nella fase di \textbf{progettazione}, spiegano come il sistema funziona per compiere le interazioni.
+    \item Durante la costruzione di un'\textbf{architettura di un sistema}, è possibile utilizzarli per mostrare il funzionamento dei modelli di progettazione ed i meccanismi che il sistema utilizza.
+\end{itemize}
+Uno dei principali usi del diagramma è quello di raffinare, in uno o più diagrammi, i requisiti espressi nei diagrammi dei casi d'uso UML, che vengono usati per la descrizione delle funzioni o servizi offerti da un sistema, così come sono percepiti e utilizzati dagli attori che interagiscono col sistema stesso.
+Lo scopo principale è quello di definire sequenze di eventi che portano a qualche risultato desiderato. L'attenzione si concentra sull'ordine in cui si verificano i messaggi piuttosto che sul loro contenuto. Il diagramma trasmette queste informazioni lungo le dimensioni orizzontali e verticali:
+\begin{itemize}
+    \item In \textbf{verticale}, dall'alto verso il basso, è evidenziata la sequenza temporale dei messaggi secondo l'ordine in cui si verificano.
+    \item In \textbf{orizzontale}, da sinistra a destra, le istanze degli oggetti a cui sono inviati i messaggi.
+\end{itemize}
+
+\paragraph{Componenti Principali dei Diagrammi di Sequenza}
+\begin{itemize}
+    \item \textbf{Lifeline (Linea di Vita)}: Rappresenta la partecipazione di un oggetto o attore all'interazione, mostrata come una linea verticale tratteggiata. In cima alla lifeline c'è un rettangolo (per gli oggetti) o un omino (per gli attori).
+    \item \textbf{Attore}: Utente o sistema esterno che avvia o partecipa all'interazione.
+    \item \textbf{Messaggio}: Una comunicazione o chiamata di metodo tra lifeline, rappresentata da una freccia orizzontale. Possono essere:
     \begin{itemize}
-        \item \textbf{Lifeline (Linea di Vita)}: Rappresenta la partecipazione di un oggetto o attore all'interazione, mostrata come una linea verticale tratteggiata. In cima alla lifeline c'è un rettangolo (per gli oggetti) o un omino (per gli attori).
-        \item \textbf{Attore}: Utente o sistema esterno che avvia o partecipa all'interazione.
-        \item \textbf{Messaggio}: Una comunicazione o chiamata di metodo tra lifeline, rappresentata da una freccia orizzontale. Possono essere:
-        \begin{itemize}
-            \item \textbf{Sincroni}: Freccia piena, indica una chiamata bloccante in attesa di risposta.
-            \item \textbf{Asincroni}: Freccia con punta aperta, indica una chiamata non bloccante.
-            \item \textbf{Risposta}: Freccia tratteggiata, indica il ritorno di un valore o la fine di una chiamata sincrona.
-        \end{itemize}
-        \item \textbf{Barra di Attivazione (Activation Bar/Execution Occurrence)}: Un rettangolo sottile posizionato verticalmente sulla lifeline, che indica il periodo di tempo durante il quale un oggetto è attivo e sta eseguendo un'operazione o aspettando una risposta.
-        \item \textbf{Frammenti Combinati (Combined Fragments)}: Costrutti per mostrare strutture di controllo logico:
-        \begin{itemize}
-            \item \textbf{alt (alternative)}: Per mostrare blocchi if-else.
-            \item \textbf{opt (optional)}: Per mostrare un blocco if.
-            \item \textbf{loop (loop)}: Per mostrare iterazioni.
-            \item \textbf{par (parallel)}: Per mostrare esecuzioni parallele.
-        \end{itemize}
+        \item \textbf{Sincroni}: Freccia piena, indica una chiamata bloccante in attesa di risposta.
+        \item \textbf{Asincroni}: Freccia con punta aperta, indica una chiamata non bloccante.
+        \item \textbf{Risposta}: Freccia tratteggiata, indica il ritorno di un valore o la fine di una chiamata sincrona.
+    \end{itemize}
+    \item \textbf{Barra di Attivazione (Activation Bar/Execution Occurrence)}: Un rettangolo sottile posizionato verticalmente sulla lifeline, che indica il periodo di tempo durante il quale un oggetto è attivo e sta eseguendo un'operazione o aspettando una risposta.
+    \item \textbf{Frammenti Combinati (Combined Fragments)}: Costrutti per mostrare strutture di controllo logico:
+    \begin{itemize}
+        \item \textbf{alt (alternative)}: Per mostrare blocchi if-else.
+        \item \textbf{opt (optional)}: Per mostrare un blocco if.
+        \item \textbf{loop (loop)}: Per mostrare iterazioni.
+        \textbf{par (parallel)}: Per mostrare esecuzioni parallele.
     \end{itemize}
 \end{itemize}
+
+\paragraph{Esempio 1: Flusso di Aggiornamento Dati in MVC}
+Questo esempio illustra un tipico flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC), mostrando le interazioni tra l'utente, la View, il Controller e il Model. È un esempio comune per descrivere come le modifiche da parte dell'utente si propagano attraverso i livelli di un'applicazione.
 \begin{figure}[h!]
     \centering
-    % Placeholder per l'immagine del Diagramma di Sequenza UML
-    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_sequenza_esempio.png}
-    \caption{Esempio di Diagramma di Sequenza UML che mostra l'interazione temporale degli oggetti per una funzionalità.}
-    \label{fig:diagramma_sequenza_uml_specifico}
+    \includegraphics[width=0.8\textwidth]{immagini/uml_sequence_mvc_update.png} % Ho corretto a .png. Se la tua è .gif, cambia qui.
+    \caption{Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}
+    \label{fig:diagramma_sequenza_mvc_update}
 \end{figure}
 
-\subsubsection{Diagrammi di Deployment (Deployment Diagrams)}
-I \textbf{Diagrammi di Deployment} sono diagrammi strutturali UML che mostrano la configurazione fisica dei nodi hardware (computer, server, dispositivi) e come i componenti software sono distribuiti su questi nodi.
-\begin{itemize}
-    \item \textbf{Scopo}: Visualizzare la topologia fisica del sistema, la distribuzione dei componenti software sull'hardware e le interazioni fisiche tra i nodi. Utile per architetture distribuite e pianificazione dell'infrastruttura.
-    \item \textbf{Componenti Principali}:
-    \begin{itemize}
-        \item \textbf{Nodo (Node)}: Una risorsa computazionale fisica o logica (hardware come un server, un PC, un dispositivo mobile; o un ambiente di esecuzione software come un Docker container, una JVM). Rappresentato da un cubo 3D.
-        \item \textbf{Artefatto (Artifact)}: Un prodotto fisico risultante dal processo di sviluppo del software (file eseguibile, libreria, file JAR, file di configurazione, script). Rappresentato da un documento con l'icona di un artefatto.
-        \item \textbf{Componente (Component)}: Una parte modulare e sostituibile del sistema con interfacce ben definite. Può essere distribuito su un nodo.
-        \item \textbf{Comunicazione (Communication Path)}: Una linea che connette i nodi, indicando un percorso di comunicazione tra di essi (es. TCP/IP, HTTP).
-    \end{itemize}
-\end{itemize}
+\paragraph{Esempio 2: Flusso di Prestito in un Sistema Biblioteca}
+Questo diagramma mostra un processo più orientato al dominio di business, come la gestione del prestito di un libro in un sistema di biblioteca. Evidenzia l'interazione tra l'utente, un gestore dei prestiti, l'entità libro, e i registri dei prestiti totali, illustrando come i sistemi gestiscono gli stati e le verifiche per completare un'operazione.
 \begin{figure}[h!]
     \centering
-    % Placeholder per l'immagine del Diagramma di Deployment UML
-    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_deployment_esempio.png}
-    \caption{Esempio di Diagramma di Deployment UML che illustra la distribuzione dei componenti software sull'infrastruttura hardware.}
-    \label{fig:diagramma_deployment_uml}
+    \includegraphics[width=0.8\textwidth]{immagini/uml_sequence_prestito_biblioteca.jpg} % Assicurati che il nome del file sia corretto
+    \caption{Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}
+    \label{fig:diagramma_sequenza_prestito_biblioteca}
 \end{figure}
