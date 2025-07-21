@@ -69,56 +69,61 @@
 \contentsline {section}{\numberline {3.4}Livello di Trasporto (TCP vs UDP)}{34}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}TCP (Transmission Control Protocol)}{34}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}UDP (User Datagram Protocol)}{35}{subsection.3.4.2}%
-\contentsline {chapter}{\numberline {4}Programmazione Orientata agli Oggetti (e Fondamenti)}{37}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Concetti Base della Programmazione Orientata agli Oggetti (POO)}{37}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}{38}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Abstract Data Type (ADT)}{38}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Passaggio di Parametri nelle Chiamate di Funzione}{38}{subsection.4.2.2}%
-\contentsline {subsubsection}{Passaggio per Valore (Call by Value)}{38}{section*.46}%
-\contentsline {subsubsection}{Passaggio per Riferimento (Call by Reference / Call by Address)}{39}{section*.47}%
-\contentsline {subsection}{\numberline {4.2.3}Overloading di Funzioni (o Metodi)}{39}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Linguaggi Compilati e Linguaggi Interpretati}{40}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Linguaggi Compilati}{40}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Linguaggi Interpretati}{41}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Algoritmi e Complessità Computazionale}{41}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Complessità Temporale}{41}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Complessità Spaziale}{42}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}Progettazione del Software}{43}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Analisi dei Requisiti}{43}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Tipi di Requisiti}{43}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Diagrammi di Casi d'Uso UML (Use Case Diagrams)}{44}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Progettazione dell'Architettura del Sistema Software}{44}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Design Patterns (Pattern Architetturali e di Progettazione)}{44}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Diagrammi UML (Unified Modeling Language)}{45}{subsection.5.2.2}%
-\contentsline {subsubsection}{Diagrammi dei Casi d'Uso (Use Case Diagrams)}{45}{section*.48}%
-\contentsline {paragraph}{Esempio: Relazioni tra Casi d'Uso}{46}{section*.49}%
-\contentsline {paragraph}{Esempio Completo: Sistema di Ristorazione}{46}{section*.51}%
-\contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{46}{section*.53}%
-\contentsline {paragraph}{Struttura Base e Attributi}{47}{section*.54}%
-\contentsline {paragraph}{Relazioni di Generalizzazione (Ereditarietà)}{47}{section*.57}%
-\contentsline {paragraph}{Relazioni Strutturali: Aggregazione e Composizione}{47}{section*.60}%
-\contentsline {paragraph}{Esempi Complessi di Diagrammi delle Classi}{48}{section*.62}%
-\contentsline {subsubsection}{Diagrammi di Sequenza (Sequence Diagrams)}{49}{section*.65}%
-\contentsline {paragraph}{Componenti Principali dei Diagrammi di Sequenza}{51}{section*.66}%
-\contentsline {paragraph}{Esempio 1: Flusso di Aggiornamento Dati in MVC}{52}{section*.67}%
-\contentsline {paragraph}{Esempio 2: Flusso di Prestito in un Sistema Biblioteca}{52}{section*.69}%
-\contentsline {chapter}{\numberline {6}Elettronica}{55}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}{55}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Struttura del Transistore MOS (nMOS)}{55}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Principio di Funzionamento (nMOS)}{56}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}{56}{subsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.1.4}Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}{57}{subsection.6.1.4}%
-\contentsline {section}{\numberline {6.2}Circuiti CMOS (Complementary MOS)}{57}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Invertitore CMOS}{57}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}{58}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Applicazioni Notevoli dell'Invertitore CMOS}{58}{subsection.6.2.3}%
-\contentsline {chapter}{\numberline {7}Sistemi Numerici}{61}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Rappresentazione per Numeri Interi}{61}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Complemento a Due}{61}{subsection.7.1.1}%
-\contentsline {subsubsection}{Principio di Funzionamento}{61}{section*.71}%
-\contentsline {subsubsection}{Derivazione della Rappresentazione in Complemento a Due}{61}{section*.72}%
-\contentsline {subsubsection}{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}{62}{section*.73}%
-\contentsline {section}{\numberline {7.2}Operazioni Aritmetiche con Complemento a Due}{62}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Addizione}{62}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Sottrazione}{63}{subsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.2.3}Overflow}{63}{subsection.7.2.3}%
+\contentsline {section}{\numberline {3.5}Subnetting (Suddivisione di Sottoreti)}{35}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Obiettivi del Subnetting}{35}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Indirizzi IP e Maschere di Sottorete}{35}{subsection.3.5.2}%
+\contentsline {subsubsection}{Notazione CIDR (Classless Inter-Domain Routing)}{36}{section*.46}%
+\contentsline {subsection}{\numberline {3.5.3}Calcolo del Subnetting (Esempio Pratico)}{36}{subsection.3.5.3}%
+\contentsline {chapter}{\numberline {4}Programmazione Orientata agli Oggetti (e Fondamenti)}{39}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Concetti Base della Programmazione Orientata agli Oggetti (POO)}{39}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Strutture Dati Astratte (ADT) e Fondamentali di Programmazione}{40}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Abstract Data Type (ADT)}{40}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Passaggio di Parametri nelle Chiamate di Funzione}{40}{subsection.4.2.2}%
+\contentsline {subsubsection}{Passaggio per Valore (Call by Value)}{40}{section*.47}%
+\contentsline {subsubsection}{Passaggio per Riferimento (Call by Reference / Call by Address)}{41}{section*.48}%
+\contentsline {subsection}{\numberline {4.2.3}Overloading di Funzioni (o Metodi)}{41}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Linguaggi Compilati e Linguaggi Interpretati}{42}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Linguaggi Compilati}{42}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Linguaggi Interpretati}{43}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Algoritmi e Complessità Computazionale}{43}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Complessità Temporale}{43}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Complessità Spaziale}{44}{subsection.4.4.2}%
+\contentsline {chapter}{\numberline {5}Progettazione del Software}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Analisi dei Requisiti}{45}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Tipi di Requisiti}{45}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Diagrammi di Casi d'Uso UML (Use Case Diagrams)}{46}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Progettazione dell'Architettura del Sistema Software}{46}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Design Patterns (Pattern Architetturali e di Progettazione)}{46}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Diagrammi UML (Unified Modeling Language)}{47}{subsection.5.2.2}%
+\contentsline {subsubsection}{Diagrammi dei Casi d'Uso (Use Case Diagrams)}{47}{section*.49}%
+\contentsline {paragraph}{Esempio: Relazioni tra Casi d'Uso}{48}{section*.50}%
+\contentsline {paragraph}{Esempio Completo: Sistema di Ristorazione}{48}{section*.52}%
+\contentsline {subsubsection}{Diagrammi delle Classi (Class Diagrams)}{48}{section*.54}%
+\contentsline {paragraph}{Struttura Base e Attributi}{49}{section*.55}%
+\contentsline {paragraph}{Relazioni di Generalizzazione (Ereditarietà)}{49}{section*.58}%
+\contentsline {paragraph}{Relazioni Strutturali: Aggregazione e Composizione}{49}{section*.61}%
+\contentsline {paragraph}{Esempi Complessi di Diagrammi delle Classi}{50}{section*.63}%
+\contentsline {subsubsection}{Diagrammi di Sequenza (Sequence Diagrams)}{51}{section*.66}%
+\contentsline {paragraph}{Componenti Principali dei Diagrammi di Sequenza}{53}{section*.67}%
+\contentsline {paragraph}{Esempio 1: Flusso di Aggiornamento Dati in MVC}{54}{section*.68}%
+\contentsline {paragraph}{Esempio 2: Flusso di Prestito in un Sistema Biblioteca}{54}{section*.70}%
+\contentsline {chapter}{\numberline {6}Elettronica}{57}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Transistore MOS (Metal-Oxide-Semiconductor Field-Effect Transistor)}{57}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Struttura del Transistore MOS (nMOS)}{57}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Principio di Funzionamento (nMOS)}{58}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Regimi di Funzionamento (per nMOS con $V_{GS} > V_{TH}$)}{58}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Vantaggi del MOS rispetto al Transistore Bipolare (BJT)}{59}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Circuiti CMOS (Complementary MOS)}{59}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Invertitore CMOS}{59}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Vantaggi dell'Invertitore CMOS rispetto agli Invertitori con Carico Resistivo}{60}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Applicazioni Notevoli dell'Invertitore CMOS}{60}{subsection.6.2.3}%
+\contentsline {chapter}{\numberline {7}Sistemi Numerici}{63}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Rappresentazione per Numeri Interi}{63}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Complemento a Due}{63}{subsection.7.1.1}%
+\contentsline {subsubsection}{Principio di Funzionamento}{63}{section*.72}%
+\contentsline {subsubsection}{Derivazione della Rappresentazione in Complemento a Due}{63}{section*.73}%
+\contentsline {subsubsection}{Esempio: Rappresentazione in Binario a 16 bit del numero decimale -15}{64}{section*.74}%
+\contentsline {section}{\numberline {7.2}Operazioni Aritmetiche con Complemento a Due}{64}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Addizione}{64}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Sottrazione}{65}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Overflow}{65}{subsection.7.2.3}%

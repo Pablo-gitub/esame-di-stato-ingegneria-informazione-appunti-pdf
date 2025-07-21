@@ -110,3 +110,84 @@ Il \textbf{Livello di Trasporto} è il quarto strato del modello OSI e fornisce 
     \item \textbf{Overhead Minimo}: Ha un header molto piccolo, il che lo rende molto efficiente in termini di overhead.
     \item \textbf{Applicazioni Tipiche}: Streaming multimediale (audio/video), VoIP, DNS, giochi online, dove la velocità è più importante dell'affidabilità perfetta (piccole perdite possono essere accettabili).
 \end{itemize}
+
+\section{Subnetting (Suddivisione di Sottoreti)}
+Il \textbf{subnetting} è il processo di divisione di una singola rete IP (Internet Protocol) più grande in sottoreti (subnets) più piccole e gestibili. Questa pratica è fondamentale per migliorare l'efficienza della rete, la sicurezza e la gestione degli indirizzi IP. Ogni sottorete è una rete IP indipendente e logicamente separata.
+
+\subsection{Obiettivi del Subnetting}
+\begin{itemize}
+    \item \textbf{Efficienza nell'uso degli indirizzi IP}: Invece di allocare un'intera classe di indirizzi a una singola organizzazione, il subnetting permette di suddividere lo spazio IP, utilizzando gli indirizzi in modo più parsimonioso.
+    \item \textbf{Riduzione del traffico di rete}: Il traffico di broadcast è confinato alla propria sottorete, riducendo il carico sui router e migliorando le prestazioni complessive della rete.
+    \item \textbf{Miglioramento della Sicurezza}: È più facile implementare politiche di sicurezza e isolare segmenti della rete.
+    \item \textbf{Facilitazione della Gestione della Rete}: Le reti più piccole sono più facili da gestire, diagnosticare e risolvere i problemi.
+\end{itemize}
+
+\subsection{Indirizzi IP e Maschere di Sottorete}
+Un indirizzo IP (IPv4) è un numero a 32 bit, diviso in quattro ottetti (separati da punti). È composto da due parti:
+\begin{itemize}
+    \item \textbf{Indirizzo di Rete (Network Address)}: Identifica la rete o sottorete a cui appartiene un dispositivo. Tutti i dispositivi sulla stessa sottorete hanno lo stesso indirizzo di rete.
+    \item \textbf{Indirizzo Host (Host Address)}: Identifica un dispositivo specifico all'interno di quella rete o sottorete.
+\end{itemize}
+La \textbf{maschera di sottorete (subnet mask)} è un numero a 32 bit che aiuta a distinguere la parte di rete dalla parte host di un indirizzo IP. È composta da una serie di `1` (bit di rete) seguiti da una serie di `0` (bit di host).
+
+\subsubsection{Notazione CIDR (Classless Inter-Domain Routing)}
+La notazione \textbf{CIDR} è un modo conciso per rappresentare indirizzi IP e subnet mask. Consiste nell'indirizzo IP seguito da uno slash (`/`) e un numero intero che indica il numero di bit che compongono l'indirizzo di rete (la lunghezza della maschera di sottorete).
+\begin{itemize}
+    \item \textbf{Esempio}: `192.168.1.0/24` indica che i primi 24 bit sono dedicati alla rete, e i rimanenti 8 bit agli host.
+    \item Il numero dopo lo slash è la \textbf{lunghezza del prefisso di rete}.
+\end{itemize}
+
+\subsection{Calcolo del Subnetting (Esempio Pratico)}
+Consideriamo una rete di Classe C (es. `192.168.1.0/24`) e vogliamo suddividerla per ospitare diverse sottoreti per dipartimenti diversi, ognuno con un numero specifico di host.
+
+\textbf{Scenario}: Una rete `192.168.1.0/24` deve essere divisa in 4 sottoreti per ospitare almeno 50 host per sottorete.
+
+\textbf{Passo 1: Determinare il numero di bit necessari per le sottoreti.}
+Abbiamo bisogno di 4 sottoreti. Il numero di bit ($n$) necessari per creare $S$ sottoreti è dato da $2^n \ge S$.
+$2^n \ge 4 \Rightarrow n=2$ bit.
+
+\textbf{Passo 2: Determinare il numero di bit per gli host.}
+La maschera originale è /24, quindi abbiamo 8 bit dedicati agli host ($32 - 24 = 8$).
+Usando 2 bit per le sottoreti, rimangono $8 - 2 = 6$ bit per gli host in ogni sottorete.
+Il numero massimo di host per sottorete sarà $2^H - 2$, dove $H$ è il numero di bit per gli host.
+$2^6 - 2 = 64 - 2 = 62$ host. Questo soddisfa il requisito di almeno 50 host per sottorete.
+
+\textbf{Passo 3: Calcolare la nuova maschera di sottorete.}
+La nuova maschera avrà i bit di rete originali (24) più i bit presi in prestito per le sottoreti (2).
+Nuova lunghezza prefisso = $24 + 2 = 26$.
+La nuova maschera di sottorete sarà `/26`.
+In forma decimale: `255.255.255.192` (perché i 2 bit accesi nell'ultimo ottetto sono $128 + 64 = 192$).
+
+\textbf{Passo 4: Elencare le sottoreti valide.}
+Le sottoreti iniziano a intervalli del "blocco size" determinato dal numero di bit presi in prestito. La dimensione del blocco per l'ultimo ottetto è $256 - 192 = 64$.
+\begin{itemize}
+    \item \textbf{Sottorete 1}:
+    \begin{itemize}
+        \item Indirizzo di Rete: `192.168.1.0/26`
+        \item Primo Indirizzo Host Valido: `192.168.1.1`
+        \item Ultimo Indirizzo Host Valido: `192.168.1.62`
+        \item Indirizzo di Broadcast: `192.168.1.63`
+    \end{itemize}
+    \item \textbf{Sottorete 2}:
+    \begin{itemize}
+        \item Indirizzo di Rete: `192.168.1.64/26`
+        \item Primo Indirizzo Host Valido: `192.168.1.65`
+        \item Ultimo Indirizzo Host Valido: `192.168.1.126`
+        \item Indirizzo di Broadcast: `192.168.1.127`
+    \end{itemize}
+    \item \textbf{Sottorete 3}:
+    \begin{itemize}
+        \item Indirizzo di Rete: `192.168.1.128/26`
+        \item Primo Indirizzo Host Valido: `192.168.1.129`
+        \item Ultimo Indirizzo Host Valido: `192.168.1.190`
+        \item Indirizzo di Broadcast: `192.168.1.191`
+    \end{itemize}
+    \item \textbf{Sottorete 4}:
+    \begin{itemize}
+        \item Indirizzo di Rete: `192.168.1.192/26`
+        \item Primo Indirizzo Host Valido: `192.168.1.193`
+        \item Ultimo Indirizzo Host Valido: `192.168.1.254`
+        \item Indirizzo di Broadcast: `192.168.1.255`
+    \end{itemize}
+\end{itemize}
+Questo esempio mostra come una singola rete può essere efficientemente suddivisa per soddisfare esigenze specifiche di un'organizzazione.
