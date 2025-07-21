@@ -2,21 +2,28 @@
 \babel@toc {italian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione.}}{6}{figure.caption.4}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{11}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER.}}{6}{figure.caption.4}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione.}}{7}{figure.caption.6}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà.}}{8}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{8}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{9}{figure.caption.9}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Schema ER per l'esercizio 2: Sistema Cinema/Film.}}{9}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Schema ER per l'esercizio 7: Sistema Campionato di Calcio.}}{10}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Schema ER per l'esercizio 11: Sistema Gare Ciclistiche.}}{11}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{16}{figure.caption.22}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}}{28}{figure.caption.18}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}}{29}{figure.caption.20}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}}{30}{figure.caption.23}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}}{30}{figure.caption.24}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}}{31}{figure.caption.26}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}}{31}{figure.caption.27}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{32}{figure.caption.29}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{32}{figure.caption.31}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{33}{figure.caption.32}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}}{34}{figure.caption.36}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}}{35}{figure.caption.38}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}}{32}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}}{33}{figure.caption.31}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}}{34}{figure.caption.34}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}}{34}{figure.caption.35}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}}{35}{figure.caption.37}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}}{35}{figure.caption.38}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{36}{figure.caption.40}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{36}{figure.caption.42}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{37}{figure.caption.43}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}}{38}{figure.caption.47}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}}{39}{figure.caption.49}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

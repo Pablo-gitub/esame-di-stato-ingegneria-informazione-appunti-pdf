@@ -5,59 +5,163 @@ Le \textbf{Basi di Dati (Database)} sono collezioni organizzate di dati che perm
 \section{Modello Concettuale Entità-Relazione (ER)}
 Il \textbf{Modello Entità-Relazione (ER)} è uno strumento concettuale di alto livello utilizzato nella fase iniziale della progettazione di database. Permette di rappresentare il mondo reale in termini di "entità" (oggetti o concetti di interesse) e "relazioni" (associazioni tra le entità). L'obiettivo è fornire una rappresentazione intuitiva e facilmente comprensibile della struttura dei dati prima di tradurla in un modello logico.
 
-\subsection{Componenti Principali del Modello ER}
+\subsection{Componenti Base e Rappresentazione Grafica}
+I principali componenti del Modello ER sono le entità, gli attributi e le relazioni, ognuno con una specifica rappresentazione grafica che ne facilita la visualizzazione.
 \begin{itemize}
     \item \textbf{Entità}: Rappresentano "cose" o "oggetti" del mondo reale su cui si vogliono memorizzare informazioni. Possono essere concrete (es. Persona, Prodotto) o astratte (es. Corso, Ordine). Nel diagramma ER, le entità sono generalmente rappresentate con un rettangolo.
-    \item \textbf{Attributi}: Sono le proprietà o caratteristiche che descrivono un'entità o una relazione. Ad esempio, un'entità "Studente" può avere attributi come "Nome", "Cognome", "Matricola", "DataNascita". Nel diagramma ER, gli attributi sono spesso rappresentati con un ovale.
-    \begin{itemize}
-        \item \textbf{Attributi Semplici/Composti}: Un attributo semplice non può essere scomposto (es. "Età"), mentre uno composto è formato da più attributi (es. "Indirizzo" composto da "Via", "Civico", "Città").
-        \item \textbf{Attributi Mono-valore/Multi-valore}: Mono-valore ha un singolo valore per istanza (es. "DataNascita"), multi-valore può avere più valori (es. "NumeriDiTelefono").
-        \item \textbf{Attributi Derivati}: Il loro valore può essere calcolato da altri attributi (es. "Età" derivata da "DataNascita").
-        \item \textbf{Chiave (Key Attribute)}: Un attributo (o un insieme di attributi) che identifica in modo univoco ogni istanza di un'entità. Viene tipicamente sottolineato nel diagramma ER.
-    \end{itemize}
+    \item \textbf{Attributi}: Sono le proprietà o caratteristiche che descrivono un'entità o una relazione. Ad esempio, un'entità "Studente" può avere attributi come "Nome", "Cognome", "Matricola". Nel diagramma ER, gli attributi sono rappresentati con un ovale.
     \item \textbf{Relazioni}: Rappresentano associazioni logiche tra due o più entità. Ad esempio, un "Docente" "insegna" a un "Corso". Nel diagramma ER, le relazioni sono rappresentate con un rombo.
-    \begin{itemize}
-        \item \textbf{Cardinalità delle Relazioni}: Definisce il numero di istanze di un'entità che possono essere associate a un'istanza dell'altra entità nella relazione. Le cardinalità più comuni sono:
-        \begin{itemize}
-            \item \textbf{Uno a Uno (1:1)}: Una istanza di entità A è associata a una e una sola istanza di entità B, e viceversa (es. "Persona" - "ha" - "Patente").
-            \item \textbf{Uno a Molti (1:N)}: Una istanza di entità A è associata a zero o molte istanze di entità B, ma un'istanza di B è associata a una e una sola istanza di A (es. "Dipartimento" - "comprende" - "Docente").
-            \item \textbf{Molti a Molti (N:M)}: Una istanza di entità A è associata a zero o molte istanze di entità B, e viceversa (es. "Studente" - "frequenta" - "Corso").
-        \end{itemize}
-        \item \textbf{Partecipazione (o Dipendenza)}: Indica se l'esistenza di un'istanza di un'entità dipende dalla sua partecipazione a una relazione.
-        \begin{itemize}
-            \item \textbf{Totale (o Obbligatoria)}: Ogni istanza dell'entità deve partecipare alla relazione (indicata da una doppia linea).
-            \item \textbf{Parziale (o Opzionale)}: Un'istanza dell'entità può partecipare o meno alla relazione (indicata da una singola linea).
-        \end{itemize}
-    \end{itemize}
 \end{itemize}
 
-\subsection{Rappresentazione Grafica del Diagramma ER}
-La rappresentazione visuale del modello Entità-Relazione utilizza simboli standardizzati per facilitare la comprensione della struttura del database.
+\subsection{Dettagli degli Attributi e Identificatori}
+Gli attributi possono presentare diverse caratteristiche e alcuni di essi assumono un ruolo speciale come identificatori.
 \begin{itemize}
-    \item \textbf{Entità}: Rettangolo. Se è un'entità debole, il rettangolo è doppio.
-    \item \textbf{Attributi}: Ovale.
+    \item \textbf{Tipi di Attributi}:
     \begin{itemize}
-        \item \textbf{Chiave Primaria}: Ovale con il nome dell'attributo sottolineato.
-        \item \textbf{Attributo Composto}: Ovale collegato ad altri ovali più piccoli.
-        \item \textbf{Attributo Multi-valore}: Doppio ovale.
-        \item \textbf{Attributo Derivato}: Ovale tratteggiato.
+        \item \textbf{Attributi Semplici}: Non possono essere scomposti (es. "Età").
+        \item \textbf{Attributi Composti}: Formati da più attributi (es. "Indirizzo" composto da "Via", "Civico", "Città").
+        \item \textbf{Attributi Mono-valore}: Hanno un singolo valore per istanza (es. "DataNascita").
+        \item \textbf{Attributi Multi-valore}: Possono avere più valori (es. "NumeriDiTelefono").
+        \item \textbf{Attributi Derivati}: Il loro valore può essere calcolato da altri attributi (es. "Età" derivata da "DataNascita").
     \end{itemize}
-    \item \textbf{Relazioni}: Rombo. Se è una relazione identificativa (per entità deboli), il rombo è doppio.
-    \item \textbf{Connessioni}: Linee che collegano entità e relazioni.
-    \item \textbf{Cardinalità e Partecipazione}: Le cardinalità sono indicate con numeri o simboli sulle linee di connessione (es. 1, N, M). La partecipazione (minima, massima) è indicata con notazioni come $(min, max)$ o da linee:
-    \begin{itemize}
-        \item \textbf{Linea singola}: Partecipazione parziale (0 o 1).
-        \item \textbf{Doppia linea}: Partecipazione totale (almeno 1).
-        \item \textbf{Notazione (min, max)}: Es. $(0, N)$ per zero a molti, $(1, N)$ per uno a molti.
-    \end{itemize}
+    \item \textbf{Chiave (Key Attribute)}: Un attributo (o un insieme di attributi) che identifica in modo univoco ogni istanza di un'entità. Viene tipicamente sottolineato nel diagramma ER.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{immagini/er_attributi_semplici_composti.png} 
+    \caption{Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER.}
+    \label{fig:er_attributi_semplici_composti}
+\end{figure}
+
+\subsubsection{Identificatori}
+Gli identificatori permettono di distinguere univocamente le istanze di un'entità. Possono essere interni o esterni.
+\begin{itemize}
+    \item \textbf{Identificatore Interno}: Costituito da uno o più attributi dell'entità stessa (es. Codice Fiscale per Persona).
+    \item \textbf{Identificatore Esterno}: Coinvolge attributi dell'entità e la partecipazione a relazioni con altre entità, necessarie per la sua identificazione. È tipico delle entità deboli.
 \end{itemize}
 \begin{figure}[h!]
     \centering
-    % Inserirai qui l'immagine di un Esempio di Diagramma ER
-    % \includegraphics[width=0.8\textwidth]{immagini/diagramma_er_esempio.png}
-    \caption{Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione.}
-    \label{fig:diagramma_er_uml}
+    \subcaptionbox{Identificatore Esterno per Entità Deboli (Studente, Immatricolazione, Università)\label{fig:er_entita_debole_enrollment}}{%
+        \includegraphics[width=0.48\textwidth]{immagini/er_entita_debole_enrollment.png}%
+    }\quad
+    \subcaptionbox{Identificatore Esterno Complesso (Stanza, Scaffale, Ripiano)\label{fig:er_identificatore_esterno_libreria}}{%
+        \includegraphics[width=0.48\textwidth]{immagini/er_identificatore_esterno_libreria.png}%
+    }
+    \caption{Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione.}
+    \label{fig:er_identificatori_esterni}
 \end{figure}
+
+\subsection{Dettagli delle Relazioni e Cardinalità}
+Le relazioni specificano le associazioni tra le entità, e le cardinalità definiscono il numero di istanze di un'entità che possono partecipare a una relazione.
+\begin{itemize}
+    \item \textbf{Cardinalità delle Relazioni}: Definisce il numero minimo e massimo di istanze di un'entità che possono essere associate a un'istanza dell'altra entità nella relazione.
+    \begin{itemize}
+        \item \textbf{Minima}: Indica se la partecipazione è obbligatoria (1) o opzionale (0).
+        \item \textbf{Massima}: Indica il numero massimo di partecipazioni (1 o N).
+        \item \textbf{Notazione (min, max)}: Es. $(0, N)$ per zero a molti, $(1, N)$ per uno a molti.
+    \end{itemize}
+    \item \textbf{Partecipazione (o Dipendenza)}:
+    \begin{itemize}
+        \item \textbf{Totale (o Obbligatoria)}: Ogni istanza dell'entità deve partecipare alla relazione (indicata graficamente da una doppia linea di connessione).
+        \item \textbf{Parziale (o Opzionale)}: Un'istanza dell'entità può partecipare o meno alla relazione (indicata graficamente da una singola linea).
+    \end{itemize}
+\end{itemize}
+
+\subsection{Generalizzazione nel Modello ER}
+La \textbf{Generalizzazione} è un costrutto del modello ER che permette di rappresentare una relazione "è un tipo di" (is-a) tra un'entità genitore (generale) e una o più entità figlie (specializzate).
+\begin{itemize}
+    \item Ogni istanza di un'entità figlia è anche un'istanza dell'entità genitore.
+    \item Le proprietà (attributi, identificatori, relazioni) dell'entità genitore sono ereditate da tutte le entità figlie.
+\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{immagini/er_generalizzazione_person_gender.png} % Immagine dal tuo screenshot 16.08.24.jpg
+    \caption{Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà.}
+    \label{fig:er_generalizzazione_person_gender}
+\end{figure}
+
+\subsection{Esempi Complessi di Schemi ER}
+Per consolidare la comprensione del Modello ER, è utile analizzare esempi complessi che integrano vari concetti come entità, attributi, relazioni con cardinalità diverse, identificatori, generalizzazioni e entità deboli. Questi schemi rappresentano contesti reali e mostrano come i costrutti ER vengono applicati per modellare domini complessi.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/er_schema_student_course_exam.png} % Immagine dal tuo screenshot 16.09.49.jpg
+    \caption{Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}
+    \label{fig:er_schema_student_course_exam}
+\end{figure}
+
+\subsection{Esempi Complessi di Schemi ER}
+Per consolidare la comprensione del Modello ER, è utile analizzare esempi complessi che integrano vari concetti come entità, attributi, relazioni con cardinalità diverse, identificatori, generalizzazioni e entità deboli. Questi schemi rappresentano contesti reali e mostrano come i costrutti ER vengono applicati per modellare domini complessi.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/er_schema_student_course_exam.png} % Immagine dal tuo screenshot 16.09.49.jpg
+    \caption{Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}
+    \label{fig:er_schema_student_course_exam}
+\end{figure}
+
+\subsubsection{Esercizio 2: Sistema Cinema/Film}
+\textbf{Descrizione}: Si consideri uno schema Entità-Relazione che rappresenta un sistema per la gestione di film, artisti, cinema e città. Il diagramma include entità come Film, Artista, Cinema e Città, con relazioni che specificano la regia, l'interpretazione e la proiezione dei film nei cinema locali.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/er_esercizio_2_cinema_film.png} % Immagine da eserciziER.pdf, Pagina 1, Figura 1
+    \caption{Schema ER per l'esercizio 2: Sistema Cinema/Film.}
+    \label{fig:er_esercizio_2_cinema_film}
+\end{figure}
+
+\textbf{Schema Relazionale corrispondente}:
+\begin{lstlisting}[language=SQL]
+ARTISTI (Codice, Nome, Cognome)
+FILM (Titolo, Anno, CasaProduttrice, RegistaArtista) -- RegistaArtista FK a ARTISTI
+INTERPRETAZIONI (FilmTitolo, FilmAnno, ArtistaCodice) -- FK a FILM, FK a ARTISTI
+CITTA (Codice, Nome)
+CINEMA (Nome, Tel, Orario, Indirizzo, CittaCodice) -- CittaCodice FK a CITTA
+PROIEZIONI (FilmTitolo, FilmAnno, CinemaNome, OrarioCinema) -- FK a FILM, FK a CINEMA
+\end{lstlisting}
+
+\subsubsection{Esercizio 7: Sistema Campionato di Calcio}
+\textbf{Descrizione}: Modellare un sistema per la gestione di un campionato di calcio. Il sistema deve rappresentare squadre, giocatori (con i loro ruoli e dati personali), arbitri, giornate e partite, inclusi i risultati e le specificità come partite in campo neutro o rinviate.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/er_esercizio_7_campionato_calcio.png} % Immagine da eserciziER.pdf, Pagina 3, Figura 6
+    \caption{Schema ER per l'esercizio 7: Sistema Campionato di Calcio.}
+    \label{fig:er_esercizio_7_campionato_calcio}
+\end{figure}
+
+\textbf{Schema Relazionale corrispondente}:
+\begin{lstlisting}[language=SQL]
+ARBITRO (Cognome, Nome, Citta, Regione) -- Chiave primaria (Cognome, Nome) o ID_Arbitro generato
+GIORNATA (Numero, Serie, Giorno, Mese, Anno) -- Chiave primaria (Numero, Serie)
+SQUADRA (Nome, Citta, Allenatore) -- Chiave primaria (Nome)
+GIOCATORE (CodiceFiscale, Cognome, Nome, Ruolo, CittaDiNascita) -- Chiave primaria (CodiceFiscale)
+PARTITA (NumeroPartita, GiornoGiornata, MeseGiornata, AnnoGiornata, Risultato, ArbitroCognome, ArbitroNome, CasaSquadra, OspiteSquadra) -- Chiave primaria (NumeroPartita), FK a GIORNATA, FK a ARBITRO, FK a SQUADRA (due volte)
+PARTITA_IN_CAMPO_NEUTRO (PartitaNumero, PartitaGiorno, PartitaMese, PartitaAnno, Motivo, CittaCampoNeutro) -- FK a PARTITA
+PARTITA_RINVIATA (PartitaNumero, PartitaGiorno, PartitaMese, PartitaAnno, DataRinvio) -- FK a PARTITA
+POSIZIONE (SquadraNome, GiornoGiornata, MeseGiornata, AnnoGiornata, Punteggio) -- Chiave primaria (SquadraNome, GiornoGiornata, MeseGiornata, AnnoGiornata), FK a SQUADRA, FK a GIORNATA
+APPARTENENZA (GiocatoreCodiceFiscale, SquadraNome, DataInizio, RuoloPrincipale, DataFine) -- Chiave primaria (GiocatoreCodiceFiscale, SquadraNome, DataInizio), FK a GIOCATORE, FK a SQUADRA
+\end{lstlisting}
+
+\subsubsection{Esercizio 11: Sistema Gare Ciclistiche}
+\textbf{Descrizione}: Un sistema per la gestione di gare ciclistiche, includendo informazioni su ciclisti, squadre, località, competizioni, edizioni e tappe, con dettagli sulle classifiche e gli orari.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{immagini/er_esercizio_11_ciclisti_tappa.png} % Immagine da eserciziER.pdf, Pagina 5, Figura 10
+    \caption{Schema ER per l'esercizio 11: Sistema Gare Ciclistiche.}
+    \label{fig:er_esercizio_11_ciclisti_tappa}
+\end{figure}
+
+\textbf{Schema Relazionale corrispondente}:
+\begin{lstlisting}[language=SQL]
+SQUADRE (Sigla, Nome, CapitanoCodice) -- CapitanoCodice FK a CICLISTI
+CICLISTI (Codice, Cognome, Nome, SquadraSigla) -- SquadraSigla FK a SQUADRE
+LOCALITA (Nome, Provincia) -- Chiave primaria (Nome, Provincia)
+COMPETIZIONI (Codice, Nome, Organizzatore) -- Chiave primaria (Codice)
+EDIZIONI (AnnoEdizione, CompetizioneCodice, KmTotali) -- Chiave primaria (AnnoEdizione, CompetizioneCodice), FK a COMPETIZIONI
+TAPPE (NumeroTappa, AnnoEdizione, CompetizioneCodice, LocPartenzaNome, LocPartenzaProvincia, LocArrivoNome, LocArrivoProvincia) -- Chiave primaria (NumeroTappa, AnnoEdizione, CompetizioneCodice), FK a EDIZIONI, FK a LOCALITA (due volte)
+CLASSIFICATAPPA (NumeroTappa, AnnoEdizione, CompetizioneCodice, CiclistaCodice, Posizione, Distacco) -- FK a TAPPE, FK a CICLISTI
+CLASSIFICAGENERALE (NumeroTappa, AnnoEdizione, CompetizioneCodice, CiclistaCodice, Posizione, Distacco) -- FK a TAPPE, FK a CICLISTI
+\end{lstlisting}
 
 \section{Progettazione Logica: Normalizzazione e Forme Normali}
 La \textbf{normalizzazione} è un processo sistematico di organizzazione dei dati in un database relazionale. Il suo scopo è ridurre la ridondanza dei dati, eliminare le anomalie di aggiornamento (inserimento, cancellazione, modifica) e migliorare l'integrità e la coerenza dei dati. La normalizzazione si basa su una serie di regole chiamate "forme normali".

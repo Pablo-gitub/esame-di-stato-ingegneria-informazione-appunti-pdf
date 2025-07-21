@@ -4,30 +4,56 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Modello Concettuale Entità-Relazione (ER)}{5}{section.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Componenti Principali del Modello ER}{5}{subsection.2.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Rappresentazione Grafica del Diagramma ER}{6}{subsection.2.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione.}}{6}{figure.caption.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Componenti Base e Rappresentazione Grafica}{5}{subsection.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Dettagli degli Attributi e Identificatori}{5}{subsection.2.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER.}}{6}{figure.caption.4}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:diagramma_er_uml}{{2.1}{6}{Esempio di Diagramma Entità-Relazione che mostra entità, attributi e relazioni con cardinalità e partecipazione}{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Progettazione Logica: Normalizzazione e Forme Normali}{7}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Obiettivi della Normalizzazione}{7}{subsection.2.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Principali Forme Normali}{7}{subsection.2.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Prima Forma Normale (1NF)}{7}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Seconda Forma Normale (2NF)}{8}{section*.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Terza Forma Normale (3NF)}{8}{section*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{8}{subsection.2.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Categorie di Comandi SQL}{8}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{9}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Esempi di Operatori e Funzioni SQL Comuni}{10}{section*.10}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}{\ignorespaces Esempio Operatori Logici}}{10}{lstlisting.2.1}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.2}{\ignorespaces Esempio Operatori di Confronto}}{10}{lstlisting.2.2}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.3}{\ignorespaces Esempio Funzioni Stringa}}{11}{lstlisting.2.3}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.4}{\ignorespaces Esempio Funzioni Numeriche}}{11}{lstlisting.2.4}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.5}{\ignorespaces Esempio Funzioni Data/Ora}}{11}{lstlisting.2.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{11}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:query_sql_esempio}{{2.2}{11}{Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati}{figure.caption.11}{}}
+\newlabel{fig:er_attributi_semplici_composti}{{2.1}{6}{Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Identificatori}{6}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Dettagli delle Relazioni e Cardinalità}{6}{subsection.2.1.3}\protected@file@percent }
+\newlabel{fig:er_entita_debole_enrollment}{{2.2a}{7}{Identificatore Esterno per Entità Deboli (Studente, Immatricolazione, Università)}{figure.caption.6}{}}
+\newlabel{sub@fig:er_entita_debole_enrollment}{{a}{7}{Identificatore Esterno per Entità Deboli (Studente, Immatricolazione, Università)}{figure.caption.6}{}}
+\newlabel{fig:er_identificatore_esterno_libreria}{{2.2b}{7}{Identificatore Esterno Complesso (Stanza, Scaffale, Ripiano)}{figure.caption.6}{}}
+\newlabel{sub@fig:er_identificatore_esterno_libreria}{{b}{7}{Identificatore Esterno Complesso (Stanza, Scaffale, Ripiano)}{figure.caption.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione.}}{7}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:er_identificatori_esterni}{{2.2}{7}{Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.4}Generalizzazione nel Modello ER}{7}{subsection.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.5}Esempi Complessi di Schemi ER}{7}{subsection.2.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.6}Esempi Complessi di Schemi ER}{7}{subsection.2.1.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà.}}{8}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:er_generalizzazione_person_gender}{{2.3}{8}{Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{8}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:er_schema_student_course_exam}{{2.4}{8}{Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Esercizio 2: Sistema Cinema/Film}{8}{section*.10}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{9}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:er_schema_student_course_exam}{{2.5}{9}{Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità}{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Schema ER per l'esercizio 2: Sistema Cinema/Film.}}{9}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:er_esercizio_2_cinema_film}{{2.6}{9}{Schema ER per l'esercizio 2: Sistema Cinema/Film}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Esercizio 7: Sistema Campionato di Calcio}{10}{section*.12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Schema ER per l'esercizio 7: Sistema Campionato di Calcio.}}{10}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:er_esercizio_7_campionato_calcio}{{2.7}{10}{Schema ER per l'esercizio 7: Sistema Campionato di Calcio}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Esercizio 11: Sistema Gare Ciclistiche}{11}{section*.14}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Schema ER per l'esercizio 11: Sistema Gare Ciclistiche.}}{11}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:er_esercizio_11_ciclisti_tappa}{{2.8}{11}{Schema ER per l'esercizio 11: Sistema Gare Ciclistiche}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Progettazione Logica: Normalizzazione e Forme Normali}{12}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Obiettivi della Normalizzazione}{12}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Principali Forme Normali}{12}{subsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Prima Forma Normale (1NF)}{13}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Seconda Forma Normale (2NF)}{13}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Terza Forma Normale (3NF)}{13}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Linguaggio SQL}{13}{subsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Categorie di Comandi SQL}{13}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Elementi Comuni delle Query SQL (SELECT)}{14}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Esempi di Operatori e Funzioni SQL Comuni}{15}{section*.21}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}{\ignorespaces Esempio Operatori Logici}}{15}{lstlisting.2.1}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.2}{\ignorespaces Esempio Operatori di Confronto}}{15}{lstlisting.2.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.3}{\ignorespaces Esempio Funzioni Stringa}}{16}{lstlisting.2.3}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.4}{\ignorespaces Esempio Funzioni Numeriche}}{16}{lstlisting.2.4}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.5}{\ignorespaces Esempio Funzioni Data/Ora}}{16}{lstlisting.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{16}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:query_sql_esempio}{{2.9}{16}{Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati}{figure.caption.22}{}}
 \@setckpt{capitoli/basi_di_dati/riassunto_basi_di_dati}{
-\setcounter{page}{12}
+\setcounter{page}{17}
 \setcounter{equation}{0}
 \setcounter{enumi}{0}
 \setcounter{enumii}{0}
@@ -42,7 +68,7 @@
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{2}
+\setcounter{figure}{9}
 \setcounter{table}{0}
 \setcounter{parentequation}{0}
 \setcounter{caption@flags}{2}
@@ -52,7 +78,7 @@
 \setcounter{section@level}{3}
 \setcounter{Item}{0}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{15}
+\setcounter{bookmark@seq@number}{19}
 \setcounter{tabx@nest}{0}
 \setcounter{listtotal}{0}
 \setcounter{listcount}{0}
