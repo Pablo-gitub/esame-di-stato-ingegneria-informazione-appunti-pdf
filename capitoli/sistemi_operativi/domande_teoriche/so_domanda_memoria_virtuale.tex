@@ -1,0 +1,15 @@
+% Questo file contiene la domanda e risposta sulla memoria virtuale.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Come la Memoria Virtuale Migliora la Gestione della Memoria nei Sistemi Operativi?}
+
+\textbf{Domanda}: Come la memoria virtuale migliora la gestione della memoria nei sistemi operativi?
+
+\textbf{Risposta}:
+
+La \textbf{memoria virtuale} è una tecnica del sistema operativo che permette di usare lo spazio su disco (memoria secondaria) per simulare una RAM maggiore, consentendo ai programmi di utilizzare più memoria di quella fisica disponibile. Questo facilita il multitasking isolando lo spazio di indirizzamento di ogni processo, aumentandone la protezione e la flessibilità. Le tecniche principali per implementare la memoria virtuale sono la paginazione e la segmentazione.
+\begin{itemize}
+    \item \textbf{Paginazione}: Divide lo spazio logico in "pagine" di dimensione fissa e la memoria fisica in "frame", mappando le pagine ai frame tramite una Page Table. Questo elimina la frammentazione esterna ma introduce quella interna.
+    \item \textbf{Segmentazione}: Vede la memoria come segmenti di dimensione variabile, corrispondenti a unità logiche del programma, facilitando protezione e condivisione ma soffrendo di frammentazione esterna.
+\end{itemize}
+Per l'allocazione della memoria (per blocchi contigui), il sistema operativo utilizza algoritmi come \textbf{First Fit} (alloca il primo blocco sufficiente), \textbf{Best Fit} (alloca il blocco più piccolo sufficiente) e \textbf{Worst Fit} (alloca il blocco più grande sufficiente), ognuno con diversi compromessi in termini di velocità e frammentazione.

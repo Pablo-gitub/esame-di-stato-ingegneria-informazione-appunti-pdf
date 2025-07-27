@@ -45,6 +45,66 @@ I sistemi operativi possono essere strutturati secondo diversi modelli architett
     \end{itemize}
 \end{itemize}
 
+\subsection{Processi e Thread}
+Nei sistemi operativi moderni, l'esecuzione dei programmi è gestita attraverso due concetti principali: i processi e i thread.
+
+\subsubsection{Processo (Processo "Pesante")}
+Un \textbf{processo} è un'istanza di un programma in esecuzione. È un'unità di allocazione delle risorse del sistema operativo e include:
+\begin{itemize}
+    \item Il codice del programma.
+    \item I dati (variabili globali, heap).
+    \item Lo stack (per le chiamate di funzione e le variabili locali).
+    \item Il Program Counter (PC) e i registri della CPU.
+    \item Risorse del sistema operativo allocate (file aperti, segnali, memoria, ecc.).
+\end{itemize}
+Ogni processo ha il proprio spazio di indirizzamento virtuale separato, il che fornisce isolamento e protezione tra i processi. Se un processo crasha, di solito non influisce sugli altri processi. I processi sono considerati "pesanti" a causa dell'overhead associato alla loro creazione, alla distruzione e al cambio di contesto.
+
+\subsubsection{Thread (Processo "Leggero")}
+Un \textbf{thread} (o thread di esecuzione) è un'unità di esecuzione all'interno di un processo. Un singolo processo può contenere più thread. I thread all'interno dello stesso processo condividono lo stesso spazio di indirizzamento virtuale, il codice del programma, i dati globali e le risorse del sistema operativo (file aperti, ecc.). Ogni thread ha il proprio:
+\begin{itemize}
+    \item Program Counter (PC).
+    \item Set di registri della CPU.
+    \item Stack separato.
+\end{itemize}
+I thread sono considerati "leggeri" perché la loro creazione, distruzione e il cambio di contesto sono molto più veloci ed efficienti rispetto ai processi, dato che non richiedono la creazione di un nuovo spazio di indirizzamento e la copia di risorse.
+
+\subsubsection{Punti in Comune e Differenze}
+\begin{itemize}
+    \item \textbf{Punti in Comune}: Sia processi che thread rappresentano unità di esecuzione che possono essere schedulate dalla CPU. Entrambi hanno un Program Counter, un set di registri e uno stack.
+    \item \textbf{Differenze Principali}:
+    \begin{itemize}
+        \item \textbf{Isolamento delle Risorse}: I processi hanno spazi di indirizzamento separati e risorse isolate. I thread all'interno dello stesso processo condividono lo spazio di indirizzamento e le risorse.
+        \item \textbf{Overhead}: I processi hanno un overhead maggiore per creazione, distruzione e cambio di contesto. I thread sono più "leggeri".
+        \item \textbf{Comunicazione}: La comunicazione tra processi (IPC - Inter-Process Communication) è più complessa (richiede meccanismi espliciti come pipe, shared memory, message queues). La comunicazione tra thread (ITC - Inter-Thread Communication) è più semplice e diretta, poiché condividono la memoria.
+        \item \textbf{Robustezza}: Un crash di un thread può compromettere l'intero processo (e tutti i suoi thread). Un crash di un processo non influisce sugli altri processi.
+    \end{itemize}
+\end{itemize}
+
+\section{Record di Attivazione (Activation Record / Stack Frame)}
+Il \textbf{Record di Attivazione} (o \textit{Stack Frame}) è una struttura dati creata sullo stack del programma ogni volta che una funzione (o procedura, o subroutine) viene chiamata. Contiene tutte le informazioni necessarie per la gestione dell'esecuzione di quella specifica chiamata di funzione. È una componente fondamentale del runtime di un linguaggio di programmazione e del supporto fornito dal sistema operativo per l'esecuzione di programmi che utilizzano stack per le chiamate a funzione.
+
+\subsection{Contenuto di un Record di Attivazione}
+Un tipico record di attivazione può contenere le seguenti informazioni, sebbene la loro esatta disposizione e i dettagli possano variare a seconda dell'architettura della CPU, del sistema operativo e del compilatore:
+\begin{itemize}
+    \item \textbf{Parametri Attuali (Actual Parameters)}: I valori degli argomenti passati alla funzione.
+    \item \textbf{Indirizzo di Ritorno (Return Address)}: L'indirizzo di memoria della istruzione nel codice chiamante a cui il controllo deve tornare una volta che la funzione corrente ha terminato l'esecuzione.
+    \item \textbf{Valore di Ritorno (Return Value)}: Uno spazio per memorizzare il valore restituito dalla funzione (se la funzione restituisce un valore).
+    \item \textbf{Variabili Locali (Local Variables)}: Le variabili dichiarate all'interno della funzione e che esistono solo per la durata di quella specifica attivazione.
+    \item \textbf{Stato dei Registri Salvati (Saved Register State)}: I valori dei registri della CPU che erano in uso dalla funzione chiamante e che devono essere ripristinati prima del ritorno.
+    \item \textbf{Puntatore al Frame Precedente (Control Link / Dynamic Link)}: Un puntatore (indirizzo) al record di attivazione della funzione chiamante, permettendo al sistema di "risalire" lo stack.
+    \item \textbf{Puntatore al Contesto Statico (Access Link / Static Link)}: (Solo per linguaggi con scope annidato statico, come Pascal o linguaggi funzionali) Un puntatore al record di attivazione della funzione che definisce lo scope lessicale della funzione corrente, permettendo l'accesso a variabili non locali.
+\end{itemize}
+
+\subsection{Ciclo di Vita di un Record di Attivazione}
+Il ciclo di vita di un record di attivazione segue il flusso delle chiamate a funzione e la struttura dello stack:
+\begin{enumerate}
+    \item \textbf{Creazione (Chiamata di Funzione)}: Quando una funzione viene chiamata, il codice chiamante (o il runtime) crea un nuovo record di attivazione. Questo nuovo record viene "pushed" (inserito) in cima allo stack di esecuzione del processo. Il puntatore dello stack (Stack Pointer) viene aggiornato per puntare a questo nuovo frame.
+    \item \textbf{Esecuzione}: La CPU salta all'indirizzo di inizio del codice della funzione chiamata. La funzione utilizza le informazioni nel suo record di attivazione (parametri, variabili locali, registri) durante la sua esecuzione.
+    \item \textbf{Terminazione (Ritorno da Funzione)}: Quando la funzione termina (raggiunge un `return` o la fine del suo blocco di codice), il valore di ritorno (se presente) viene posizionato in una posizione designata (spesso un registro). Il record di attivazione corrente viene "popped" (rimosso) dallo stack, liberando lo spazio di memoria che occupava. Il puntatore dello stack viene ripristinato al record di attivazione precedente.
+    \item \textbf{Ripristino del Contesto}: Il controllo del programma viene trasferito all'indirizzo di ritorno memorizzato nel record di attivazione appena rimosso, e i registri salvati vengono ripristinati per continuare l'esecuzione della funzione chiamante.
+\end{enumerate}
+Questo meccanismo a stack garantisce che le chiamate a funzione e i ritorni avvengano in modo LIFO (Last-In, First-Out), permettendo la corretta gestione delle funzioni annidate e ricorsive.
+
 \section{Gestione della Memoria}
 La \textbf{gestione della memoria} è una delle funzioni fondamentali del sistema operativo, responsabile di allocare e deallocare la memoria ai processi, di proteggere la memoria per evitare interferenze tra i processi e di fornire un'astrazione della memoria fisica per gli sviluppatori. L'obiettivo principale è massimizzare l'utilizzo della CPU mantenendo molti processi in memoria e fornendo un meccanismo efficiente per accedere ai dati.
 
@@ -255,23 +315,33 @@ Il deadlock può verificarsi se e solo se tutte e quattro le seguenti condizioni
 Per affrontare il deadlock, i sistemi operativi possono adottare diverse strategie:
 \begin{itemize}
     \item \textbf{Prevenzione del Deadlock (Deadlock Prevention)}:
-        * Obiettivo: Garantire che almeno una delle quattro condizioni necessarie non si verifichi.
-        * Come: Negando una o più condizioni (es. non permettere l'attesa e mantenimento, assegnare tutte le risorse all'inizio).
-        * Svantaggi: Spesso porta a un basso utilizzo delle risorse e a un throughput ridotto.
+        \begin{itemize} % Inizio del sub-itemize
+            \item Obiettivo: Garantire che almeno una delle quattro condizioni necessarie non si verifichi.
+            \item Come: Negando una o più condizioni (es. non permettere l'attesa e mantenimento, assegnare tutte le risorse all'inizio).
+            \item Svantaggi: Spesso porta a un basso utilizzo delle risorse e a un throughput ridotto.
+        \end{itemize} % Fine del sub-itemize
     \item \textbf{Evitamento del Deadlock (Deadlock Avoidance)}:
-        * Obiettivo: Richiede che il sistema abbia informazioni a priori sulle risorse che un processo richiederà. Il sistema verifica se lo stato corrente è "sicuro" (se esiste una sequenza di esecuzione dei processi che eviterà il deadlock).
-        * Algoritmo Esempio: Algoritmo del banchiere.
-        * Vantaggi: Meno restrittivo della prevenzione, migliore utilizzo delle risorse.
-        * Svantaggi: Richiede conoscenza a priori, può essere computazionalmente costoso.
+        \begin{itemize} % Inizio del sub-itemize
+            \item Obiettivo: Richiede che il sistema abbia informazioni a priori sulle risorse che un processo richiederà. Il sistema verifica se lo stato corrente è "sicuro" (se esiste una sequenza di esecuzione dei processi che eviterà il deadlock).
+            \item Algoritmo Esempio: Algoritmo del banchiere.
+            \item Vantaggi: Meno restrittivo della prevenzione, migliore utilizzo delle risorse.
+            \item Svantaggi: Richiede conoscenza a priori, può essere computazionalmente costoso.
+        \end{itemize} % Fine del sub-itemize
     \item \textbf{Rilevamento e Ripristino del Deadlock (Deadlock Detection and Recovery)}:
-        * Obiettivo: Permettere che il deadlock si verifichi, rilevarlo e poi ripristinare il sistema da esso.
-        * Rilevamento: Si usa un algoritmo di rilevamento del ciclo nel grafo di allocazione delle risorse.
-        * Ripristino:
-            * Terminazione del processo: Terminare uno o più processi coinvolti nel deadlock.
-            * Preemption della risorsa: Sottrarre risorse a un processo e assegnarle a un altro.
-        * Svantaggi: Comporta un overhead per il rilevamento e la perdita di lavoro per il ripristino.
+        \begin{itemize} % Inizio del sub-itemize
+            \item Obiettivo: Permettere che il deadlock si verifichi, rilevarlo e poi ripristinare il sistema da esso.
+            \item Rilevamento: Si usa un algoritmo di rilevamento del ciclo nel grafo di allocazione delle risorse.
+            \item Ripristino:
+                \begin{itemize} % Questo è un sub-sub-itemize
+                    \item Terminazione del processo: Terminare uno o più processi coinvolti nel deadlock.
+                    \item Preemption della risorsa: Sottrarre risorse a un processo e assegnarle a un altro.
+                \end{itemize} % Fine del sub-sub-itemize
+            \item Svantaggi: Comporta un overhead per il rilevamento e la perdita di lavoro per il ripristino.
+        \end{itemize} % Fine del sub-itemize
     \item \textbf{Ignorare il Problema}:
-        * Questo è l'approccio più comune in molti sistemi operativi (es. Unix/Linux, Windows), assumendo che il deadlock sia un evento raro e che sia meno costoso lasciarlo gestire all'amministratore (riavvio del sistema) piuttosto che implementare algoritmi complessi.
+        \begin{itemize} % Inizio del sub-itemize
+            \item Questo è l'approccio più comune in molti sistemi operativi (es. Unix/Linux, Windows), assumendo che il deadlock sia un evento raro e che sia meno costoso lasciarlo gestire all'amministratore (riavvio del sistema) piuttosto che implementare algoritmi complessi.
+        \end{itemize} % Fine del sub-itemize
 \end{itemize}
 
 \section{Scheduling della CPU}

@@ -31,23 +31,43 @@
 
 \mainmatter % Inizio del contenuto principale (numerazione araba, capitoli numerati)
 
-% --- Inclusione dei Capitoli Principali ---
+% --- Inclusione dei Capitoli Principali e delle relative Domande/Esercizi ---
 % Ogni riga \include farà iniziare un nuovo capitolo in una nuova pagina.
-% Assicurati che i file .tex nelle sottocartelle dei capitoli contengano
-% almeno un \chapter{} per essere inclusi nell'indice.
+% Le domande e gli esercizi di quel capitolo verranno inclusi subito dopo, se il file esiste.
 
+% Capitolo 1: Sistemi Operativi
 \include{capitoli/sistemi_operativi/riassunto_sistemi_operativi}
-\include{capitoli/basi_di_dati/riassunto_basi_di_dati}
-\include{capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori}
-\include{capitoli/programmazione_oo/riassunto_programmazione_oo}
-\include{capitoli/progettazione_software/riassunto_progettazione_software}
-\include{capitoli/elettronica/riassunto_elettronica}
-\include{capitoli/sistemi_numerici/riassunto_sistemi_numerici}
+% Include le domande e gli esercizi per questo capitolo, se il file esiste.
+% Questo file (domande_ed_esercizi_so.tex) conterrà al suo interno
+% le varie \section o \subsection per ogni singola domanda/esercizio.
+\input{capitoli/sistemi_operativi/domande_ed_esercizi_so.tex}
 
-% --- Se vuoi aggiungere appendici per soluzioni dettagliate di esercizi o altro ---
-% \appendix
-% \chapter{Soluzioni Dettagliate e Approfondimenti}
-% \include{capitoli/basi_di_dati/esercizi/es_er_campi} % Esempio: inclusione di un file di esercizio
+% Capitolo 2: Basi di Dati
+\include{capitoli/basi_di_dati/riassunto_basi_di_dati}
+% \input{capitoli/basi_di_dati/domande_ed_esercizi_bd.tex} % Abilitare quando avrai le domande/esercizi per Basi di Dati
+
+% Capitolo 3: Reti di Calcolatori
+\include{capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori}
+% \input{capitoli/reti_di_calcolatori/domande_ed_esercizi_reti.tex} % Abilitare quando avrai le domande/esercizi per Reti
+
+% Capitolo 4: Programmazione Orientata agli Oggetti
+\include{capitoli/programmazione_oo/riassunto_programmazione_oo}
+% \input{capitoli/programmazione_oo/domande_ed_esercizi_poo.tex} % Abilitare quando avrai le domande/esercizi per POO
+
+% Capitolo 5: Progettazione del Software
+\include{capitoli/progettazione_software/riassunto_progettazione_software}
+% \input{capitoli/progettazione_software/domande_ed_esercizi_ps.tex} % Abilitare quando avrai le domande/esercizi per Progettazione Software
+
+% Capitolo 6: Elettronica
+\include{capitoli/elettronica/riassunto_elettronica}
+% \input{capitoli/elettronica/domande_ed_esercizi_elettronica.tex} % Abilitare quando avrai le domande/esercizi per Elettronica
+
+% Capitolo 7: Sistemi Numerici
+\include{capitoli/sistemi_numerici/riassunto_sistemi_numerici}
+% \input{capitoli/sistemi_numerici/domande_ed_esercizi_sn.tex} % Abilitare quando avrai le domande/esercizi per Sistemi Numerici
+
+% --- La sezione \appendix finale non è più necessaria con questa organizzazione ---
+% Se in futuro vuoi comunque un'appendice per materiali generici non legati a un capitolo specifico, puoi riabilitarla.
 
 \backmatter % Sezione finale del libro (ad es. bibliografia, indici analitici)
 

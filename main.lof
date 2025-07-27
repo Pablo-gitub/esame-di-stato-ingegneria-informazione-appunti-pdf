@@ -2,34 +2,34 @@
 \babel@toc {italian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER.}}{16}{figure.caption.18}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione.}}{17}{figure.caption.20}%
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà.}}{18}{figure.caption.21}%
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{18}{figure.caption.22}%
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{19}{figure.caption.23}%
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Schema ER per l'esercizio 2: Sistema Cinema/Film.}}{19}{figure.caption.25}%
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Schema ER per l'esercizio 7: Sistema Campionato di Calcio.}}{20}{figure.caption.27}%
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Schema ER per l'esercizio 11: Sistema Gare Ciclistiche.}}{21}{figure.caption.29}%
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Diagramma di Venn delle Forme Normali (1NF, 2NF, 3NF, BCNF, 4NF, 5NF), che mostra la loro relazione gerarchica.}}{23}{figure.caption.30}%
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Esempio di una tabella non in 1NF e la sua normalizzazione a 1NF, eliminando l'attributo multi-valore.}}{24}{figure.caption.32}%
-\contentsline {figure}{\numberline {2.11}{\ignorespaces Esempio di una tabella non in 2NF e la sua normalizzazione a 2NF tramite scomposizione in due relazioni.}}{24}{figure.caption.34}%
-\contentsline {figure}{\numberline {2.12}{\ignorespaces Esempio di una tabella "Computer" non in 3NF a causa di dipendenze transitive.}}{25}{figure.caption.36}%
-\contentsline {figure}{\numberline {2.13}{\ignorespaces Normalizzazione della tabella "Computer" a 3NF, scomponendo le relazioni per eliminare le dipendenze transitive.}}{25}{figure.caption.37}%
-\contentsline {figure}{\numberline {2.14}{\ignorespaces Esempio di una tabella "Impiegato" non in 3NF per dipendenza transitiva.}}{25}{figure.caption.38}%
-\contentsline {figure}{\numberline {2.15}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{29}{figure.caption.43}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Esempi di rappresentazione di attributi semplici (es. Codice Fiscale) e attributi composti (es. Data di Nascita) in un Diagramma ER.}}{26}{figure.caption.36}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Esempi di utilizzo di identificatori esterni, inclusi scenari con entità deboli e concatenazione di identificazione.}}{27}{figure.caption.38}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Esempio di Generalizzazione nel Diagramma ER: l'entità Persona si generalizza nelle entità Uomo e Donna, mostrando la distinzione e l'ereditarietà delle proprietà.}}{28}{figure.caption.39}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{28}{figure.caption.40}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Diagramma ER che modella le relazioni tra Studenti, Corsi ed Esami, inclusi attributi e cardinalità.}}{29}{figure.caption.41}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Schema ER per l'esercizio 2: Sistema Cinema/Film.}}{29}{figure.caption.43}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Schema ER per l'esercizio 7: Sistema Campionato di Calcio.}}{30}{figure.caption.45}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Schema ER per l'esercizio 11: Sistema Gare Ciclistiche.}}{31}{figure.caption.47}%
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Diagramma di Venn delle Forme Normali (1NF, 2NF, 3NF, BCNF, 4NF, 5NF), che mostra la loro relazione gerarchica.}}{33}{figure.caption.48}%
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Esempio di una tabella non in 1NF e la sua normalizzazione a 1NF, eliminando l'attributo multi-valore.}}{34}{figure.caption.50}%
+\contentsline {figure}{\numberline {2.11}{\ignorespaces Esempio di una tabella non in 2NF e la sua normalizzazione a 2NF tramite scomposizione in due relazioni.}}{34}{figure.caption.52}%
+\contentsline {figure}{\numberline {2.12}{\ignorespaces Esempio di una tabella "Computer" non in 3NF a causa di dipendenze transitive.}}{35}{figure.caption.54}%
+\contentsline {figure}{\numberline {2.13}{\ignorespaces Normalizzazione della tabella "Computer" a 3NF, scomponendo le relazioni per eliminare le dipendenze transitive.}}{35}{figure.caption.55}%
+\contentsline {figure}{\numberline {2.14}{\ignorespaces Esempio di una tabella "Impiegato" non in 3NF per dipendenza transitiva.}}{35}{figure.caption.56}%
+\contentsline {figure}{\numberline {2.15}{\ignorespaces Esempio di una query SQL che utilizza operatori e funzioni avanzate per filtrare e aggregare i dati.}}{39}{figure.caption.61}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}}{48}{figure.caption.51}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}}{49}{figure.caption.53}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}}{50}{figure.caption.56}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}}{50}{figure.caption.57}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}}{51}{figure.caption.59}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}}{51}{figure.caption.60}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{52}{figure.caption.62}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{52}{figure.caption.64}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{53}{figure.caption.65}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}}{54}{figure.caption.69}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}}{55}{figure.caption.71}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Rappresentazione grafica delle relazioni comuni tra Casi d'Uso in UML (Inclusione, Estensione e Generalizzazione).}}{58}{figure.caption.69}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Esempio completo di Diagramma dei Casi d'Uso per un sistema di Ristorazione, che illustra le interazioni tra attori (Cameriere, Cliente, Cuoco, Cassiere) e le funzionalità del sistema.}}{59}{figure.caption.71}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Esempi di rappresentazione base di una classe UML, con attributi e metodi, e come si relaziona al codice.}}{60}{figure.caption.74}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Esempio di Diagramma delle Classi che illustra l'uso dei modificatori di visibilità (public, private, protected) per attributi e metodi.}}{60}{figure.caption.75}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Esempio di Diagramma delle Classi che mostra la relazione di ereditarietà tra le classi Persona, Cliente e Potenziale Cliente.}}{61}{figure.caption.77}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Esempio di Diagramma delle Classi che illustra come le interfacce consentono di simulare l'ereditarietà multipla in linguaggi che non la supportano nativamente.}}{61}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Confronto visivo tra Aggregazione e Composizione nei Diagrammi delle Classi UML.}}{62}{figure.caption.80}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Diagramma delle Classi per un sistema di gestione prodotti/catalogo/carrello, che illustra varie classi e le loro relazioni (es. Prodotto, Carrello, DVD, Libro).}}{62}{figure.caption.82}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramma delle Classi per un sistema di Chat, che mostra le interazioni tra classi come Utente, Chat e Messaggio, e le loro molteplicità.}}{63}{figure.caption.83}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di aggiornamento dei dati in un'architettura Model-View-Controller (MVC).}}{64}{figure.caption.87}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramma di Sequenza UML che illustra il flusso di prestito di un libro in un sistema di gestione bibliotecaria.}}{65}{figure.caption.89}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

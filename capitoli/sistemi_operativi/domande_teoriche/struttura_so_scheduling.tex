@@ -1,0 +1,40 @@
+% Questo file contiene la domanda e risposta sulla struttura del SO e scheduling.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Struttura e Organizzazione del Sistema Operativo, e Scheduling della CPU} % Usiamo * per non numerare la domanda, per pulizia
+
+\textbf{Domanda}: Il candidato fornisca una panoramica sulla struttura e organizzazione di un sistema operativo, descrivendo i principali componenti e modelli di sistemi operativi. Si approfondisca, inoltre, il tema dello scheduling della CPU, evidenziando le principali problematiche che questo comporta e illustrando esempi di algoritmi.
+
+\paragraph{Risposta}:
+
+Un \textbf{sistema operativo (SO)} è un software di sistema che gestisce le risorse hardware e software di un computer, fungendo da interfaccia tra l'hardware e l'utente/applicazioni.
+
+I suoi componenti principali includono:
+\begin{itemize}
+    \item \textbf{Kernel}: Il cuore del SO, che gestisce processi, memoria, file system e I/O.
+    \item \textbf{Gestore dei Processi}: Si occupa della creazione, terminazione e scheduling dei processi.
+    \item \textbf{Gestore della Memoria}: Responsabile dell'allocazione, protezione e gestione della memoria virtuale.
+    \item \textbf{File System Management}: Organizzazione dei dati su storage secondario.
+    \item \textbf{Gestore I/O}: Interazione con i dispositivi hardware.
+    \item \textbf{Network Management}: Gestisce le comunicazioni di rete.
+    \textbf{Security and Protection}: Protezione delle risorse.
+\end{itemize}
+I modelli architettonici dei SO possono essere:
+\begin{itemize}
+    \item \textbf{Monolitici}
+    \item \textbf{Layered} (a strati)
+    \item \textbf{Microkernel}
+    \item \textbf{Modulari} (Ibridi)
+\end{itemize}
+Ciascuno con vantaggi e svantaggi in termini di performance, flessibilità e robustezza.
+
+Lo \textbf{scheduling della CPU} è l'attività di selezionare quale processo, tra quelli pronti per l'esecuzione, deve essere assegnato alla CPU in un dato momento. Ha un impatto cruciale sulle performance complessive del sistema. Le principali problematiche dello scheduling includono l'ottimizzazione di obiettivi contrastanti (throughput, tempo di risposta, tempo di attesa, equità), l'overhead del contesto switching, la starvation (processi a bassa priorità che non vengono eseguiti) e la gestione implicita di situazioni di deadlock.
+Diversi algoritmi di scheduling sono utilizzati:
+\begin{itemize}
+    \item \textbf{First-Come, First-Served (FCFS)}: Non preemptive; esegue i processi in ordine di arrivo. Semplice, ma soffre l'effetto convoglio.
+    \item \textbf{Shortest-Job-First (SJF)}: Può essere preemptive o non preemptive; esegue il processo con il burst time stimato più breve. Ottimale per tempo medio di attesa, ma difficile stimare la durata.
+    \item \textbf{Priority Scheduling}: Assegna la CPU al processo con priorità più alta. Permette di prioritizzare lavori critici, ma può causare starvation (risolvibile con l'aging).
+    \item \textbf{Round Robin (RR)}: Preemptive; ogni processo ottiene un quantum di tempo. Equo e con buon tempo di risposta, ma con overhead di contesto switching.
+    \item \textbf{Multilevel Queue Scheduling}: I processi sono divisi in diverse code, ognuna con il proprio algoritmo.
+    \item \textbf{Multilevel Feedback Queue Scheduling}: Permette ai processi di muoversi tra le code per adattarsi al loro comportamento, bilanciando efficienza e fairness.
+\end{itemize}

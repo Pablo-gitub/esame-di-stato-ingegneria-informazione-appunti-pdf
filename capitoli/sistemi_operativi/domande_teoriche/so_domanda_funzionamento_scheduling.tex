@@ -1,0 +1,17 @@
+% Questo file contiene la domanda e risposta sul funzionamento e algoritmi di scheduling.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Come Funziona lo Scheduling della CPU e Quali Sono gli Algoritmi Più Comuni?}
+
+\textbf{Domanda}: Come funziona lo scheduling della CPU e quali sono gli algoritmi più comuni?
+
+\textbf{Risposta}:
+
+Lo \textbf{scheduling della CPU} è il processo di selezione del prossimo processo da assegnare alla CPU tra quelli pronti, con l'obiettivo di ottimizzare throughput, tempo di risposta ed equità. Le problematiche includono l'overhead del context switching, la starvation (processi a bassa priorità mai eseguiti) e la dipendenza dall'I/O. Esempi di algoritmi di scheduling includono:
+\begin{itemize}
+    \item \textbf{First-Come, First-Served (FCFS)}: Non-preemptive, i processi vengono eseguiti nell'ordine di arrivo. Semplice ma può soffrire dell'"Effetto Convoglio".
+    \item \textbf{Shortest-Job-First (SJF)}: Assegna la CPU al processo con il tempo di esecuzione stimato più breve (può essere preemptive come SRTF). Ottimale per minimizzare il tempo medio di attesa ma difficile da stimare e può causare starvation.
+    \item \textbf{Priority Scheduling}: Assegna la CPU al processo con priorità più alta. Vantaggioso per lavori critici ma soggetto a starvation, mitigabile con l'Aging.
+    \item \textbf{Round Robin (RR)}: Preemptive, ogni processo ottiene un piccolo "quantum" di CPU. Garantisce equità e buon tempo di risposta per processi interattivi, ma l'overhead del context switching aumenta con quantum piccoli.
+    \item \textbf{Multilevel Queue Scheduling} e \textbf{Multilevel Feedback Queue Scheduling}: Dividono i processi in code con algoritmi e priorità diverse, con l'ultimo che permette ai processi di spostarsi tra le code per prevenire starvation e ottimizzare la risposta.
+\end{itemize}

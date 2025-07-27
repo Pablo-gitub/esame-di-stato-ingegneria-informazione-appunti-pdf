@@ -1,0 +1,30 @@
+% Questo file contiene la domanda e risposta sui problemi di sincronizzazione e gestione deadlock.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Quali sono i Problemi Principali Legati alla Sincronizzazione dei Processi e Come Vengono Gestiti i Deadlock?}
+
+\textbf{Domanda}: Quali sono i problemi principali legati alla sincronizzazione dei processi e come vengono gestiti i deadlock?
+
+\textbf{Risposta}:
+
+Nei sistemi multi-programmati o multi-thread, la \textbf{sincronizzazione} è cruciale per evitare "\textbf{Race Condition}", dove il risultato delle operazioni su dati condivisi dipende dall'ordine di esecuzione, portando a risultati imprevedibili. La "\textbf{Sezione Critica}" è una porzione di codice in cui un processo accede a risorse condivise, e l'obiettivo è garantire la "\textbf{Mutua Esclusione}" (solo un processo alla volta nella sezione critica), il "\textbf{Progresso}" (decisione non ritardata indefinitamente) e l'"\textbf{Attesa Limitata}" (nessuna starvation).
+\textbf{Meccanismi di sincronizzazione} includono:
+\begin{itemize}
+    \item \textbf{Lock}: Meccanismi semplici per acquisire e rilasciare un blocco su una risorsa.
+    \item \textbf{Semafori}: Variabili intere gestite da operazioni atomiche `wait()` e `signal()`, usate per mutua esclusione (semafori binari/mutex) o controllo di risorse (semafori contatori).
+    \item \textbf{Monitor}: Costrutti di alto livello che incapsulano dati condivisi e procedure, garantendo l'accesso esclusivo tramite variabili di condizione.
+\end{itemize}
+Il "\textbf{Deadlock}" (interblocco) si verifica quando due o più processi sono bloccati indefinitamente in attesa di risorse detenute da altri processi bloccati. Le \textbf{quattro condizioni necessarie} per il deadlock sono:
+\begin{enumerate}
+    \item \textbf{Mutua Esclusione} (risorse non condivisibili).
+    \item \textbf{Attesa e Mantenimento} (un processo detiene risorse e ne attende altre).
+    \item \textbf{Non-Preemption} (le risorse non possono essere sottratte forzatamente).
+    \item \textbf{Attesa Circolare} (catena circolare di dipendenze).
+\end{enumerate}
+Le \textbf{strategie per gestire il deadlock} includono:
+\begin{itemize}
+    \item \textbf{Prevenzione}: Negare una o più delle condizioni necessarie (es. richiedere tutte le risorse all'inizio).
+    \item \textbf{Evitamento}: Utilizzare informazioni a priori per decidere se uno stato è "sicuro" prima di allocare risorse (es. Algoritmo del Banchiere).
+    \item \textbf{Rilevamento e Ripristino}: Permettere il deadlock, rilevarlo tramite algoritmi e poi ripristinare il sistema (es. terminando processi o sottraendo risorse).
+    \item \textbf{Ignorare il Problema}: Assumere che il deadlock sia raro e gestirlo manualmente (es. riavvio del sistema).
+\end{itemize}

@@ -1,0 +1,64 @@
+% Questo file contiene la domanda e risposta sul Record di Attivazione.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Record di Attivazione}
+
+\textbf{Domanda}: Il Candidato illustri il concetto di record di attivazione, descriva cosa esso contenga ed il suo ciclo di vita. Presenti inoltre un esempio di record di attivazione per il caso di una funzione "pow2" che riceve in input un solo parametro "x" e lo ritorna elevato al quadrato.
+
+\paragraph{Risposta}:
+
+\textbf{Concetto di Record di Attivazione}
+Il \textbf{Record di Attivazione} (o \textit{Stack Frame}) è una struttura dati fondamentale creata sullo stack di esecuzione di un processo ogni volta che una funzione (o procedura, o subroutine) viene chiamata. La sua funzione principale è contenere tutte le informazioni necessarie per la gestione dell'esecuzione di quella specifica chiamata di funzione, fornendo il contesto per il suo funzionamento e il suo corretto ritorno al punto di chiamata.
+
+\paragraph{Contenuto di un Record di Attivazione}
+Un record di attivazione è una struttura complessa la cui esatta composizione può variare leggermente a seconda dell'architettura della CPU, del sistema operativo e del compilatore, ma tipicamente include:
+\begin{itemize}
+    \item \textbf{Parametri Attuali}: I valori degli argomenti che vengono passati alla funzione durante la sua chiamata.
+    \item \textbf{Indirizzo di Ritorno}: L'indirizzo di memoria dell'istruzione nel codice della funzione chiamante a cui il controllo del programma deve essere trasferito una volta che la funzione corrente ha terminato la sua esecuzione.
+    \item \textbf{Valore di Ritorno}: Uno spazio riservato per memorizzare il risultato (se la funzione restituisce un valore) che verrà poi recuperato dalla funzione chiamante.
+    \item \textbf{Variabili Locali}: Le variabili dichiarate all'interno del corpo della funzione. Queste variabili hanno scope e durata limitati all'attivazione corrente della funzione.
+    \item \textbf{Stato dei Registri Salvati}: I valori dei registri della CPU che erano in uso dalla funzione chiamante e che vengono salvati per essere ripristinati al ritorno, garantendo che lo stato della CPU non sia corrotto dalla funzione chiamata.
+    \item \textbf{Puntatore al Frame Precedente (Control Link / Dynamic Link)}: Un puntatore all'indirizzo del record di attivazione della funzione che ha effettuato la chiamata. Questo permette di "risalire" lo stack e ripristinare il contesto della funzione chiamante.
+    \item \textbf{Puntatore al Contesto Statico (Access Link / Static Link)}: Un puntatore al record di attivazione della funzione che definisce lo scope lessicale della funzione corrente (rilevante in linguaggi con scope annidato statico, come Pascal, per accedere a variabili non locali).
+\end{itemize}
+
+\paragraph{Ciclo di Vita di un Record di Attivazione}
+Il ciclo di vita di un record di attivazione è strettamente legato alla dinamica delle chiamate e dei ritorni delle funzioni, seguendo una logica LIFO (Last-In, First-Out) tipica delle strutture a stack:
+\begin{enumerate}
+    \item \textbf{Creazione (Chiamata di Funzione)}: Quando un processo chiama una funzione, un nuovo record di attivazione viene creato (popolato con le informazioni rilevanti) e "pushed" (inserito) in cima allo stack di esecuzione del processo. Il puntatore dello stack viene aggiornato per puntare a questo nuovo frame. Il controllo viene poi passato all'inizio della funzione chiamata.
+    \item \textbf{Esecuzione}: La funzione utilizza i dati e le risorse definite all'interno del suo record di attivazione (parametri, variabili locali) per eseguire le sue operazioni. Durante l'esecuzione, può a sua volta chiamare altre funzioni, che a loro volta creeranno nuovi record di attivazione sul top dello stack.
+    \item \textbf{Terminazione (Ritorno da Funzione)}: Una volta che la funzione completa la sua esecuzione (sia raggiungendo un'istruzione `return` che la fine del suo blocco di codice), il valore di ritorno (se presente) viene posizionato in un registro designato. Il record di attivazione corrente viene quindi "popped" (rimosso) dalla cima dello stack, liberando lo spazio di memoria che occupava.
+    \item \textbf{Ripristino del Contesto}: Il sistema operativo (o il runtime) utilizza l'indirizzo di ritorno salvato nel record appena rimosso per trasferire il controllo alla funzione chiamante, e ripristina lo stato dei registri della CPU per consentire alla funzione chiamante di riprendere l'esecuzione dal punto in cui era stata interrotta.
+\end{enumerate}
+
+\paragraph{Esempio di Record di Attivazione per la funzione "pow2(x)"}
+Consideriamo una semplice funzione `pow2(x)` che calcola il quadrato del suo input `x`.
+
+\begin{lstlisting}[language=Pseudocode, numbers=none, caption={Funzione pow2(x)}]
+FUNCTION pow2(x):
+    RETURN x * x
+END FUNCTION
+\end{lstlisting}
+
+Quando la funzione `pow2(5)` viene chiamata, viene creato il seguente record di attivazione (semplificato) sullo stack:
+
+\begin{itemize}
+    \item \textbf{Parametri Attuali}:
+    \begin{itemize}
+        \item `x`: 5
+    \end{itemize}
+    \item \textbf{Indirizzo di Ritorno}: L'indirizzo nel codice della funzione chiamante da cui `pow2(5)` è stata invocata (es. `0x00A0` nel chiamante).
+    \item \textbf{Valore di Ritorno}: Spazio per il risultato (es. 25).
+    \item \textbf{Variabili Locali}: Nessuna in questo esempio specifico (o temporanee usate dal compilatore).
+    \item \textbf{Stato dei Registri Salvati}: Valori dei registri che devono essere preservati per la funzione chiamante.
+    \item \textbf{Puntatore al Frame Precedente}: Indirizzo del record di attivazione della funzione chiamante.
+\end{itemize}
+
+\textbf{Ciclo di Vita Semplificato per `pow2(5)`}:
+\begin{enumerate}
+    \item \textbf{Chiamata}: La funzione chiamante spinge i parametri e l'indirizzo di ritorno sullo stack. Viene creato e spinto il record di attivazione per `pow2(5)`.
+    \item \textbf{Esecuzione}: `pow2` prende il valore di `x` (5), calcola `5 * 5 = 25`.
+    \item \textbf{Ritorno}: Il valore 25 viene posizionato dove la funzione chiamante lo recupererà. Il record di attivazione di `pow2` viene rimosso dallo stack.
+    \item \textbf{Ripristino}: Il controllo torna all'indirizzo di ritorno nella funzione chiamante, che continua la sua esecuzione.
+\end{enumerate}
+Questo illustra come il record di attivazione gestisce il contesto di una singola invocazione di funzione, permettendo l'esecuzione modulare dei programmi.

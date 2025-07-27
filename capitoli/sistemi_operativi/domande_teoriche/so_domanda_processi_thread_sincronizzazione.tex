@@ -1,0 +1,77 @@
+% Questo file contiene la domanda e risposta su Processi, Thread e Sincronizzazione.
+% Sarà incluso da domande_ed_esercizi_so.tex.
+
+\subsection*{Domanda: Processi e Thread, Sincronizzazione e Deadlock}
+
+\textbf{Domanda}: Il Candidato introduca i concetti di Processo "pesante" e "leggero" (Thread), illustrandone i punti in comune e le differenze. Si illustrino poi brevemente i possibili meccanismi di sincronizzazione tra processi al fine di evitare deadlock, quali ad esempio il meccanismo di lock su risorse, i “semafori", etc. Il Candidato illustri poi i concetti tramite un breve esempio a sua scelta.
+
+\paragraph{Risposta}:
+
+\textbf{Processi ("Pesanti") e Thread ("Leggeri")}
+Nei sistemi operativi moderni, l'esecuzione dei programmi è gestita attraverso i processi e i thread, che rappresentano unità di esecuzione con diverse caratteristiche di gestione delle risorse.
+
+Un \textbf{processo} è un'istanza di un programma in esecuzione, che possiede il proprio spazio di indirizzamento virtuale isolato e risorse dedicate come codice, dati, stack, Program Counter (PC) e registri CPU, oltre a file aperti e segnali. I processi sono considerati "pesanti" a causa dell'overhead significativo nella loro creazione, distruzione e nel cambio di contesto. Questo isolamento garantisce che il crash di un processo non influenzi direttamente gli altri.
+
+Un \textbf{thread} (o thread di esecuzione) è un'unità di esecuzione più "leggera" all'interno di un processo. Più thread possono esistere all'interno dello stesso processo e condividono lo stesso spazio di indirizzamento virtuale, il codice del programma, i dati globali e le risorse del sistema operativo (es. file aperti). Ogni thread, tuttavia, ha il proprio Program Counter, il proprio set di registri della CPU e uno stack separato. La natura "leggera" dei thread si traduce in una creazione, distruzione e un cambio di contesto molto più rapidi ed efficienti rispetto ai processi.
+
+\textbf{Punti in Comune}:
+\begin{itemize}
+    \item Sia i processi che i thread sono unità di esecuzione che possono essere schedulate dalla CPU.
+    \item Entrambi mantengono un Program Counter, un set di registri e uno stack (anche se lo stack è separato per ogni thread).
+\end{itemize}
+\textbf{Differenze Principali}:
+\begin{itemize}
+    \item \textbf{Isolamento delle Risorse}: I processi operano in spazi di indirizzamento separati e con risorse isolate, fornendo una maggiore protezione. I thread all'interno dello stesso processo condividono lo spazio di indirizzamento e le risorse, rendendo la comunicazione più semplice ma con meno isolamento.
+    \item \textbf{Overhead}: I processi comportano un overhead maggiore per la gestione del loro ciclo di vita e il cambio di contesto. I thread sono più efficienti in queste operazioni.
+    \item \textbf{Comunicazione}: La comunicazione tra processi (IPC) è più complessa e richiede meccanismi specifici. La comunicazione tra thread (ITC) è più diretta grazie alla memoria condivisa.
+    \item \textbf{Robustezza}: Un errore critico in un thread può causare il crash dell'intero processo e di tutti i suoi thread. Un processo in crash solitamente non influisce sugli altri processi del sistema.
+\end{itemize}
+
+\paragraph{Meccanismi di Sincronizzazione e Deadlock}
+Nei sistemi multi-programmati o multi-thread, la \textbf{sincronizzazione} è cruciale per prevenire \textbf{Race Condition} (risultati imprevedibili dovuti all'accesso concorrente a dati condivisi) e garantire la coerenza dei dati. La \textbf{sezione critica} è la porzione di codice in cui si accede a risorse condivise, e la mutua esclusione è l'obiettivo primario per garantire che un solo processo/thread vi acceda per volta.
+
+I \textbf{meccanismi di sincronizzazione} includono:
+\begin{itemize}
+    \item \textbf{Lock}: Strumenti che permettono di acquisire un blocco su una risorsa prima di accedervi e rilasciarlo al termine, forzando l'attesa di altri processi.
+    \item \textbf{Semafori}: Variabili intere gestite da operazioni atomiche `wait()` (decrementa e blocca se negativo) e `signal()` (incrementa e sblocca se ci sono processi in attesa). Esistono semafori binari (mutex) per la mutua esclusione e semafori contatori per risorse multiple.
+        \textbf{Esempio (Produttore-Consumatore con Semafori)}: Un problema classico in cui un produttore aggiunge elementi a un buffer e un consumatore li preleva, utilizzando semafori (`empty` per slot vuoti, `full` per slot pieni, `mutex` per l'accesso al buffer) per coordinare l'accesso e prevenire la sovrascrittura/lettura di dati non validi.
+        \begin{lstlisting}[language=Pseudocode, numbers=none]
+// Semafori: empty (N), full (0), mutex (1)
+
+Producer:
+  LOOP
+    produce item
+    CALL wait(empty)
+    CALL wait(mutex)
+    add item to buffer
+    CALL signal(mutex)
+    CALL signal(full)
+  END LOOP
+
+Consumer:
+  LOOP
+    CALL wait(full)
+    CALL wait(mutex)
+    remove item from buffer
+    CALL signal(mutex)
+    CALL signal(empty)
+    consume item
+  END LOOP
+        \end{lstlisting}
+    \item \textbf{Monitor}: Costrutti di alto livello che incapsulano dati condivisi e le procedure che li manipolano, garantendo l'accesso esclusivo tramite variabili di condizione (`wait()` e `signal()`) per la sospensione/attivazione dei processi.
+\end{itemize}
+
+Il \textbf{deadlock} (interblocco) si verifica quando due o più processi sono bloccati indefinitamente, ciascuno in attesa di una risorsa detenuta da un altro processo bloccato. Le \textbf{quattro condizioni necessarie} per il deadlock sono:
+\begin{enumerate}
+    \item \textbf{Mutua Esclusione}: Risorse non condivisibili.
+    \item \textbf{Attesa e Mantenimento}: Un processo detiene risorse e ne attende altre.
+    \item \textbf{Non-Preemptive}: Le risorse non possono essere sottratte forzatamente.
+    \item \textbf{Attesa Circolare}: Esiste una catena circolare di dipendenze tra processi.
+\end{enumerate}
+Le \textbf{strategie di gestione del deadlock} includono:
+\begin{itemize}
+    \item \textbf{Prevenzione}: Negare una o più delle condizioni necessarie (es. richiedere tutte le risorse all'inizio).
+    \item \textbf{Evitamento}: Utilizzare informazioni a priori per decidere se uno stato è "sicuro" prima di allocare risorse (es. Algoritmo del Banchiere).
+    \item \textbf{Rilevamento e Ripristino}: Permettere il deadlock, rilevarlo tramite algoritmi di ricerca di cicli e poi ripristinare il sistema (es. terminando processi o preemption di risorse).
+    \item \textbf{Ignorare il Problema}: Assumere che il deadlock sia raro e gestirlo manualmente (es. riavvio del sistema).
+\end{itemize}
