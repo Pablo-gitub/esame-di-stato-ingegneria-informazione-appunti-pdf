@@ -1,0 +1,24 @@
+% Questo file contiene la domanda e risposta sul Modello Client/Server e HTTP.
+% Sarà incluso da domande_ed_esercizi_reti.tex.
+
+\subsection*{Domanda: Modello Client/Server e Applicazione in HTTP}
+
+\textbf{Domanda}: Come funziona il Modello Client/Server, quali sono i suoi vantaggi e svantaggi, e come si applica nel contesto HTTP?
+
+\textbf{Risposta}:
+
+Il \textbf{modello Client/Server} è un'architettura di rete distribuita in cui i client (richiedenti servizi) e i server (fornitori di servizi) sono entità separate che comunicano su una rete.
+\paragraph{Funzionamento}: Il Client invia richieste di servizi al Server, che le elabora e invia risposte. La comunicazione avviene tramite protocolli di rete (es. TCP/IP) su porte specifiche.
+\paragraph{Vantaggi}:
+\begin{itemize}
+    \item \textbf{Centralizzazione}: Gestione centralizzata di dati e risorse (sicurezza, manutenzione).
+    \item \textbf{Scalabilità}: Possibilità di scalare il server per gestire più richieste.
+    \item \textbf{Manutenzione Facilitata}: Aggiornamenti sul server senza influenzare i client.
+\end{itemize}
+\paragraph{Svantaggi}:
+\begin{itemize}
+    \item \textbf{Single Point of Failure}: Se il server si blocca, tutti i client perdono l'accesso.
+    \item \textbf{Collo di Bottiglia}: Un server sovraccarico rallenta l'intera rete.
+    \item \textbf{Costo}: Server e manutenzione possono essere costosi.
+\end{itemize}
+\paragraph{Applicazione in HTTP}: L'\textbf{Hypertext Transfer Protocol (HTTP)} è il protocollo applicativo fondamentale per il World Wide Web, che opera nel modello client/server ed è intrinsecamente stateless. Il client (browser) invia richieste HTTP (GET, POST) a un server web, che risponde con lo stato e il contenuto richiesto (es. pagina HTML).

@@ -1,0 +1,26 @@
+% Questo file contiene la domanda e risposta sul confronto TCP vs UDP.
+% Sarà incluso da domande_ed_esercizi_reti.tex.
+
+\subsection*{Domanda: Confronto tra TCP e UDP}
+
+\textbf{Domanda}: Confronta il protocollo TCP con il protocollo UDP, evidenziando le loro caratteristiche principali, vantaggi, svantaggi e applicazioni tipiche.
+
+\textbf{Risposta}:
+
+Il \textbf{Livello di Trasporto} del modello OSI gestisce la comunicazione end-to-end tra processi. I protocolli principali sono TCP e UDP.
+\paragraph{TCP (Transmission Control Protocol)}:
+\begin{itemize}
+    \item \textbf{Orientato alla Connessione}: Stabilisce una connessione (handshake a tre vie).
+    \item \textbf{Affidabile}: Garantisce la consegna ordinata e senza perdite (numerazione, ACK, ritrasmissioni).
+    \item \textbf{Controllo di Flusso}: Previene il sovraccarico del destinatario (finestra di ricezione).
+    \item \textbf{Controllo di Congestione}: Riduce la velocità in reti congestionate.
+    \item \textbf{Applicazioni Tipiche}: Web (HTTP), trasferimento file (FTP), email (SMTP), SSH.
+\end{itemize}
+\paragraph{UDP (User Datagram Protocol)}:
+\begin{itemize}
+    \item \textbf{Senza Connessione}: Invia datagrammi indipendenti senza handshake.
+    \item \textbf{Inaffidabile (Best-Effort)}: Non garantisce consegna, ordine o assenza di duplicazioni.
+    \item \textbf{Nessun Controllo}: Non implementa controllo di flusso o congestione.
+    \item \textbf{Overhead Minimo}: Header piccolo, molto efficiente.
+    \item \textbf{Applicazioni Tipiche}: Streaming multimediale (VoIP, video), DNS, giochi online (dove la velocità è prioritaria).
+\end{itemize}

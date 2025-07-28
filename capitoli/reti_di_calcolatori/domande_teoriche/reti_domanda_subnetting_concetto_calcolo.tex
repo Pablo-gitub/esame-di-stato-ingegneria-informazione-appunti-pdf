@@ -1,0 +1,32 @@
+% Questo file contiene la domanda e risposta sul Subnetting.
+% Sarà incluso da domande_ed_esercizi_reti.tex.
+
+\subsection*{Domanda: Concetto e Calcolo del Subnetting}
+
+\textbf{Domanda}: Spiega il concetto di subnetting, i suoi obiettivi e illustra con un esempio pratico come si calcolano le sottoreti per una data rete IP.
+
+\textbf{Risposta}:
+
+Il \textbf{subnetting} è il processo di divisione di una rete IP più grande in sottoreti più piccole e gestibili, per migliorare efficienza, sicurezza e gestione degli indirizzi IP.
+\paragraph{Obiettivi}:
+\begin{itemize}
+    \item \textbf{Efficienza nell'uso degli indirizzi IP}: Sfruttare meglio lo spazio IP.
+    \item \textbf{Riduzione del traffico di rete}: Confinare il traffico di broadcast.
+    \item \textbf{Miglioramento della Sicurezza}: Isolare segmenti di rete.
+    \item \textbf{Facilitazione della Gestione}: Reti più piccole più facili da gestire.
+\end{itemize}
+Un indirizzo IP (IPv4) ha 32 bit (parte di rete + parte host). La \textbf{maschera di sottorete} (subnet mask) separa queste due parti. La notazione \textbf{CIDR} (\lstinline{IP/prefisso}) indica la lunghezza del prefisso di rete.
+\paragraph{Calcolo del Subnetting (Esempio Pratico)}:
+\textbf{Scenario}: Una rete \lstinline{192.168.1.0/24} deve essere divisa in 4 sottoreti per ospitare almeno 50 host per sottorete.
+\begin{enumerate}
+    \item \textbf{Bit per sottoreti}: $2^n \ge 4 \Rightarrow n=2$ bit.
+    \item \textbf{Bit per host}: Maschera originale /24 (8 bit host). Usando 2 bit per sottoreti, rimangono $8-2=6$ bit per host. Max host per sottorete: $2^6-2=62$ host (sufficiente).
+    \item \textbf{Nuova maschera}: $24+2=26$. Maschera \lstinline{/26} (\lstinline{255.255.255.192}).
+    \item \textbf{Sottoreti valide} (intervalli di 64 nell'ultimo ottetto):
+    \begin{itemize}
+        \item Sottorete 1: \lstinline{192.168.1.0/26} (Host: .1 a .62, Broadcast: .63)
+        \item Sottorete 2: \lstinline{192.168.1.64/26} (Host: .65 a .126, Broadcast: .127)
+        \item Sottorete 3: \lstinline{192.168.1.128/26} (Host: .129 a .190, Broadcast: .191)
+        \item Sottorete 4: \lstinline{192.168.1.192/26} (Host: .193 a .254, Broadcast: .255)
+    \end{itemize}
+\end{enumerate}

@@ -1,0 +1,32 @@
+% Questo file contiene la domanda e risposta su Connessioni Stateless/Stateful in HTTP.
+% Sarà incluso da domande_ed_esercizi_reti.tex.
+
+\subsection*{Domanda: Connessioni Stateless e Stateful in HTTP}
+
+\textbf{Domanda}: Qual è la differenza tra connessioni stateless e stateful nel contesto HTTP, e quali metodi sono utilizzati per gestire la persistenza dello stato in HTTP?
+
+\textbf{Risposta}:
+
+\paragraph{Connessioni Stateless e Stateful}
+\begin{itemize}
+    \item \textbf{Stateless Connection (Senza Stato)}: Ogni richiesta dal client al server è indipendente e autocontenuta; il server non ricorda le interazioni passate.
+    \begin{itemize}
+        \item \textbf{Vantaggi}: Alta scalabilità, resilienza, semplicità lato server.
+        \item \textbf{Svantaggi}: Richiede informazioni ridondanti per ogni richiesta.
+        \item \textbf{HTTP}: È intrinsecamente stateless.
+    \end{itemize}
+    \item \textbf{Stateful Connection (Con Stato)}: Il server mantiene e ricorda lo stato delle interazioni passate con un client per un periodo.
+    \begin{itemize}
+        \item \textbf{Vantaggi}: Meno ridondanza, semplifica logica per sequenze complesse.
+        \item \textbf{Svantaggi}: Minore scalabilità, minore resilienza, maggiore complessità.
+    \end{itemize}
+\end{itemize}
+\paragraph{Metodi per Gestire la Persistenza dello Stato in HTTP (per simulare Stateful)}:
+Dato che HTTP è stateless, si utilizzano meccanismi come:
+\begin{itemize}
+    \item \textbf{Cookies}: Piccoli dati inviati dal server al browser, che li memorizza e li invia con richieste successive (per ID sessione, preferenze utente).
+    \item \textbf{Session IDs}: Il server crea un ID univoco e lo invia al client (spesso tramite cookie); il server memorizza i dati della sessione.
+    \item \textbf{URL Rewriting}: Lo stato incorporato direttamente nell'URL come parametri.
+    \item \textbf{Hidden Form Fields}: Dati nascosti in moduli HTML inviati con richieste POST.
+    \item \textbf{Web Storage} (Local Storage, Session Storage): API JavaScript per memorizzare dati nel browser del client.
+\end{itemize}

@@ -1,0 +1,40 @@
+% Questo file contiene la domanda e risposta sullo Standard ISO/OSI e Livello di Trasporto.
+% Sarà incluso da domande_ed_esercizi_reti.tex.
+
+\subsection*{Domanda: Standard ISO/OSI e Livello di Trasporto}
+
+\textbf{Domanda}: Il candidato dia una panoramica della standard architetturale per reti di calcolatori interoperabili ISO/OSI, approfondendo in particolare il livello di trasporto motivando e spiegando le scelte alla base di alcune tecniche di consegna affidabile del dato.
+
+\paragraph{Risposta}:
+
+\textbf{Panoramica sullo Standard Architetturale ISO/OSI}
+Il \textbf{modello ISO/OSI (Open Systems Interconnection)} è un modello concettuale a sette strati (layer) che descrive come i sistemi di comunicazione in una rete interagiscono e cooperano. Ogni strato ha responsabilità specifiche, opera sopra lo strato precedente e fornisce servizi a quello successivo, facilitando l'interoperabilità tra sistemi eterogenei.
+La struttura a sette strati è la seguente:
+\begin{enumerate}
+    \item \textbf{Strato Fisico (Physical Layer)}: Gestisce la trasmissione e ricezione di flussi di bit non strutturati su un mezzo fisico (es. cavi Ethernet, Wi-Fi). Definisce specifiche elettriche e meccaniche.
+    \item \textbf{Strato di Collegamento Dati (Data Link Layer)}: Fornisce la trasmissione di dati da nodo a nodo, rilevando e potenzialmente correggendo errori. Gestisce l'indirizzamento MAC e il controllo del flusso (es. Ethernet, PPP).
+    \item \textbf{Strato di Rete (Network Layer)}: Gestisce l'instradamento dei pacchetti attraverso la rete (routing) ed è responsabile dell'indirizzamento logico (IP) e della selezione del percorso migliore (es. IP, ICMP).
+    \item \textbf{Strato di Trasporto (Transport Layer)}: Fornisce la comunicazione end-to-end tra processi su host diversi. Assicura la consegna affidabile dei dati, il controllo di flusso e il controllo della congestione (es. TCP, UDP).
+    \item \textbf{Strato di Sessione (Session Layer)}: Stabilisce, gestisce e termina le sessioni di comunicazione tra applicazioni, gestendo sincronizzazione e dialogo.
+    \item \textbf{Strato di Presentazione (Presentation Layer)}: Si occupa della sintassi e della semantica dei dati scambiati, traducendo i dati e gestendo crittografia/decrittografia e compressione.
+    \item \textbf{Strato di Applicazione (Application Layer)}: Fornisce servizi di rete direttamente alle applicazioni dell'utente finale (es. HTTP, FTP, SMTP, DNS).
+\end{enumerate}
+
+\paragraph{Approfondimento sul Livello di Trasporto e Tecniche di Consegna Affidabile del Dato}
+Il Livello di Trasporto è cruciale per stabilire una comunicazione logica tra applicazioni che risiedono su host diversi. I due protocolli principali a questo livello sono TCP (Transmission Control Protocol) e UDP (User Datagram Protocol), con TCP che si distingue per la sua capacità di fornire una consegna affidabile del dato.
+
+\textbf{TCP (Transmission Control Protocol)}:
+TCP è un protocollo orientato alla connessione, affidabile e con controllo di flusso e congestione. È la scelta preferita per applicazioni che richiedono garanzie di consegna dei dati.
+Le \textbf{scelte alla base della consegna affidabile del dato} in TCP includono:
+\begin{itemize}
+    \item \textbf{Numerazione dei Segmenti e Riconoscimenti (ACK - Acknowledgement)}: Ogni segmento di dati inviato da TCP è numerato. Il mittente si aspetta un ACK dal destinatario per ogni segmento ricevuto. Se un ACK non viene ricevuto entro un determinato timeout, il segmento viene considerato perso e ritrasmesso. Questo meccanismo garantisce che tutti i dati arrivino a destinazione e nell'ordine corretto, gestendo perdite e duplicazioni.
+    \item \textbf{Retrasmissione Selettiva o Go-Back-N}: Se vengono rilevate perdite (es. tramite timeout o ACK duplicati), TCP può ritrasmettere solo i segmenti persi (selettiva) o ritrasmettere dal primo segmento non riconosciuto (Go-Back-N), assicurando la completezza dei dati.
+    \item \textbf{Checksum}: TCP calcola un checksum per ogni segmento e lo include nell'header. Il destinatario ricalcola il checksum e lo confronta: se non corrispondono, il segmento viene scartato, garantendo l'integrità dei dati.
+    \item \textbf{Controllo di Flusso (Flow Control)}: Impedisce che un mittente veloce sovraccarichi il buffer di un destinatario lento. Il destinatario comunica al mittente la dimensione della sua "finestra di ricezione" (receive window), cioè la quantità di spazio buffer disponibile. Il mittente non invierà più dati di quanto il destinatario possa gestire, prevenendo la perdita di dati dovuta a buffer pieni.
+    \item \textbf{Controllo di Congestione (Congestion Control)}: Evita che un mittente invii troppi dati in una rete congestionata, il che potrebbe portare a un collasso della rete. TCP rileva la congestione (es. tramite perdite di pacchetti o ritardi) e riduce dinamicamente la sua velocità di trasmissione, rallentando fino a quando la congestione non diminuisce. Implementa algoritmi come Slow Start, Congestion Avoidance, Fast Retransmit, e Fast Recovery.
+\end{itemize}
+
+\textbf{UDP (User Datagram Protocol)}:
+In contrasto, UDP è un protocollo senza connessione e inaffidabile ("best-effort"). Non garantisce la consegna, l'ordine o l'assenza di duplicazioni. Ha un overhead minimo ed è utilizzato per applicazioni dove la velocità è più critica dell'affidabilità perfetta (es. streaming multimediale, VoIP, DNS, giochi online), e dove l'applicazione stessa può gestire eventuali perdite o ritrasmissioni.
+
+In sintesi, il Livello di Trasporto offre una scelta tra un servizio affidabile e robusto (TCP) e uno veloce e a basso overhead (UDP), permettendo alle applicazioni di scegliere il protocollo più adatto alle proprie esigenze.
