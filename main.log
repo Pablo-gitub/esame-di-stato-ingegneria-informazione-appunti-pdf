@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.14)  29 JUL 2025 00:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.7.14)  26 AUG 2025 23:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -850,6 +850,15 @@ Underfull \hbox (badness 1496) in paragraph at lines 25--25
 [10
 
 ]
+
+[1
+
+
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+
+[2
+
+]
 \openout2 = `capitoli/sistemi_operativi/riassunto_sistemi_operativi.aux'.
 
  (./capitoli/sistemi_operativi/riassunto_sistemi_operativi.tex
@@ -866,27 +875,27 @@ Underfull \hbox (badness 2600) in paragraph at lines 16--17
 
 
 
-[1
+[3
 
 
-{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-
-[2]
-
-[3]
+]
 
 [4]
 
 [5]
+
+[6]
+
+[7]
 Underfull \hbox (badness 1178) in paragraph at lines 155--156
 []\T1/cmr/bx/n/12 Svantaggi\T1/cmr/m/n/12 : Può la-scia-re mol-ti pic-co-li bloc-chi li-be-ri al-l'i-ni-zio del-la li-sta, o
  []
 
 
 
-[6]
+[8]
 
-[7]
+[9]
 Underfull \hbox (badness 1242) in paragraph at lines 207--208
 []\T1/cmr/m/n/12 Richiede com-pat-ta-zio-ne pe-rio-di-ca per re-cu-pe-ra-re spa-zio con-ti-guo (ope-ra-zio-ne
  []
@@ -898,9 +907,9 @@ Underfull \hbox (badness 2237) in paragraph at lines 234--235
 
 
 
-[8]
+[10]
 
-[9]
+[11]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <12> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 266.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
@@ -910,61 +919,61 @@ Underfull \vbox (badness 2142) has occurred while \output is active []
 
 
 
-[10]
-
-[11]
-
 [12]
 
 [13]
 
-[14])
+[14]
 
-[15] (./capitoli/sistemi_operativi/domande_ed_esercizi_so.tex (./capitoli/sistemi_operativi/domande_teoriche/struttura_so_scheduling.tex
+[15]
 
-[16
+[16])
+
+[17] (./capitoli/sistemi_operativi/domande_ed_esercizi_so.tex (./capitoli/sistemi_operativi/domande_teoriche/struttura_so_scheduling.tex
+
+[18
 
 
 ]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_processi_thread_sincronizzazione.tex
 
-[17]
-
-[18]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_record_attivazione.tex
-
 [19]
+
+[20]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_record_attivazione.tex
+
+[21]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 37.
 
 
-[20]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_memoria_virtuale.tex) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_sincronizzazione_deadlock_gestione.tex
+[22]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_memoria_virtuale.tex) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_sincronizzazione_deadlock_gestione.tex
 
-[21]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_funzionamento_scheduling.tex
+[23]) (./capitoli/sistemi_operativi/domande_teoriche/so_domanda_funzionamento_scheduling.tex
 
-[22]))
+[24]))
 
-[23]
+[25]
 \openout2 = `capitoli/basi_di_dati/riassunto_basi_di_dati.aux'.
 
  (./capitoli/basi_di_dati/riassunto_basi_di_dati.tex
 
-[24
+[26
 
 
 ]
 Capitolo 2.
 
 
-[25]
-<immagini/er_attributi_semplici_composti.png, id=884, 1041.8925pt x 731.73375pt>
+[27]
+<immagini/er_attributi_semplici_composti.png, id=894, 1041.8925pt x 731.73375pt>
 File: immagini/er_attributi_semplici_composti.png Graphic file (type png)
 <use immagini/er_attributi_semplici_composti.png>
 Package pdftex.def Info: immagini/er_attributi_semplici_composti.png  used on input line 32.
 (pdftex.def)             Requested size: 338.58632pt x 237.78831pt.
-<immagini/er_entita_debole_enrollment.png, id=886, 1286.8075pt x 731.73375pt>
+<immagini/er_entita_debole_enrollment.png, id=896, 1286.8075pt x 731.73375pt>
 File: immagini/er_entita_debole_enrollment.png Graphic file (type png)
 <use immagini/er_entita_debole_enrollment.png>
 Package pdftex.def Info: immagini/er_entita_debole_enrollment.png  used on input line 47.
 (pdftex.def)             Requested size: 232.17242pt x 132.01901pt.
-<immagini/er_identificatore_esterno_libreria.png, id=887, 1286.8075pt x 668.4975pt>
+<immagini/er_identificatore_esterno_libreria.png, id=897, 1286.8075pt x 668.4975pt>
 File: immagini/er_identificatore_esterno_libreria.png Graphic file (type png)
 <use immagini/er_identificatore_esterno_libreria.png>
 Package pdftex.def Info: immagini/er_identificatore_esterno_libreria.png  used on input line 50.
@@ -975,8 +984,8 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[26 <./immagini/er_attributi_semplici_composti.png>]
-<immagini/er_generalizzazione_person_gender.png, id=894, 1005.7575pt x 758.835pt>
+[28 <./immagini/er_attributi_semplici_composti.png>]
+<immagini/er_generalizzazione_person_gender.png, id=904, 1005.7575pt x 758.835pt>
 File: immagini/er_generalizzazione_person_gender.png Graphic file (type png)
 <use immagini/er_generalizzazione_person_gender.png>
 Package pdftex.def Info: immagini/er_generalizzazione_person_gender.png  used on input line 79.
@@ -985,7 +994,7 @@ Package pdftex.def Info: immagini/er_generalizzazione_person_gender.png  used on
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/er_schema_student_course_exam.png, id=895, 1288.815pt x 758.835pt>
+<immagini/er_schema_student_course_exam.png, id=905, 1288.815pt x 758.835pt>
 File: immagini/er_schema_student_course_exam.png Graphic file (type png)
 <use immagini/er_schema_student_course_exam.png>
 Package pdftex.def Info: immagini/er_schema_student_course_exam.png  used on input line 89.
@@ -1000,21 +1009,21 @@ Package pdftex.def Info: immagini/er_schema_student_course_exam.png  used on inp
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/er_esercizio_2_cinema_film.png, id=896, 648.4225pt x 305.14pt>
+<immagini/er_esercizio_2_cinema_film.png, id=906, 648.4225pt x 305.14pt>
 File: immagini/er_esercizio_2_cinema_film.png Graphic file (type png)
 <use immagini/er_esercizio_2_cinema_film.png>
 Package pdftex.def Info: immagini/er_esercizio_2_cinema_film.png  used on input line 108.
 (pdftex.def)             Requested size: 435.32422pt x 204.86177pt.
 
 
-[27 <./immagini/er_entita_debole_enrollment.png> <./immagini/er_identificatore_esterno_libreria.png>]
+[29 <./immagini/er_entita_debole_enrollment.png> <./immagini/er_identificatore_esterno_libreria.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[28 <./immagini/er_generalizzazione_person_gender.png> <./immagini/er_schema_student_course_exam.png>]
-<immagini/er_esercizio_7_campionato_calcio.png, id=913, 757.83125pt x 692.5875pt>
+[30 <./immagini/er_generalizzazione_person_gender.png> <./immagini/er_schema_student_course_exam.png>]
+<immagini/er_esercizio_7_campionato_calcio.png, id=922, 757.83125pt x 692.5875pt>
 File: immagini/er_esercizio_7_campionato_calcio.png Graphic file (type png)
 <use immagini/er_esercizio_7_campionato_calcio.png>
 Package pdftex.def Info: immagini/er_esercizio_7_campionato_calcio.png  used on input line 127.
@@ -1024,30 +1033,30 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[29 <./immagini/er_esercizio_2_cinema_film.png>]
+[31 <./immagini/er_esercizio_2_cinema_film.png>]
 
-[30 <./immagini/er_esercizio_7_campionato_calcio.png>]
-<immagini/er_esercizio_11_ciclisti_tappa.png, id=942, 696.6025pt x 721.69624pt>
+[32 <./immagini/er_esercizio_7_campionato_calcio.png>]
+<immagini/er_esercizio_11_ciclisti_tappa.png, id=951, 696.6025pt x 721.69624pt>
 File: immagini/er_esercizio_11_ciclisti_tappa.png Graphic file (type png)
 <use immagini/er_esercizio_11_ciclisti_tappa.png>
 Package pdftex.def Info: immagini/er_esercizio_11_ciclisti_tappa.png  used on input line 149.
 (pdftex.def)             Requested size: 435.32422pt x 451.00398pt.
 
 
-[31 <./immagini/er_esercizio_11_ciclisti_tappa.png>]
+[33 <./immagini/er_esercizio_11_ciclisti_tappa.png>]
 Underfull \hbox (badness 3354) in paragraph at lines 166--166
 []\T1/cmr/bx/n/17.28 Progettazione Lo-gi-ca: Nor-ma-liz-za-zio-ne e For-me
  []
 
-<immagini/nf_diagramma_venn.png, id=954, 239.89626pt x 237.88875pt>
+<immagini/nf_diagramma_venn.png, id=964, 239.89626pt x 237.88875pt>
 File: immagini/nf_diagramma_venn.png Graphic file (type png)
 <use immagini/nf_diagramma_venn.png>
 Package pdftex.def Info: immagini/nf_diagramma_venn.png  used on input line 188.
 (pdftex.def)             Requested size: 193.47578pt x 191.85757pt.
 
 
-[32]
-<immagini/nf_1nf_esempio_voti.png, id=965, 796.9775pt x 341.275pt>
+[34]
+<immagini/nf_1nf_esempio_voti.png, id=975, 796.9775pt x 341.275pt>
 File: immagini/nf_1nf_esempio_voti.png Graphic file (type png)
 <use immagini/nf_1nf_esempio_voti.png>
 Package pdftex.def Info: immagini/nf_1nf_esempio_voti.png  used on input line 203.
@@ -1056,7 +1065,7 @@ Package pdftex.def Info: immagini/nf_1nf_esempio_voti.png  used on input line 20
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/nf_2nf_esempio_atleta.png, id=966, 831.105pt x 431.6125pt>
+<immagini/nf_2nf_esempio_atleta.png, id=976, 831.105pt x 431.6125pt>
 File: immagini/nf_2nf_esempio_atleta.png Graphic file (type png)
 <use immagini/nf_2nf_esempio_atleta.png>
 Package pdftex.def Info: immagini/nf_2nf_esempio_atleta.png  used on input line 215.
@@ -1064,24 +1073,24 @@ Package pdftex.def Info: immagini/nf_2nf_esempio_atleta.png  used on input line 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/nf_3nf_esempio_computer_non_normalizzato.png, id=967, 510.90875pt x 299.1175pt>
+<immagini/nf_3nf_esempio_computer_non_normalizzato.png, id=977, 510.90875pt x 299.1175pt>
 File: immagini/nf_3nf_esempio_computer_non_normalizzato.png Graphic file (type png)
 <use immagini/nf_3nf_esempio_computer_non_normalizzato.png>
 Package pdftex.def Info: immagini/nf_3nf_esempio_computer_non_normalizzato.png  used on input line 227.
 (pdftex.def)             Requested size: 435.32422pt x 254.86266pt.
-<immagini/nf_3nf_esempio_computer_normalizzato.png, id=968, 510.90875pt x 299.1175pt>
+<immagini/nf_3nf_esempio_computer_normalizzato.png, id=978, 510.90875pt x 299.1175pt>
 File: immagini/nf_3nf_esempio_computer_normalizzato.png Graphic file (type png)
 <use immagini/nf_3nf_esempio_computer_normalizzato.png>
 Package pdftex.def Info: immagini/nf_3nf_esempio_computer_normalizzato.png  used on input line 234.
 (pdftex.def)             Requested size: 435.32422pt x 254.86266pt.
-<immagini/nf_3nf_esempio_impiegato.png, id=969, 553.06625pt x 126.4725pt>
+<immagini/nf_3nf_esempio_impiegato.png, id=979, 553.06625pt x 126.4725pt>
 File: immagini/nf_3nf_esempio_impiegato.png Graphic file (type png)
 <use immagini/nf_3nf_esempio_impiegato.png>
 Package pdftex.def Info: immagini/nf_3nf_esempio_impiegato.png  used on input line 242.
 (pdftex.def)             Requested size: 290.22107pt x 66.36624pt.
 
 
-[33 <./immagini/nf_diagramma_venn.png>]
+[35 <./immagini/nf_diagramma_venn.png>]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1096,21 +1105,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[34 <./immagini/nf_1nf_esempio_voti.png> <./immagini/nf_2nf_esempio_atleta.png>]
+[36 <./immagini/nf_1nf_esempio_voti.png> <./immagini/nf_2nf_esempio_atleta.png>]
 Overfull \vbox (13.60378pt too high) has occurred while \output is active []
 
 
 
-[35 <./immagini/nf_3nf_esempio_computer_non_normalizzato.png> <./immagini/nf_3nf_esempio_computer_normalizzato.png> <./immagini/nf_3nf_esempio_impiegato.png>]
+[37 <./immagini/nf_3nf_esempio_computer_non_normalizzato.png> <./immagini/nf_3nf_esempio_computer_normalizzato.png> <./immagini/nf_3nf_esempio_impiegato.png>]
 
-[36]
+[38]
 
-[37]
+[39]
 
-[38])
+[40])
 
-[39] (./capitoli/basi_di_dati/domande_ed_esercizi_bd.tex (./capitoli/basi_di_dati/domande_teoriche/bd_domanda_er_normalizzazione_sql_corsi.tex
-<capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png, id=1043, 709.14937pt x 394.77487pt>
+[41] (./capitoli/basi_di_dati/domande_ed_esercizi_bd.tex (./capitoli/basi_di_dati/domande_teoriche/bd_domanda_er_normalizzazione_sql_corsi.tex
+<capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png, id=1052, 709.14937pt x 394.77487pt>
 File: capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png Graphic file (type png)
 <use capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png>
 Package pdftex.def Info: capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png  used on input line 31.
@@ -1121,12 +1130,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[40
+[42
 
 
 ]
 
-[41 <./capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png>]
+[43 <./capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_corsi_docenti_appelli.png>]
 Underfull \hbox (badness 8094) in paragraph at lines 61--62
 []\T1/cmr/m/n/12 Per [][][][][][] (chia-ve com-po-sta: [][][][][][], [][][][][][]), gli at-tri-bu-ti
  []
@@ -1138,8 +1147,8 @@ Underfull \hbox (badness 1755) in paragraph at lines 4--4
 
 
 
-[42]
-<capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png, id=1081, 535.70137pt x 350.96118pt>
+[44]
+<capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png, id=1091, 535.70137pt x 350.96118pt>
 File: capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png Graphic file (type png)
 <use capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png>
 Package pdftex.def Info: capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png  used on input line 31.
@@ -1155,25 +1164,21 @@ Underfull \hbox (badness 2042) in paragraph at lines 40--41
 
 
 
-[43]
-
-[44 <./capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png>]))
-
 [45]
+
+[46 <./capitoli/basi_di_dati/domande_teoriche/immagini/er_esame_stato_commissione_candidati.png>]))
+
+[47]
 \openout2 = `capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori.aux'.
 
  (./capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori.tex
 
-[46
+[48
 
 
 ]
 Capitolo 3.
 
-
-[47]
-
-[48]
 
 [49]
 
@@ -1181,59 +1186,63 @@ Capitolo 3.
 
 [51]
 
-[52])
+[52]
 
-[53] (./capitoli/reti_di_calcolatori/domande_ed_esercizi_reti.tex (./capitoli/reti_di_calcolatori/domande_teoriche/iso_osi_livello_trasporto.tex
+[53]
 
-[54
+[54])
+
+[55] (./capitoli/reti_di_calcolatori/domande_ed_esercizi_reti.tex (./capitoli/reti_di_calcolatori/domande_teoriche/iso_osi_livello_trasporto.tex
+
+[56
 
 
 ]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_client_server_http.tex
 
-[55]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_stateless_stateful_http.tex) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_iso_osi_strati.tex
+[57]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_stateless_stateful_http.tex) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_iso_osi_strati.tex
 
-[56]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_tcp_vs_udp.tex
+[58]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_tcp_vs_udp.tex
 
-[57]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_subnetting_concetto_calcolo.tex))
+[59]) (./capitoli/reti_di_calcolatori/domande_teoriche/reti_domanda_subnetting_concetto_calcolo.tex))
 
-[58]
+[60]
 \openout2 = `capitoli/programmazione_oo/riassunto_programmazione_oo.aux'.
 
  (./capitoli/programmazione_oo/riassunto_programmazione_oo.tex
 Capitolo 4.
 
 
-[59
+[61
 
 
 ]
 
-[60]
+[62]
 
 
 Overfull \hbox (15.5632pt too wide) has occurred while \output is active
-\T1/cmr/m/sl/12 4.2.  STRUTTURE DATI ASTRATTE (ADT) E FONDAMENTALI DI PROGRAMMAZIONE \T1/cmr/m/n/12 61
+\T1/cmr/m/sl/12 4.2.  STRUTTURE DATI ASTRATTE (ADT) E FONDAMENTALI DI PROGRAMMAZIONE \T1/cmr/m/n/12 63
  []
 
-[61]
-
-[62]
-
 [63]
+
+[64]
+
+[65]
 Underfull \hbox (badness 1038) in paragraph at lines 158--159
 []\T1/cmr/bx/n/12 O(1) - Spa-zio Co-stan-te\T1/cmr/m/n/12 : L'al-go-rit-mo uti-liz-za una quan-ti-tà fis-sa di me-mo-ria,
  []
 
 )
 
-[64]
+[66]
 \openout2 = `capitoli/progettazione_software/riassunto_progettazione_software.aux'.
 
  (./capitoli/progettazione_software/riassunto_progettazione_software.tex
 Capitolo 5.
 
 
-[65
+[67
 
 
 
@@ -1245,15 +1254,15 @@ Underfull \hbox (badness 4144) in paragraph at lines 64--66
 
 
 
-[66]
+[68]
 
-[67]
-<immagini/uml_use_case_relazioni.png, id=1289, 965.6075pt x 693.59125pt>
+[69]
+<immagini/uml_use_case_relazioni.png, id=1299, 965.6075pt x 693.59125pt>
 File: immagini/uml_use_case_relazioni.png Graphic file (type png)
 <use immagini/uml_use_case_relazioni.png>
 Package pdftex.def Info: immagini/uml_use_case_relazioni.png  used on input line 103.
 (pdftex.def)             Requested size: 386.95897pt x 277.95016pt.
-<immagini/diagramma_casi_uso_ristorante.jpg, id=1290, 1027.84pt x 679.53876pt>
+<immagini/diagramma_casi_uso_ristorante.jpg, id=1300, 1027.84pt x 679.53876pt>
 File: immagini/diagramma_casi_uso_ristorante.jpg Graphic file (type jpg)
 <use immagini/diagramma_casi_uso_ristorante.jpg>
 Package pdftex.def Info: immagini/diagramma_casi_uso_ristorante.jpg  used on input line 112.
@@ -1264,13 +1273,13 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[68 <./immagini/uml_use_case_relazioni.png>]
-<immagini/uml_class_base_automobile.png, id=1299, 379.4175pt x 282.05376pt>
+[70 <./immagini/uml_use_case_relazioni.png>]
+<immagini/uml_class_base_automobile.png, id=1309, 379.4175pt x 282.05376pt>
 File: immagini/uml_class_base_automobile.png Graphic file (type png)
 <use immagini/uml_class_base_automobile.png>
 Package pdftex.def Info: immagini/uml_class_base_automobile.png  used on input line 136.
 (pdftex.def)             Requested size: 217.66211pt x 161.80951pt.
-<immagini/uml_class_scheda_anagrafica_struttura.png, id=1300, 379.4175pt x 282.05376pt>
+<immagini/uml_class_scheda_anagrafica_struttura.png, id=1310, 379.4175pt x 282.05376pt>
 File: immagini/uml_class_scheda_anagrafica_struttura.png Graphic file (type png)
 <use immagini/uml_class_scheda_anagrafica_struttura.png>
 Package pdftex.def Info: immagini/uml_class_scheda_anagrafica_struttura.png  used on input line 139.
@@ -1279,7 +1288,7 @@ Package pdftex.def Info: immagini/uml_class_scheda_anagrafica_struttura.png  use
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/uml_class_modificatori_visibilita.png, id=1301, 379.4175pt x 282.05376pt>
+<immagini/uml_class_modificatori_visibilita.png, id=1311, 379.4175pt x 282.05376pt>
 File: immagini/uml_class_modificatori_visibilita.png Graphic file (type png)
 <use immagini/uml_class_modificatori_visibilita.png>
 Package pdftex.def Info: immagini/uml_class_modificatori_visibilita.png  used on input line 147.
@@ -1287,12 +1296,12 @@ Package pdftex.def Info: immagini/uml_class_modificatori_visibilita.png  used on
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/uml_class_ereditarieta_generica.png, id=1302, 379.4175pt x 282.05376pt>
+<immagini/uml_class_ereditarieta_generica.png, id=1312, 379.4175pt x 282.05376pt>
 File: immagini/uml_class_ereditarieta_generica.png Graphic file (type png)
 <use immagini/uml_class_ereditarieta_generica.png>
 Package pdftex.def Info: immagini/uml_class_ereditarieta_generica.png  used on input line 156.
 (pdftex.def)             Requested size: 338.58632pt x 251.70703pt.
-<immagini/uml_class_ereditarieta_multipla_interfacce.png, id=1303, 379.4175pt x 282.05376pt>
+<immagini/uml_class_ereditarieta_multipla_interfacce.png, id=1313, 379.4175pt x 282.05376pt>
 File: immagini/uml_class_ereditarieta_multipla_interfacce.png Graphic file (type png)
 <use immagini/uml_class_ereditarieta_multipla_interfacce.png>
 Package pdftex.def Info: immagini/uml_class_ereditarieta_multipla_interfacce.png  used on input line 163.
@@ -1305,13 +1314,13 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[69 <./immagini/diagramma_casi_uso_ristorante.jpg>]
-<immagini/uml_class_aggregazione_esempio.png, id=1312, 290.08376pt x 224.84pt>
+[71 <./immagini/diagramma_casi_uso_ristorante.jpg>]
+<immagini/uml_class_aggregazione_esempio.png, id=1321, 290.08376pt x 224.84pt>
 File: immagini/uml_class_aggregazione_esempio.png Graphic file (type png)
 <use immagini/uml_class_aggregazione_esempio.png>
 Package pdftex.def Info: immagini/uml_class_aggregazione_esempio.png  used on input line 178.
 (pdftex.def)             Requested size: 217.66211pt x 168.70848pt.
-<immagini/uml_class_composizione_esempio.png, id=1313, 290.08376pt x 224.84pt>
+<immagini/uml_class_composizione_esempio.png, id=1322, 290.08376pt x 224.84pt>
 File: immagini/uml_class_composizione_esempio.png Graphic file (type png)
 <use immagini/uml_class_composizione_esempio.png>
 Package pdftex.def Info: immagini/uml_class_composizione_esempio.png  used on input line 181.
@@ -1320,12 +1329,12 @@ Package pdftex.def Info: immagini/uml_class_composizione_esempio.png  used on in
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<immagini/uml_class_sistema_e_commerce.png, id=1314, 342.27875pt x 282.05376pt>
+<immagini/uml_class_sistema_e_commerce.png, id=1323, 342.27875pt x 282.05376pt>
 File: immagini/uml_class_sistema_e_commerce.png Graphic file (type png)
 <use immagini/uml_class_sistema_e_commerce.png>
 Package pdftex.def Info: immagini/uml_class_sistema_e_commerce.png  used on input line 190.
 (pdftex.def)             Requested size: 435.32422pt x 358.75516pt.
-<immagini/uml_class_sistema_chat_corretto.png, id=1315, 342.27875pt x 155.58125pt>
+<immagini/uml_class_sistema_chat_corretto.png, id=1324, 342.27875pt x 155.58125pt>
 File: immagini/uml_class_sistema_chat_corretto.png Graphic file (type png)
 <use immagini/uml_class_sistema_chat_corretto.png>
 Package pdftex.def Info: immagini/uml_class_sistema_chat_corretto.png  used on input line 196.
@@ -1338,19 +1347,19 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[70 <./immagini/uml_class_base_automobile.png> <./immagini/uml_class_scheda_anagrafica_struttura.png> <./immagini/uml_class_modificatori_visibilita.png>]
+[72 <./immagini/uml_class_base_automobile.png> <./immagini/uml_class_scheda_anagrafica_struttura.png> <./immagini/uml_class_modificatori_visibilita.png>]
 
-[71 <./immagini/uml_class_ereditarieta_generica.png> <./immagini/uml_class_ereditarieta_multipla_interfacce.png>]
+[73 <./immagini/uml_class_ereditarieta_generica.png> <./immagini/uml_class_ereditarieta_multipla_interfacce.png>]
 
-[72 <./immagini/uml_class_aggregazione_esempio.png> <./immagini/uml_class_composizione_esempio.png> <./immagini/uml_class_sistema_e_commerce.png>]
+[74 <./immagini/uml_class_aggregazione_esempio.png> <./immagini/uml_class_composizione_esempio.png> <./immagini/uml_class_sistema_e_commerce.png>]
 
-[73 <./immagini/uml_class_sistema_chat_corretto.png>]
-<immagini/uml_sequence_mvc_update.png, id=1344, 563.10374pt x 442.65375pt>
+[75 <./immagini/uml_class_sistema_chat_corretto.png>]
+<immagini/uml_sequence_mvc_update.png, id=1354, 563.10374pt x 442.65375pt>
 File: immagini/uml_sequence_mvc_update.png Graphic file (type png)
 <use immagini/uml_sequence_mvc_update.png>
 Package pdftex.def Info: immagini/uml_sequence_mvc_update.png  used on input line 241.
 (pdftex.def)             Requested size: 386.95897pt x 304.1886pt.
-<immagini/uml_sequence_prestito_biblioteca.jpg, id=1345, 511.9125pt x 406.51875pt>
+<immagini/uml_sequence_prestito_biblioteca.jpg, id=1355, 511.9125pt x 406.51875pt>
 File: immagini/uml_sequence_prestito_biblioteca.jpg Graphic file (type jpg)
 <use immagini/uml_sequence_prestito_biblioteca.jpg>
 Package pdftex.def Info: immagini/uml_sequence_prestito_biblioteca.jpg  used on input line 250.
@@ -1361,14 +1370,14 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[74 <./immagini/uml_sequence_mvc_update.png>]
+[76 <./immagini/uml_sequence_mvc_update.png>]
 
-[75 <./immagini/uml_sequence_prestito_biblioteca.jpg>]
+[77 <./immagini/uml_sequence_prestito_biblioteca.jpg>]
 \openout2 = `capitoli/elettronica/riassunto_elettronica.aux'.
 
  (./capitoli/elettronica/riassunto_elettronica.tex
 
-[76
+[78
 
 
 
@@ -1377,37 +1386,37 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Capitolo 6.
 
 
-[77]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 35.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 35.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 35.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 35.
-
-
-
-[78]
-
 [79]
 
-[80])
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 35.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 35.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 35.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 35.
+
+
+
+[80]
 
 [81]
+
+[82])
+
+[83]
 \openout2 = `capitoli/sistemi_numerici/riassunto_sistemi_numerici.aux'.
 
  (./capitoli/sistemi_numerici/riassunto_sistemi_numerici.tex
 
-[82
+[84
 
 
 
@@ -1416,19 +1425,19 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Capitolo 7.
 
 
-[83]
-
-[84])
-
 [85]
 
-[86
+[86])
+
+[87]
+
+[88
 
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 74.
+LaTeX Warning: Empty bibliography on input line 89.
 
 (./main.aux (./capitoli/sistemi_operativi/riassunto_sistemi_operativi.aux) (./capitoli/basi_di_dati/riassunto_basi_di_dati.aux) (./capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori.aux) (./capitoli/programmazione_oo/riassunto_programmazione_oo.aux) (./capitoli/progettazione_software/riassunto_progettazione_software.aux) (./capitoli/elettronica/riassunto_elettronica.aux) (./capitoli/sistemi_numerici/riassunto_sistemi_numerici.aux))
  ***********
@@ -1440,24 +1449,24 @@ L3 programming layer <2025-01-18>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B7C998AC5F00603E18F1A5952D8222EC;24448.
+(rerunfilecheck)             Checksum: F1033096A1E9A050C54FBCE8BA484A28;24448.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26227 strings out of 473190
- 463557 string characters out of 5715800
+ 26230 strings out of 473190
+ 463583 string characters out of 5715800
  1461425 words of memory out of 5000000
  48476 multiletter control sequences out of 15000+600000
  578458 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,9n,95p,1298b,2205s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfit1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsl1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on main.pdf (96 pages, 4888138 bytes).
+Output written on main.pdf (98 pages, 4888994 bytes).
 PDF statistics:
- 1659 PDF objects out of 1728 (max. 8388607)
- 1442 compressed objects within 15 object streams
- 594 named destinations out of 1000 (max. 500000)
+ 1670 PDF objects out of 1728 (max. 8388607)
+ 1451 compressed objects within 15 object streams
+ 597 named destinations out of 1000 (max. 500000)
  890 words of extra memory for PDF output out of 10000 (max. 10000000)
 

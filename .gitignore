@@ -1,0 +1,59 @@
+# ==========================
+# Ignora file temporanei di LaTeX
+# ==========================
+
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# ==========================
+# File temporanei editor
+# ==========================
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# ==========================
+# Build intermedi
+# ==========================
+
+*.nav
+*.snm
+*.vrb
+*.run.xml
+
+# ==========================
+# PDF finale
+# ==========================
+# Se decidi di NON versionare il PDF,
+# decommenta la riga sotto:
+# main.pdf

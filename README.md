@@ -1,5 +1,14 @@
 # Appunti per l'Esame di Stato Ingegnere Junior - Settore dell'Informazione
 
+> Appunti gratuiti in **PDF** per la preparazione all’**Esame di Stato di Ingegneria dell’Informazione (Sezione B – Ingegnere Junior)**.  
+> **Lingua:** Italiano · **Formato:** LaTeX + PDF pronto
+
+[📄 Scarica l’ultima release in PDF](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/main.pdf)
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf?display_name=tag)
+![GitHub all releases](https://img.shields.io/github/downloads/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/total)
+
+
 **Studiando insieme, si va più lontano!** Questo repository raccoglie appunti, riassunti e soluzioni a prove d'esame passate per la preparazione all'Esame di Stato per l'abilitazione alla professione di Ingegnere Junior, con un focus specifico sul Settore dell'Informazione.
 
 L'obiettivo è creare un documento unico, completo e ben strutturato per agevolare lo studio e la preparazione di tutti i candidati.
@@ -67,3 +76,21 @@ I contributi sono benvenuti! Se vuoi migliorare gli appunti, correggere errori, 
 3.  Apporta le tue modifiche e committale (`git commit -am 'Aggiunta nuova sezione su...'`).
 4.  Esegui il push del tuo branch (`git push origin feature/nuova-funzionalita`).
 5.  Apri una Pull Request.
+
+### ✍️ Aggiungere la propria firma
+
+Per riconoscere i contributi, il documento contiene una sezione *Collaboratori* subito dopo l’autore.  
+Se desideri aggiungere il tuo nome, apri `main.tex` e modifica il blocco:
+
+```latex
+\chapter*{Collaboratori}
+Questo documento è stato sviluppato con la collaborazione di:
+
+\begin{itemize}
+  \item Paolo Pietrelli – autore principale
+  % \item Nome Cognome – contributo su [argomento]
+\end{itemize}
+```
+
+👉 Decommenta la riga e sostituisci Nome Cognome con il tuo nome e una breve descrizione del contributo (es. Basi di Dati o Correzione esercizi).
+Il tuo nome comparirà automaticamente nella prossima versione del PDF.
