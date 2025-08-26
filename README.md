@@ -13,6 +13,19 @@
 
 L'obiettivo è creare un documento unico, completo e ben strutturato per agevolare lo studio e la preparazione di tutti i candidati.
 
+## 📢 Condivisione
+
+Questo progetto nasce con un duplice obiettivo:
+1. Fornire una risorsa **gratuita** e di facile accesso per prepararsi all'**Esame di Stato di Ingegneria dell'Informazione – Sezione B (Ingegnere Junior)**.
+2. Crescere come progetto **collaborativo open-source**, arricchito dai contributi di studenti e professionisti.
+
+Se pensi che questi appunti possano essere utili ad altri colleghi:
+- **Condividi il link al repository** su gruppi di studio, forum universitari, chat Telegram/WhatsApp, LinkedIn.
+- Invita i tuoi compagni a contribuire con correzioni, integrazioni o nuovi esercizi.
+- Se vuoi, lascia anche una ⭐ al progetto su GitHub: aiuta la visibilità e incoraggia lo sviluppo.
+
+> Studiare insieme è più efficace che studiare da soli: aiutiamoci a vicenda!
+
 ## 📚 Struttura del Progetto
 
 Il progetto è organizzato come un documento LaTeX che copre le materie più rilevanti e ricorrenti nelle prove d'esame. La struttura principale è la seguente:
