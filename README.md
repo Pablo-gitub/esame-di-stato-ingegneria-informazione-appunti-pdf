@@ -3,7 +3,7 @@
 > Appunti gratuiti in **PDF** per la preparazione all’**Esame di Stato di Ingegneria dell’Informazione (Sezione B – Ingegnere Junior)**.  
 > **Lingua:** Italiano · **Formato:** LaTeX + PDF pronto
 
-[📄 Scarica l’ultima release in PDF](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/main.pdf)
+[📄 Scarica l’ultima release in PDF](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/appunti-esame-di-stato-ingegneria-informazione.pdf)
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf?display_name=tag)
 ![GitHub all releases](https://img.shields.io/github/downloads/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/total)
