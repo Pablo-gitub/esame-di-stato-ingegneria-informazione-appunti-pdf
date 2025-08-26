@@ -25,6 +25,9 @@
 *.fdb_latexmk
 *.synctex.gz
 
+# File di errore salvataggio
+*-SAVE-ERROR
+
 # ==========================
 # File temporanei editor
 # ==========================
