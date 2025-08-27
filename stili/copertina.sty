@@ -1,0 +1,133 @@
+% ================================
+% stili/copertina.sty
+% Copertina frontale e pagina finale "quarta di copertina"
+% Richiede: mio_stile_esame.sty (palette + metadati) e tikz
+% ================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{stili/copertina}[2025/08/27 Front & Back cover]
+
+% TikZ per disegni a pagina intera
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+
+% Se il flag \ifHTML non esiste (non hai caricato mio_stile_esame.sty), definiscilo qui
+\makeatletter
+\@ifundefined{HTMLfalse}{%
+  \newif\ifHTML
+  \HTMLfalse
+}{}
+\makeatother
+
+% Colori/metadati fallback (se non già definiti da mio_stile_esame.sty)
+\providecolor{coverPrimary}{HTML}{1F4B99}
+\providecolor{coverAccent}{HTML}{F2C14E}
+\providecolor{coverBg}{HTML}{F8F9FB}
+
+\providecommand{\ProjectTitle}{Titolo del Progetto}
+\providecommand{\ProjectSubtitle}{Sottotitolo}
+\providecommand{\ProjectAuthor}{Autore}
+\providecommand{\ProjectCollab}{Collaboratori}
+\providecommand{\ProjectTagline}{Tagline del progetto}
+
+% ========== Front Cover ==========
+% Pagina di copertina: full-bleed grafica + testo
+\newcommand{\FrontCoverPage}{%
+  \ifHTML\else
+    \clearpage
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture,overlay]
+      % Sfondo pagina
+      \fill[coverBg] (current page.south west) rectangle (current page.north east);
+
+      % Barra verticale a sinistra
+      \fill[coverPrimary] ([xshift=0cm]current page.south west)
+                          rectangle ([xshift=1.5cm]current page.north west);
+
+      % Riquadro bianco centrale (margini laterali eleganti)
+      \fill[white] ([xshift=2.2cm,yshift=-2.4cm]current page.north west)
+                   rectangle ([xshift=-2.2cm,yshift=2.4cm]current page.south east);
+
+      % Titolo
+      \node[anchor=west, text=coverPrimary]
+           at ([xshift=3cm,yshift=-4cm]current page.north west)
+           {\fontsize{28}{32}\selectfont\bfseries \ProjectTitle};
+
+      % Sottotitolo
+      \node[anchor=west, text=black]
+           at ([xshift=3cm,yshift=-6.2cm]current page.north west)
+           {\fontsize{16}{20}\selectfont \ProjectSubtitle};
+
+      % Logo (centrato sotto il titolo)
+      \node[anchor=north, align=center]
+        at ([yshift=-15.5cm]current page.north) {
+        \includegraphics[width=0.5\paperwidth]{immagini/logo_nerd.png}
+      };
+
+      % Tagline (multi-linea)
+      \node[anchor=west, text=black, align=left]
+           at ([xshift=3cm,yshift=-8.8cm]current page.north west)
+           {\parbox{\dimexpr\paperwidth-6cm\relax}{\fontsize{12}{16}\selectfont \ProjectTagline}};
+
+      % Autore (in basso a sinistra)
+      \node[anchor=south west, text=black]
+           at ([xshift=3cm,yshift=2.2cm]current page.south west)
+           {\fontsize{12}{14}\selectfont \textbf{Autore:} \ProjectAuthor};
+
+      % Collaborazione (in basso a destra)
+      \node[anchor=south east, text=black, align=right]
+           at ([xshift=-2.2cm,yshift=2.2cm]current page.south east)
+           {\parbox{0.45\paperwidth}{\raggedleft\fontsize{10}{12}\selectfont \ProjectCollab}};
+
+      % Accento decorativo in alto a destra
+      \fill[coverAccent] ([xshift=-2.2cm,yshift=-2.2cm]current page.north east)
+                         rectangle ([xshift=-0.6cm,yshift=-0.6cm]current page.north east);
+    \end{tikzpicture}
+    \clearpage
+  \fi
+}
+
+% ========== Back Cover ==========
+% Pagina finale stile "quarta di copertina": testo su sfondo, licenza e link
+\newcommand{\BackCoverPage}{%
+  \ifHTML\else
+    \cleardoublepage
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture,overlay]
+      % Sfondo
+      \fill[coverBg] (current page.south west) rectangle (current page.north east);
+
+      % Barra orizzontale in basso
+      \fill[coverPrimary] ([yshift=0cm]current page.south west)
+                          rectangle ([yshift=1.8cm]current page.south east);
+
+      % Box testo (quarta di copertina)
+      \node[anchor=north west, text=black, align=left]
+           at ([xshift=2.2cm,yshift=-3.0cm]current page.north west)
+           {\parbox{\dimexpr\paperwidth-4.4cm\relax}{
+             {\large\bfseries Il progetto}\\[2pt]
+             \ProjectTitle{} è un progetto editoriale open-source pensato per la preparazione
+             all’Esame di Stato in Ingegneria dell’Informazione (Sezione B).
+             Il documento è gratuito e cresce grazie ai contributi della community.
+
+             \vspace{0.8em}
+             {\bfseries Partecipa}\\[2pt]
+             Correzioni, esempi, nuovi esercizi e suggerimenti sono benvenuti:
+             invia una Pull Request o apri una Issue nel repository.
+
+             \vspace{0.8em}
+             {\bfseries Repository GitHub}\\[2pt]
+             \texttt{github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf}
+
+             \vspace{0.8em}
+             {\bfseries Licenza}\\[2pt]
+             Suggerita: CC BY-NC 4.0. Vedi la sezione licenza nel repository per i dettagli.
+           }};
+
+      % Accento decorativo in alto a destra
+      \fill[coverAccent] ([xshift=-2.2cm,yshift=-2.2cm]current page.north east)
+                         rectangle ([xshift=-0.6cm,yshift=-0.6cm]current page.north east);
+    \end{tikzpicture}
+    \clearpage
+  \fi
+}

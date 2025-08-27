@@ -1,4 +1,4 @@
-name: Release on tag (no build)
+name: Release on tag (PDF + EPUB, no build)
 
 on:
   push:
@@ -14,26 +14,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Se il PDF non è in root, cambia il path (es. docs/main.pdf)
+      # ---- PDF ----
       - name: Ensure PDF exists
         run: |
           if [ ! -f main.pdf ]; then
-            echo "main.pdf non trovato! Assicurati di committarlo prima di taggare."
+            echo "❌ main.pdf non trovato! Assicurati di committarlo prima di taggare."
             exit 1
           fi
 
-      # Rinomina l'asset con un nome stabile e SEO-friendly
-      - name: Rename PDF for release
-        run: cp main.pdf "appunti-esame-di-stato-ingegneria-informazione.pdf"
+      - name: Prepare PDF asset (rename)
+        run: cp "main.pdf" "appunti-esame-di-stato-ingegneria-informazione.pdf"
 
+      # ---- EPUB ----
+      - name: Ensure/prepare EPUB asset
+        run: |
+          EPUB_OUT="appunti-esame-di-stato-ingegneria-informazione.epub"
+          if [ -f "$EPUB_OUT" ]; then
+            echo "✅ Trovato $EPUB_OUT, uso quello."
+          elif [ -f "main.epub" ]; then
+            echo "ℹ️  Trovato main.epub: lo rinomino in $EPUB_OUT"
+            cp "main.epub" "$EPUB_OUT"
+          else
+            echo "❌ EPUB non trovato! Committa $EPUB_OUT oppure main.epub prima di taggare."
+            exit 1
+          fi
+
+      # ---- Release ----
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           files: |
             appunti-esame-di-stato-ingegneria-informazione.pdf
-          # (opzionali)
-          # draft: false
-          # prerelease: false
+            appunti-esame-di-stato-ingegneria-informazione.epub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

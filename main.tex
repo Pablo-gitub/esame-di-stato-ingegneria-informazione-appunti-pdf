@@ -1,91 +1,112 @@
-\documentclass[a4paper,12pt,openright,twoside]{book} % Usiamo 'book' per la struttura con capitoli
+\documentclass[a4paper,12pt,openright,twoside]{book}
 
-% --- Caricamento dei tuoi file di stile personalizzati ---
-\usepackage{stili/mio_stile_esame} % Contiene i pacchetti generali e le impostazioni di base
-\usepackage{stili/impostazioni_codice} % Contiene le definizioni per listings (pseudocodice, SQL, Bash)
+% --- Stili ---
+\usepackage{stili/mio_stile_esame}
+\usepackage{stili/copertina}
+\usepackage{stili/impostazioni_codice}
 
-% --- Informazioni sul documento ---
+% Attiva modalità EPUB
+\EPUBtrue
+
+% --- Metadati classici LaTeX (non useremo \maketitle) ---
 \title{Appunti per l'Esame di Stato\\Ingegnere Junior - Settore Informazione}
-\author{Paolo Pietrelli}
-\date{\today} % Usa la data corrente
-% \subject{Preparazione Integrata} % Campo soggetto per il PDF (opzionale, già in hyperref)
-
-% --- Bibliografia (già gestita in mio_stile_esame.sty, qui solo il comando per stampare) ---
-% \printbibliography % Questo comando andrà nella sezione \backmatter
+\author{Dott. Paolo Pietrelli}
+\date{\today}
 
 \begin{document}
-\sloppy % Rende la composizione un po' meno rigida, utile per evitare overfull hbox con testo lungo
 
-\frontmatter % Pagine preliminari (numerazione romana, senza capitoli numerati)
+% Copertina “editoriale” (al posto della title page)
+\FrontCoverPage
 
-\maketitle % Stampa titolo, autore, data
+\frontmatter
 
-% Se vuoi un abstract, puoi inserirlo qui:
-% \begin{abstract}
-% Breve riassunto del contenuto complessivo dei tuoi appunti.
-% \end{abstract}
-
-\tableofcontents % Genera l'indice dei capitoli e delle sezioni
-\listoffigures % Genera la lista delle figure
-\lstlistoflistings % Genera la lista dei listati di codice (se usi newfloat=true in lstset, altrimenti usa listof=tof)
-
-\mainmatter % Inizio del contenuto principale (numerazione araba, capitoli numerati)
-
+% 2) Pagina del titolo (frontespizio classico)
+\cleardoublepage
 \maketitle
+\cleardoublepage
 
+\cleardoublepage
+\chapter*{Prefazione}
+\addcontentsline{toc}{chapter}{Prefazione}
+
+Questi appunti nascono con l’obiettivo di fornire un supporto
+gratuito e accessibile a tutti gli studenti che si preparano
+all’Esame di Stato di Ingegneria dell’Informazione (Sezione B – Ingegnere Junior).
+
+L’idea di base è semplice: \textbf{studiare insieme, condividendo}.
+Come in ogni progetto open-source, la conoscenza diventa più
+forte quando è aperta e collaborativa. Per questo motivo
+questo documento è pubblicato liberamente su GitHub e può
+essere migliorato da chiunque desideri contribuire.
+
+I capitoli trattano in modo sintetico e strutturato le materie
+più frequenti nelle prove d’esame: sistemi operativi, basi di dati,
+reti, programmazione, progettazione del software, elettronica e
+sistemi numerici. Ogni sezione include anche esercizi ed esempi
+per facilitare la preparazione pratica.
+
+\medskip
+\noindent
+\textbf{Un invito:} se noti errori, hai suggerimenti o vuoi aggiungere
+nuovi contenuti, partecipa! Basta una pull request o una issue sul repository.
+Così facendo, questi appunti diventeranno non solo un aiuto individuale,
+ma una risorsa collettiva per tutti i futuri ingegneri.
+
+\bigskip
+\begin{flushright}
+Dott. Paolo Pietrelli \\
+Forlì, \today
+\end{flushright}
+
+% Collaboratori (frontmatter, fuori indice)
 \cleardoublepage
 \chapter*{Collaboratori}
 Questo documento è stato sviluppato con la collaborazione di:
-
 \begin{itemize}
   \item Paolo Pietrelli – autore principale
- % \item Nome Cognome – contributo su Basi di Dati
- % \item Nome Cognome – contributo su Reti di Calcolatori
+  % \item Nome Cognome – contributo su Basi di Dati
+  % \item Nome Cognome – contributo su Reti di Calcolatori
 \end{itemize}
 
-\cleardoublepage
+% Indici
+\tableofcontents
+\listoffigures
+\lstlistoflistings
 
-
-% --- Inclusione dei Capitoli Principali e delle relative Domande/Esercizi ---
-% Ogni riga \include farà iniziare un nuovo capitolo in una nuova pagina.
-% Le domande e gli esercizi di quel capitolo verranno inclusi subito dopo, se il file esiste.
+\mainmatter
 
 % Capitolo 1: Sistemi Operativi
 \include{capitoli/sistemi_operativi/riassunto_sistemi_operativi}
-% Include le domande e gli esercizi per questo capitolo, se il file esiste.
-% Questo file (domande_ed_esercizi_so.tex) conterrà al suo interno
-% le varie \section o \subsection per ogni singola domanda/esercizio.
 \input{capitoli/sistemi_operativi/domande_ed_esercizi_so.tex}
 
 % Capitolo 2: Basi di Dati
 \include{capitoli/basi_di_dati/riassunto_basi_di_dati}
-\input{capitoli/basi_di_dati/domande_ed_esercizi_bd.tex} % Abilitare quando avrai le domande/esercizi per Basi di Dati
+\input{capitoli/basi_di_dati/domande_ed_esercizi_bd.tex}
 
 % Capitolo 3: Reti di Calcolatori
 \include{capitoli/reti_di_calcolatori/riassunto_reti_di_calcolatori}
-\input{capitoli/reti_di_calcolatori/domande_ed_esercizi_reti.tex} % Abilitare quando avrai le domande/esercizi per Reti
+\input{capitoli/reti_di_calcolatori/domande_ed_esercizi_reti.tex}
 
 % Capitolo 4: Programmazione Orientata agli Oggetti
 \include{capitoli/programmazione_oo/riassunto_programmazione_oo}
-% \input{capitoli/programmazione_oo/domande_ed_esercizi_poo.tex} % Abilitare quando avrai le domande/esercizi per POO
+% \input{capitoli/programmazione_oo/domande_ed_esercizi_poo.tex}
 
 % Capitolo 5: Progettazione del Software
 \include{capitoli/progettazione_software/riassunto_progettazione_software}
-% \input{capitoli/progettazione_software/domande_ed_esercizi_ps.tex} % Abilitare quando avrai le domande/esercizi per Progettazione Software
+% \input{capitoli/progettazione_software/domande_ed_esercizi_ps.tex}
 
 % Capitolo 6: Elettronica
 \include{capitoli/elettronica/riassunto_elettronica}
-% \input{capitoli/elettronica/domande_ed_esercizi_elettronica.tex} % Abilitare quando avrai le domande/esercizi per Elettronica
+% \input{capitoli/elettronica/domande_ed_esercizi_elettronica.tex}
 
 % Capitolo 7: Sistemi Numerici
 \include{capitoli/sistemi_numerici/riassunto_sistemi_numerici}
-% \input{capitoli/sistemi_numerici/domande_ed_esercizi_sn.tex} % Abilitare quando avrai le domande/esercizi per Sistemi Numerici
+% \input{capitoli/sistemi_numerici/domande_ed_esercizi_sn.tex}
 
-% --- La sezione \appendix finale non è più necessaria con questa organizzazione ---
-% Se in futuro vuoi comunque un'appendice per materiali generici non legati a un capitolo specifico, puoi riabilitarla.
+\backmatter
+\printbibliography
 
-\backmatter % Sezione finale del libro (ad es. bibliografia, indici analitici)
-
-\printbibliography % Stampa la bibliografia. Questo comando è fornito da biblatex.
+% Retrocopertina “editoriale”
+\BackCoverPage
 
 \end{document}

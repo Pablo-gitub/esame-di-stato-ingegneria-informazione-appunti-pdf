@@ -1,0 +1,40 @@
+html, body { margin: 0; padding: 0; }
+body { line-height: 1.4; }
+img { max-width: 100%; height: auto; }
+h1, h2, h3 { margin: 0.8em 0 0.3em; }
+p { margin: 0.6em 0; }
+html, body { margin: 0; padding: 0; }
+body { line-height: 1.4; }
+img { max-width: 100%; height: auto; }
+h1, h2, h3 { margin: 0.8em 0 0.3em; }
+p { margin: 0.6em 0; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.3em; border: 1px solid #ddd; }
+
+/* --- Code blocks (compatibili con Pandoc) --- */
+.sourceCode { margin: 0.8em 0; }
+.sourceCode pre {
+  margin: 0;
+  padding: 0.75em 1em;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #f8f8f8;
+  overflow-x: auto;           /* se preferisci wrapping, vedi sotto */
+}
+.sourceCode code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* Se vuoi WRAP invece dello scroll orizzontale, sostituisci le due regole qui sotto: */
+/*
+.sourceCode pre { overflow-x: visible; }
+.sourceCode code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+*/
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.3em; border: 1px solid #ddd; }

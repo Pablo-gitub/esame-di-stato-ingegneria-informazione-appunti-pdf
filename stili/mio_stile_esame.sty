@@ -1,72 +1,119 @@
-% Questo file contiene le configurazioni di stile generali per il tuo documento di preparazione all'Esame di Stato.
+% ================================
+% mio_stile_esame.sty
+% Stile editoriale per "Appunti Esame di Stato"
+% ================================
+
+% --- Switch EPUB vs PDF ---
+\newif\ifEPUB   % Flag: default = PDF (\EPUBfalse)
 
 % --- Codifica e Lingua ---
 \usepackage[utf8]{inputenc} % Codifica dei caratteri
 \usepackage[T1]{fontenc}    % Supporto per caratteri estesi
-\usepackage[italian]{babel} % Supporto per la lingua italiana (con regole di sillabazione e tipografia)
-
+\usepackage[italian]{babel} % Sillabazione/Tipografia italiana
 \usepackage{csquotes}
+
 % --- Matematica e Simboli ---
-\usepackage{amsmath,amssymb,amsfonts} % Per simboli matematici avanzati, ambienti matematici
-\usepackage{mathtools} % Estensioni di amsmath, es. \coloneqq
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
 
-% --- Grafici e Immagini ---
-\usepackage{graphicx} % Per includere immagini
-\graphicspath{{./immagini/}} % Definisce il percorso predefinito per le immagini
+% --- Tipografia editoriale ---
+\usepackage{microtype} % Migliora giustificazione/kerning (look da libro)
+\usepackage{parskip}   % Niente indentazione, spazio tra paragrafi
 
-% --- Tabelle ---
-\usepackage{booktabs} % Tabelle di qualità professionale (es. \toprule, \midrule, \bottomrule)
-\usepackage{multirow} % Per celle che occupano più righe in una tabella
-\usepackage{tabularx} % Tabelle con larghezza fissa e colonne estensibili
-
-% --- Sottocaption per Figure/Tabelle multiple ---
-\usepackage{subcaption} % Per subfigure/subtable, come facevi nella tesi
+% --- Font cross-engine (facoltativo) ---
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage{lmodern} % Font moderni per pdflatex
+\else
+  % Se un giorno userai XeLaTeX/LuaLaTeX:
+  % \usepackage{fontspec}
+  % \setmainfont{Libertinus Serif} % o EB Garamond / Source Serif / Times
+\fi
 
 % --- Colori ---
-\usepackage{xcolor} % Per definire e usare colori
+\usepackage{xcolor}
+\definecolor{coverPrimary}{HTML}{1F4B99} % blu editoriale
+\definecolor{coverAccent}{HTML}{F2C14E}  % giallo accento
+\definecolor{coverBg}{HTML}{F8F9FB}      % sfondo chiaro
+\definecolor{linkColor}{HTML}{0A66C2}    % blu link coerente
 
-% --- Layout e Formattazione Testo ---
-\usepackage{geometry} % Per personalizzare i margini
-\geometry{a4paper, total={170mm,257mm}, left=20mm, right=20mm, top=20mm, bottom=20mm} % Esempio di margini
+% --- Layout e Margini ---
+\usepackage{geometry}
+\geometry{a4paper, total={170mm,257mm}, left=20mm, right=20mm, top=20mm, bottom=20mm}
 
-\usepackage{setspace} % Per controllare l'interlinea
-\newcommand{\mainlinespacing}[1]{%
-    \linespread{#1}\selectfont%
-}
+% --- Interlinea (utility) ---
+\usepackage{setspace}
+\newcommand{\mainlinespacing}[1]{\linespread{#1}\selectfont}
 
-% --- Hyperlink e PDF ---
+% --- Grafica e Immagini ---
+\usepackage{graphicx}
+\graphicspath{{./immagini/}} % percorso di default immagini
+% Immagini responsive alla larghezza del testo (override possibile nel documento)
+\setkeys{Gin}{width=\linewidth,keepaspectratio}
+
+% --- Tabelle ---
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% --- Sottofigure/Sottotabelle ---
+\usepackage{subcaption}
+
+% --- Elenchi personalizzati ---
+\usepackage{enumitem}
+\setlist{topsep=4pt,itemsep=2pt,parsep=0pt}
+
+% --- Hyperlink e PDF (coerente con palette + metadati) ---
 \usepackage{hyperref}
+\newcommand{\ProjectTitle}{Appunti per l'Esame di Stato}
+\newcommand{\ProjectSubtitle}{Ingegnere Junior — Settore Informazione}
+\newcommand{\ProjectAuthor}{Dott. Paolo Pietrelli}
+\newcommand{\ProjectCollab}{Con la collaborazione della community open-source}
+\newcommand{\ProjectTagline}{Risorsa gratuita e collaborativa per la preparazione all’Esame di Stato.}
+
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,
-    urlcolor=cyan,
-    pdftitle={Appunti Esame di Stato},
-    pdfauthor={Paolo Pietrelli},
-    pdfsubject={Ingegneria Informatica},
-    pdfkeywords={Esame di Stato, Informatica, Ingegneria},
-    bookmarks=true,
-    bookmarksnumbered=true,
-    pdfstartview={FitH}
+    colorlinks         = true,
+    linkcolor          = linkColor,
+    urlcolor           = linkColor,
+    citecolor          = linkColor,
+    pdftitle           = {\ProjectTitle\ — \ProjectSubtitle},
+    pdfauthor          = {\ProjectAuthor},
+    pdfsubject         = {Ingegneria dell'Informazione — Appunti open-source},
+    pdfkeywords        = {Esame di Stato, Ingegneria dell'Informazione, Appunti, PDF, Open-Source},
+    bookmarks          = true,
+    bookmarksnumbered  = true,
+    pdfstartview       = {FitH}
 }
+
+% URL lunghe a capo in modo gradevole
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-\do\_}
 
 % --- Acronimi ---
-\usepackage{acronym} % Per la lista degli acronimi
+\usepackage{acronym}
 
-% --- Elenchi personalizzati (es. per checklist o punti chiave) ---
-\usepackage{enumitem} % Migliora la gestione degli elenchi
+% --- Bibliografia ---
+\usepackage[backend=biber,style=numeric,citestyle=numeric]{biblatex}
+\addbibresource{stili/bibtex.bib}
 
-% --- PACCHETTI SPECIFICI PER LA BIBLIOGRAFIA ---
-\usepackage[backend=biber,style=numeric,citestyle=numeric]{biblatex} % <--- ASSICURATI CHE QUESTA RIGA SIA PRESENTE E NON COMMENTATA!
-\addbibresource{stili/bibtex.bib} % E che questo percorso sia corretto
+% --- Listings (codice) ---
+% --- PACCHETTO LISTINGS (gestione PDF vs EPUB) ---
+\ifEPUB
+  \usepackage{verbatim}
+  \let\lstinline\texttt
+  \renewenvironment{lstlisting}{\verbatim}{\endverbatim}
+\else
+  \usepackage{listings}
+\fi
 
-% --- PACCHETTO LISTINGS (per blocchi di codice) ---
-\usepackage{listings} % <--- ASSICURATI CHE QUESTA RIGA SIA PRESENTE E NON COMMENTATA!
-% NOTA: Le impostazioni dettagliate dei listings sono nel file impostazioni_codice.sty
+% (Le impostazioni dettagliate restano in stili/impostazioni_codice.sty)
 
-% --- Varie ---
-% \usepackage{lastpage} % Per ottenere il numero dell'ultima pagina
-% \usepackage{fancyhdr} % Per header e footer personalizzati
-% \usepackage{appendix} % Per gestire meglio le appendici
+% --- Rilevamento HTML/EPUB (tex4ebook) vs PDF ---
+% Utile per mostrare/nascondere elementi solo PDF (es. copertine full-page)
+\newif\ifHTML
+\makeatletter
+\@ifundefined{HCode}{\HTMLfalse}{\HTMLtrue}
+\makeatother
 
-% --- Fine di mio_stile_esame.sty ---
+% --- Fine: mio_stile_esame.sty ---

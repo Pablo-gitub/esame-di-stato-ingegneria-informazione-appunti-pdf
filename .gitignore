@@ -12,6 +12,7 @@
 *.lof
 *.log
 *.lot
+*.lol
 *.out
 *.toc
 *.acn
@@ -60,3 +61,17 @@ desktop.ini
 # Se decidi di NON versionare il PDF,
 # decommenta la riga sotto:
 # main.pdf
+
+# build epub
+main-epub/
+*.html
+*.idv
+*.lg
+*.xref
+*.tmp
+*.4*
+*ch*.html
+*.opf
+main.css
+*.dvi
+*.ncx
