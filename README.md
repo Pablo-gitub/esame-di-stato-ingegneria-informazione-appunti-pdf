@@ -5,12 +5,7 @@
 
 [📖 Scarica l’ultima release in PDF](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/appunti-esame-di-stato-ingegneria-informazione.pdf)
 
-![PDF downloads](https://img.shields.io/github/downloads/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/appunti-esame-di-stato-ingegneria-informazione.pdf/total)
-
 [📚 Scarica l’ultima release in EPUB](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/appunti-esame-di-stato-ingegneria-informazione.epub)
-
-![EPUB downloads](https://img.shields.io/github/downloads/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/appunti-esame-di-stato-ingegneria-informazione.epub/total)
-
 
 ![Release](https://img.shields.io/github/v/release/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf?display_name=tag&sort=semver&cacheSeconds=300)
 ![Downloads](https://img.shields.io/github/downloads/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/total?cacheSeconds=300)
