@@ -2,6 +2,7 @@
 
 > Appunti gratuiti in **PDF** per la preparazione all’**Esame di Stato di Ingegneria dell’Informazione (Sezione B – Ingegnere Junior)**.  
 > **Lingua:** Italiano · **Formato:** LaTeX + PDF pronto
+> **Struttura:** *Parte I – Fondamenti* (Sezione B, Ingegnere Junior) · *Parte II – Approfondimenti* (Sezione A, Ingegnere magistrale, orientata a Ingegneria Informatica)
 
 [📖 Scarica l’ultima release in PDF](https://github.com/Pablo-gitub/esame-di-stato-ingegneria-informazione-appunti-pdf/releases/latest/download/appunti-esame-di-stato-ingegneria-informazione.pdf)
 
@@ -30,7 +31,10 @@ Se pensi che questi appunti possano essere utili ad altri colleghi:
 
 ## 📚 Struttura del Progetto
 
-Il progetto è organizzato come un documento LaTeX che copre le materie più rilevanti e ricorrenti nelle prove d'esame. La struttura principale è la seguente:
+Il progetto è organizzato come un documento LaTeX in **due parti**: la **Parte I** raccoglie i fondamenti per la Sezione B (Ingegnere Junior); la **Parte II** estende gli appunti alla Sezione A (Ingegnere, laurea magistrale) con un taglio orientato a Ingegneria Informatica. La struttura principale è la seguente:
+
+### Parte I – Fondamenti (Sezione B, Ingegnere Junior)
+
 
 * **Capitolo 1: Sistemi Operativi**
     * Struttura, modelli, gestione di memoria e file system.
@@ -60,9 +64,48 @@ Il progetto è organizzato come un documento LaTeX che copre le materie più ril
 * **Sezione Domande e Esercizi**
     * Per ogni capitolo, sono presenti sezioni dedicate a domande teoriche e a esercizi pratici, con le relative soluzioni.
 
+### Parte II – Approfondimenti (Sezione A, Ingegneria Informatica)
+
+Introduzione alla Parte II (perimetro, organizzazione e avvertenze), poi:
+
+* **Capitolo 8: Sistemi Distribuiti, Cloud e Big Data**
+    * Caratteristiche e tecniche, teorema CAP, ACID e BASE, SQL contro NoSQL.
+    * Big Data (batch e streaming), architetture (a strati, SOA, microservizi), cloud e virtualizzazione.
+* **Capitolo 9: Intelligenza Artificiale e Machine Learning**
+    * Ricerca informata e non informata, paradigmi di apprendimento (supervisionato, non supervisionato, per rinforzo).
+    * Overfitting, minimi quadrati, identificazione di sistemi, modelli principali.
+* **Capitolo 10: Progettazione di Sistemi Software e API**
+    * API REST, architettura del backend, concorrenza e doppie prenotazioni.
+    * **Tema svolto completo** della prova pratica 2026 (cinema multisala): ER, SQL, API, UML, Machine Learning.
+* **Capitolo 11: Programmazione ad Oggetti e Algoritmi**
+    * Classi, incapsulamento, ereditarietà, polimorfismo e il *perché* di ogni scelta di progetto; SOLID.
+    * Stack e passaggio dei parametri, ricorsione, complessità, ordinamento, grafi.
+* **Capitolo 12: Sistemi Operativi e Reti: Approfondimenti**
+    * Thread e modelli di multithreading, race condition, sostituzione delle pagine.
+    * Concetto di protocollo, stack TCP/IP, TCP, routing, DNS, socket.
+* **Capitolo 13: Sicurezza Informatica e Crittografia**
+    * Crittografia simmetrica e asimmetrica, hash, firma digitale, PKI e TLS.
+    * Autenticazione, OWASP, sicurezza di rete, GDPR; messa in sicurezza del sistema di prenotazione.
+* **Capitolo 14: Basi di Dati Avanzate**
+    * Algebra relazionale, dipendenze funzionali e BCNF, SQL avanzato (CTE, funzioni finestra).
+    * Transazioni, concorrenza, recupero dai guasti, indici e ottimizzazione delle query.
+* **Capitolo 15: Architettura del Calcolatore**
+    * ISA RISC-V, datapath, pipeline e hazard, cache e gerarchia di memoria.
+    * Microcontrollori, IEEE 754; tema svolto sul datapath RISC (2024).
+
+Ogni capitolo della Parte II termina con una sezione **Tracce Uscite** che collega le tracce reali alle sezioni in cui trovare la risposta. Gli esempi di codice, le query e i calcoli sono stati eseguiti e verificati (tranne quelli indicati come pseudocodice); le aree **non trattate** (Automazione, Telecomunicazioni, Biomedica, Gestionale, Elettronica analogica) sono indicate nell'introduzione della Parte II.
+
+## 📂 Tracce delle Prove Passate
+
+La cartella `TraccePassate/` raccoglie i testi delle prove degli Esami di Stato (Sezione A, Settore dell'Informazione e Industriale) dal 2016 al 2026 usati come riferimento per la Parte II. Alcuni file sono scansioni: il testo è stato letto con OCR e può contenere piccole imprecisioni. L'organizzazione delle prove cambia da ateneo a ateneo e da sessione a sessione: consulta sempre il bando della tua università.
+
+## ℹ️ Nota sulla Parte II
+
+La **Parte I** è opera dell'autore originale. La **Parte II** (Approfondimenti per la Sezione A) è stata aggiunta da Nicolò Venieri a partire dalle tracce raccolte in `TraccePassate/`. Gli esempi di codice, le query e i calcoli sono stati eseguiti e verificati (tranne quelli indicati come pseudocodice); le parti teoriche, le norme e i valori di riferimento **non hanno ricevuto la revisione di un docente** e vanno verificati su fonti ufficiali. Segnala errori con una *issue* o una *pull request*.
+
 ## 🚀 Compilazione del Documento
 
-Per compilare il documento e generare il file `Esame_di_Stato_Ingegnere_Junior_Informazione.pdf`, è necessario avere installato un ambiente LaTeX.
+Per compilare il documento e generare il file `main.pdf`, è necessario avere installato un ambiente LaTeX.
 
 ### Requisiti Software
 
@@ -81,6 +124,16 @@ Per compilare il documento e generare il file `Esame_di_Stato_Ingegnere_Junior_I
 4.  Apri il file `main.tex`.
 5.  Clicca sul pulsante **"Build LaTeX project"** (l'icona della bacchetta magica) sulla barra degli strumenti di LaTeX Workshop. Potrebbe essere necessario cliccarlo 2-3 volte per compilare correttamente l'indice e la bibliografia.
 6.  Il file `main.pdf` sarà generato nella directory principale del progetto e conterra tutto il pdf del progetto.
+
+### Generare l'EPUB
+
+L'EPUB si genera con [Pandoc](https://pandoc.org/) (richiede anche `pandoc` nel `PATH`):
+
+```bash
+bash scripts/epub_generator.sh
+```
+
+Lo script usa i filtri in `filters/`: `lstlisting2fenced.lua` (blocchi di codice) ed `epub_parti.lua` (mantiene i capitoli numerati da 1 a 15 e mostra «Parte I» e «Parte II» come intestazioni senza numero).
 
 ## 🤝 Come Contribuire
 
@@ -102,7 +155,8 @@ Se desideri aggiungere il tuo nome, apri `main.tex` e modifica il blocco:
 Questo documento è stato sviluppato con la collaborazione di:
 
 \begin{itemize}
-  \item Paolo Pietrelli – autore principale
+  \item Paolo Pietrelli – autore principale; Parte I (Fondamenti)
+  \item Nicolò Venieri – Parte II (Approfondimenti per la Sezione A)
   % \item Nome Cognome – contributo su [argomento]
 \end{itemize}
 ```

@@ -1,0 +1,48 @@
+\chapter*{Introduzione alla Parte II}
+\addcontentsline{toc}{chapter}{Introduzione alla Parte II}
+
+La Parte I raccoglie i fondamenti richiesti per l'Esame di Stato di \textbf{Ingegnere Junior} (Sezione B). Questa seconda parte estende gli appunti al livello della \textbf{Sezione A}, cioè dell'Esame di Stato di \textbf{Ingegnere} per chi si laurea nel corso magistrale, con un'impostazione orientata a \textbf{Ingegneria Informatica}.
+
+\section*{Perché una seconda parte}
+Le prove della Sezione A sono diverse da quelle della Sezione B:
+\begin{itemize}
+    \item i temi sono \textbf{aperti}: si sviluppa in modo discorsivo un argomento, con definizioni, schemi, esempi di codice e motivazioni delle scelte;
+    \item alcune sessioni prevedono una \textbf{prova pratica di progettazione} (per esempio, nel 2026, un sistema di prenotazione per un cinema multisala con database, backend, API, diagrammi UML e un modulo di Machine Learning, da svolgere punto per punto);
+    \item gli argomenti sono più avanzati: sistemi distribuiti, intelligenza artificiale, progettazione di sistemi, sicurezza, architettura del calcolatore.
+\end{itemize}
+I contenuti sono stati scelti analizzando le \textbf{tracce delle prove passate} (dal 2016 al 2026) raccolte nella cartella \texttt{TraccePassate} del repository.
+
+\section*{Come sono organizzati i capitoli}
+Ogni capitolo della Parte II ha la stessa struttura:
+\begin{enumerate}
+    \item la \textbf{teoria} necessaria, con attenzione al \emph{perché} delle scelte (non solo al \emph{che cosa});
+    \item \textbf{esempi svolti}, in particolare codice, query SQL e calcoli: quelli riportati sono stati \textbf{eseguiti e verificati} con appositi strumenti di prova (tranne quelli indicati come pseudocodice), e dove un risultato è indicato è quello effettivamente ottenuto;
+    \item le \textbf{scalette di risposta} per i temi tipici;
+    \item una sezione finale \textbf{Tracce Uscite} che collega ogni traccia reale alle sezioni in cui trovare la risposta.
+\end{enumerate}
+
+\section*{Che cosa copre e che cosa no}
+Per un candidato di Ingegneria Informatica sono più rilevanti i temi di Informatica; nelle tracce analizzate ogni prova ne offre da \textbf{uno a tre}. La Parte II si concentra su quelli.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{3cm}X@{}}
+\toprule
+\textbf{Area delle tracce} & \textbf{Copertura} & \textbf{Dove} \\
+\midrule
+Informatica & \textbf{Ampia} & Sistemi distribuiti, IA e ML, progettazione di sistemi e API, programmazione e algoritmi, sistemi operativi e reti, sicurezza, basi di dati \\
+Elettronica (parte digitale) & Parziale & Architettura del calcolatore: datapath RISC, pipeline, cache, microcontrollori, potenza \\
+Elettronica (parte analogica) & \textbf{Non trattata} & Diodo, amplificatori, filtri, convertitori, ADC: solo cenni nel capitolo \emph{Elettronica} (MOS, CMOS) \\
+Automazione, Telecomunicazioni, Biomedica, Gestionale & \textbf{Non trattate} & Le tracce di Automazione e Telecomunicazioni sono frequenti ma richiedono capitoli dedicati; solo l'identificazione dei sistemi e il machine learning sono trattati (capitolo \emph{IA e ML}) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Le aree non trattate sono una \textbf{scelta di perimetro}, non una dimenticanza: chi sceglie di prepararle deve integrare con altre fonti.
+
+\section*{Avvertenze}
+\begin{itemize}
+    \item L'organizzazione, i programmi e le prove \textbf{cambiano da ateneo a ateneo e da sessione a sessione}: consultare sempre il bando dell'università in cui si sostiene l'esame.
+    \item Le parti teoriche, le norme e i valori di riferimento (per esempio standard di sicurezza, regolamenti, valori tipici di prestazioni) sono stati redatti a partire dalla conoscenza dei redattori e \textbf{non hanno ricevuto la revisione di un docente}: vanno \textbf{verificati su fonti ufficiali} prima di fare affidamento su di essi.
+    \item Gli esempi di codice sono didattici: \textbf{non sono pronti per la produzione}.
+    \item Si invita a segnalare errori o imprecisioni con una \emph{issue} o una \emph{pull request} sul repository.
+\end{itemize}

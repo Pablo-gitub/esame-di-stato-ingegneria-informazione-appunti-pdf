@@ -1,0 +1,258 @@
+\chapter{Sistemi Distribuiti, Cloud e Big Data}
+
+Un \textbf{sistema distribuito} è un insieme di computer autonomi, collegati da una rete, che appare all'utente come un unico sistema coerente. Questo capitolo è il più ricorrente nelle tracce della Sezione A (Settore Informazione, tema di Informatica) e va studiato per \emph{scrivere un tema}: ogni sezione termina con una scaletta di risposta.
+
+\section{Caratteristiche dei Sistemi Distribuiti}
+Le proprietà che un sistema distribuito deve garantire, con le tecniche che le realizzano:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Caratteristica} & \textbf{Significato} & \textbf{Tecniche} \\
+\midrule
+Scalabilità & Mantenere le prestazioni al crescere di utenti e dati & Scale-out (più nodi), load balancing, partizionamento (sharding), caching \\
+Tolleranza ai guasti & Continuare a funzionare se un nodo o un collegamento si guasta & Replicazione, ridondanza, failover, timeout e retry, checkpoint \\
+Disponibilità & Frazione di tempo in cui il servizio risponde & Replicazione, cluster attivo--attivo, health check \\
+Trasparenza & Nascondere la distribuzione (accesso, locazione, replicazione, guasto) & Naming service, middleware, RPC \\
+Apertura & Interfacce standard e documentate & API REST, protocolli standard \\
+Consistenza & Le repliche mostrano gli stessi dati & Protocolli di consenso, transazioni distribuite \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Scalabilità: verticale e orizzontale}
+\begin{itemize}
+    \item \textbf{Scale-up (verticale)}: macchina più potente (CPU, RAM). Semplice, ma ha un limite fisico ed è un singolo punto di guasto.
+    \item \textbf{Scale-out (orizzontale)}: più macchine in parallelo dietro un \textbf{load balancer}. Richiede che il servizio sia (il più possibile) \textbf{stateless}. È l'approccio tipico del cloud.
+    \item \textbf{Sharding}: i dati sono divisi in partizioni su nodi diversi (per intervallo o per hash della chiave).
+    \item \textbf{Replicazione}: gli stessi dati sono copiati su più nodi, per disponibilità e per distribuire le letture.
+\end{itemize}
+
+\subsection{Prestazioni: latenza e throughput}
+\begin{itemize}
+    \item \textbf{Latenza}: tempo di risposta di una singola richiesta.
+    \item \textbf{Throughput}: richieste servite per unità di tempo.
+    \item Le due misure sono in tensione: aggiungere replicazione sincrona o controlli di consistenza \emph{aumenta} la latenza; batching e pipelining aumentano il throughput ma anche la latenza media.
+    \item La rete non è affidabile: i messaggi possono essere persi, duplicati, ritardati o arrivare fuori ordine, e non esiste un orologio globale. Per questo servono timeout, ritrasmissioni e operazioni \textbf{idempotenti}.
+\end{itemize}
+
+\subsection{Tolleranza ai guasti}
+\begin{itemize}
+    \item \textbf{Guasti}: crash di un nodo, partizione di rete, messaggi persi, guasti bizantini (nodi che si comportano in modo arbitrario o malevolo).
+    \item \textbf{Rilevamento}: heartbeat e timeout.
+    \item \textbf{Recupero}: failover su una replica, rielezione del leader, riesecuzione da log o checkpoint.
+    \item \textbf{Pattern}: retry con \emph{exponential backoff}, \emph{circuit breaker}, \emph{bulkhead}.
+\end{itemize}
+
+\section{Il Teorema CAP}
+Il \textbf{teorema CAP} (Brewer) afferma che un sistema distribuito che mantiene dati replicati può garantire contemporaneamente \emph{al più due} delle tre proprietà:
+
+\begin{itemize}
+    \item \textbf{C -- Consistency}: ogni lettura restituisce la scrittura più recente (vista unica e aggiornata dei dati, \emph{linearizzabilità}).
+    \item \textbf{A -- Availability}: ogni richiesta ricevuta da un nodo non guasto riceve una risposta.
+    \item \textbf{P -- Partition tolerance}: il sistema continua a funzionare anche se la rete si divide e alcuni nodi non riescono a comunicare.
+\end{itemize}
+
+In una rete reale le partizioni \emph{possono sempre verificarsi}, quindi P non è opzionale. La scelta vera è, \textbf{durante una partizione}, tra C e A:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Scelta} & \textbf{Comportamento in partizione} & \textbf{Esempi} \\
+\midrule
+CP & Si rifiutano (o si bloccano) le operazioni sui nodi che non vedono il quorum: i dati restano coerenti, ma il servizio è indisponibile per una parte degli utenti & MongoDB (default), HBase, Redis cluster, ZooKeeper, database relazionali replicati in modo sincrono \\
+AP & Tutti i nodi rispondono, ma possono restituire dati vecchi; le divergenze vengono riconciliate dopo & Cassandra, DynamoDB, CouchDB, Riak \\
+CA & Possibile solo senza partizioni, cioè in un sistema non distribuito (database su un singolo nodo) & RDBMS su un nodo \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Estensione PACELC.} Anche \emph{senza} partizione c'è un compromesso tra \textbf{latenza} e \textbf{consistenza}: replicare in modo sincrono è coerente ma lento. PACELC: \emph{se Partition, scegli A o C; Else, scegli Latency o Consistency}.
+
+\subsection{Modelli di consistenza}
+\begin{itemize}
+    \item \textbf{Consistenza forte}: dopo una scrittura, ogni lettura vede il nuovo valore. Costosa in latenza.
+    \item \textbf{Consistenza eventuale}: in assenza di nuove scritture, le repliche convergono allo stesso valore \emph{col tempo}. Alta disponibilità e bassa latenza.
+    \item \textbf{Altri}: consistenza causale, read-your-writes, monotonic reads.
+    \item \textbf{Quorum}: con $N$ repliche, scrivendo su $W$ e leggendo da $R$ nodi, se $R + W > N$ ogni lettura incontra almeno una replica aggiornata.
+\end{itemize}
+
+\subsection{ACID e BASE}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+ & \textbf{ACID (database relazionali)} & \textbf{BASE (molti NoSQL)} \\
+\midrule
+Significato & \emph{Atomicity, Consistency, Isolation, Durability} & \emph{Basically Available, Soft state, Eventual consistency} \\
+Priorità & Correttezza dei dati & Disponibilità e scalabilità \\
+Transazioni & Sì, su più righe e tabelle & Spesso limitate a un singolo documento o chiave \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Database SQL e NoSQL nei Sistemi Distribuiti}
+
+\subsection{Database relazionali (SQL)}
+Dati strutturati in tabelle con schema fisso, join, vincoli di integrità e transazioni ACID. Scalano bene \emph{in verticale}; la scalabilità orizzontale è possibile (replicazione master--slave per le letture, sharding) ma complessa, perché join e transazioni distribuite sono costosi (per esempio con il protocollo \textbf{two-phase commit}, che blocca le risorse e riduce la disponibilità).
+
+\subsection{Database NoSQL}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+\textbf{Modello} & \textbf{Descrizione} & \textbf{Uso tipico (esempio)} \\
+\midrule
+Chiave--valore & Coppie chiave $\to$ valore opaco; accesso molto veloce & Cache, sessioni, carrelli (Redis, DynamoDB) \\
+Documenti & Documenti JSON/BSON con schema flessibile & Cataloghi prodotti, profili utente (MongoDB, CouchDB) \\
+Colonnari (wide-column) & Dati organizzati per famiglie di colonne, ottimi per scritture massive e scansioni & Log, serie temporali, IoT (Cassandra, HBase) \\
+Grafi & Nodi e archi con proprietà; interrogazioni sulle relazioni & Social network, raccomandazioni, frodi (Neo4j) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Confronto e scelta}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+ & \textbf{SQL} & \textbf{NoSQL} \\
+\midrule
+Schema & Rigido, definito in anticipo & Flessibile (schema-on-read) \\
+Scalabilità & Principalmente verticale & Orizzontale nativa (sharding, replicazione) \\
+Consistenza & Forte (ACID) & Spesso eventuale (BASE), regolabile \\
+Interrogazioni & SQL standard, join, aggregazioni complesse & API specifiche, join limitati o assenti \\
+CAP (tendenza) & CA/CP & Prevalentemente AP (alcuni CP) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Quando preferire SQL.} Applicazioni in cui la correttezza è critica e i dati sono fortemente relazionali: sistemi bancari e contabili, ordini, magazzino (un doppio addebito o una vendita doppia dello stesso articolo non sono accettabili).
+
+\paragraph{Quando preferire NoSQL.} Grandi volumi di dati eterogenei, picchi di traffico e bassa latenza, a costo di consistenza eventuale: feed di un social network, catalogo di un e-commerce, telemetria IoT, log. Un like che compare dopo qualche secondo è accettabile.
+
+\paragraph{Persistenza poliglotta.} Spesso un'azienda usa entrambi: SQL per ordini e pagamenti, NoSQL (documenti o chiave--valore) per catalogo, sessioni e cache.
+
+\subsection{Scaletta per il tema ``consistenza SQL/NoSQL e CAP''}
+\begin{enumerate}
+    \item Definire il problema: dati replicati su più nodi, rete inaffidabile.
+    \item Enunciare CAP e spiegare perché P è obbligatoria; scegliere tra C e A.
+    \item Descrivere ACID e BASE; consistenza forte vs eventuale; quorum.
+    \item Confrontare SQL (CA/CP) e NoSQL (AP), con una tabella.
+    \item Esempi concreti: banca $\to$ SQL/CP; social feed e carrello $\to$ NoSQL/AP.
+    \item Chiudere con persistenza poliglotta e con PACELC.
+\end{enumerate}
+
+\section{Big Data: Elaborazione Batch e Streaming}
+I \textbf{Big Data} si caratterizzano per le ``V'': \textbf{Volume}, \textbf{Velocità}, \textbf{Varietà}, a cui si aggiungono Veridicità e Valore. Sono dati troppo grandi o troppo veloci per un singolo database tradizionale.
+
+\subsection{Archiviazione}
+\begin{itemize}
+    \item \textbf{File system distribuito} (HDFS): file divisi in blocchi replicati su più nodi.
+    \item \textbf{Data lake}: dati grezzi di qualsiasi formato (schema-on-read), a basso costo.
+    \item \textbf{Data warehouse}: dati puliti e strutturati per analisi (OLAP), schema-on-write.
+    \item \textbf{OLTP vs OLAP}: OLTP gestisce molte piccole transazioni (ordini); OLAP gestisce poche interrogazioni analitiche pesanti su grandi dati storici.
+\end{itemize}
+
+\subsection{Elaborazione batch e streaming}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+ & \textbf{Batch} & \textbf{Streaming} \\
+\midrule
+Dati & Insiemi finiti e completi & Flussi continui di eventi \\
+Latenza & Minuti--ore & Millisecondi--secondi \\
+Modello & MapReduce, Spark & Kafka, Flink, Spark Streaming \\
+Pro & Alto throughput, risultati accurati e riproducibili & Reazione in tempo reale \\
+Contro & Dati non freschi & Più complesso (ordine degli eventi, finestre, stato) \\
+Usi & Report, addestramento di modelli, ETL notturni & Rilevamento frodi, monitoraggio, raccomandazioni live \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{MapReduce.} Modello di calcolo parallelo: la fase \textbf{Map} trasforma i dati in coppie chiave--valore elaborate in parallelo; la fase \textbf{Reduce} aggrega i valori con la stessa chiave. Il framework gestisce distribuzione, parallelismo e guasti.
+
+\paragraph{Architetture Lambda e Kappa.} \emph{Lambda}: un livello batch (accurato) più un livello speed (veloce) uniti in un livello di servizio. \emph{Kappa}: un solo percorso streaming, con possibilità di rielaborare lo storico.
+
+\section{Architetture di Applicazioni Distribuite}
+
+\subsection{Architettura a strati (layered, N-tier)}
+Presentazione $\to$ logica applicativa $\to$ accesso ai dati $\to$ database, con ogni strato che dipende solo da quello sottostante.
+\begin{itemize}
+    \item \textbf{Pro}: semplice, separazione delle responsabilità, facile da capire e testare.
+    \item \textbf{Contro}: spesso monolitica; per scalare si replica l'intero blocco; un cambiamento richiede di rilasciare tutto.
+\end{itemize}
+
+\subsection{Service-Oriented Architecture (SOA)}
+Servizi riutilizzabili, a grana grossa, con interfacce standard (SOAP/WSDL) che comunicano tramite un \textbf{Enterprise Service Bus}. Pensata per integrare sistemi aziendali eterogenei. Il bus centrale può diventare un collo di bottiglia.
+
+\subsection{Microservizi}
+L'applicazione è divisa in piccoli servizi indipendenti, ciascuno con la propria responsabilità di business e \emph{spesso con il proprio database}, che comunicano tramite API leggere (REST/gRPC) o messaggi.
+\begin{itemize}
+    \item \textbf{Pro}: scalabilità selettiva (si replica solo il servizio sotto carico), isolamento dei guasti, rilasci indipendenti, libertà tecnologica, team autonomi.
+    \item \textbf{Contro}: complessità operativa, latenza di rete tra servizi, consistenza dei dati distribuita (niente transazioni ACID globali: si usano \textbf{saga} ed eventual consistency), debug e osservabilità più difficili.
+    \item \textbf{Componenti tipici}: API gateway, service discovery, load balancer, message broker, tracing distribuito, circuit breaker.
+\end{itemize}
+
+\subsection{Comunicazione sincrona e asincrona}
+\begin{itemize}
+    \item \textbf{Sincrona} (richiesta/risposta: REST, gRPC): semplice, ma accoppia i servizi nel tempo; se uno è lento, rallenta l'altro.
+    \item \textbf{Asincrona} (code e topic: RabbitMQ, Kafka): disaccoppia produttore e consumatore, assorbe i picchi, migliora la resilienza; la consistenza diventa eventuale.
+    \item \textbf{Event-driven}: i servizi reagiscono a eventi pubblicati su un broker (publish/subscribe).
+\end{itemize}
+
+\subsection{Confronto sintetico}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXXX@{}}
+\toprule
+ & \textbf{Layered/monolite} & \textbf{SOA} & \textbf{Microservizi} \\
+\midrule
+Scalabilità & Replica dell'intero blocco & Per servizio, ma bus centrale & Fine, per servizio \\
+Tolleranza ai guasti & Un guasto può fermare tutto & Dipende dal bus & Isolamento dei guasti \\
+Complessità & Bassa & Media & Alta (operativa) \\
+Rilasci & Unico e grande & Per servizio & Indipendenti e frequenti \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Cloud Computing e Virtualizzazione}
+
+\subsection{Virtualizzazione}
+L'\textbf{hypervisor} permette di eseguire più macchine virtuali (VM) isolate sullo stesso hardware fisico.
+\begin{itemize}
+    \item \textbf{Tipo 1 (bare-metal)}: gira direttamente sull'hardware (ESXi, KVM, Xen).
+    \item \textbf{Tipo 2 (hosted)}: gira sopra un sistema operativo (VirtualBox, VMware Workstation).
+    \item \textbf{Container} (Docker): condividono il kernel dell'host e isolano i processi (namespace e cgroup). Sono più leggeri e veloci da avviare delle VM, ma l'isolamento è più debole.
+    \item \textbf{Orchestrazione} (Kubernetes): distribuisce i container sui nodi, li riavvia in caso di guasto, scala in base al carico (autoscaling), gestisce rete e aggiornamenti progressivi (rolling update).
+\end{itemize}
+
+\subsection{Modelli di servizio e di distribuzione}
+\begin{itemize}
+    \item \textbf{IaaS} (infrastruttura: VM, storage, rete), \textbf{PaaS} (piattaforma per eseguire applicazioni), \textbf{SaaS} (software finito), e \textbf{FaaS}/serverless (funzioni a evento).
+    \item \textbf{Pubblico}, \textbf{privato}, \textbf{ibrido}, multi-cloud.
+\end{itemize}
+
+\subsection{Vantaggi, sfide e best practice}
+\begin{itemize}
+    \item \textbf{Vantaggi}: elasticità (risorse a richiesta), pagamento a consumo, alta disponibilità tramite regioni e zone, rapidità di rilascio.
+    \item \textbf{Sfide}: vendor lock-in, costi non controllati, sicurezza e conformità (GDPR, localizzazione dei dati), latenza, dipendenza dalla rete.
+    \item \textbf{Best practice}: progettare per il guasto (\emph{design for failure}), servizi stateless, infrastruttura come codice, replicazione su più zone, backup e disaster recovery, monitoraggio e osservabilità, CI/CD.
+\end{itemize}
+
+\section{Meccanismi Fondamentali}
+
+\subsection{Consenso e elezione del leader}
+Per mettere d'accordo i nodi su un valore (per esempio chi è il leader o quale transazione è confermata) si usano protocolli di consenso come \textbf{Paxos} e \textbf{Raft}. Raft elegge un leader che replica un log di comandi; un comando è confermato quando la maggioranza dei nodi (quorum) lo ha scritto. Con $N$ nodi tollera $\lfloor (N-1)/2 \rfloor$ guasti.
+
+\subsection{Transazioni distribuite}
+\begin{itemize}
+    \item \textbf{Two-phase commit (2PC)}: un coordinatore chiede a tutti i partecipanti di preparare la transazione (fase 1) e poi di confermare o annullare (fase 2). Garantisce atomicità, ma è bloccante se il coordinatore si guasta.
+    \item \textbf{Saga}: sequenza di transazioni locali, ciascuna con un'azione compensativa in caso di errore. Tipica dei microservizi.
+\end{itemize}
+
+\subsection{Comunicazione tra processi}
+\begin{itemize}
+    \item \textbf{RPC} (chiamata di procedura remota): nasconde la rete dietro una chiamata di funzione. Semantiche: at-least-once, at-most-once, exactly-once (quest'ultima difficile).
+    \item \textbf{REST}: risorse identificate da URL, verbi HTTP (GET, POST, PUT, DELETE), stateless, rappresentazioni in JSON.
+    \item \textbf{Message queue}: consegna asincrona, bufferizzata e affidabile.
+\end{itemize}
+
+\subsection{Orologi e ordinamento}
+Non esiste un tempo globale: si usano \textbf{orologi logici} di Lamport e \textbf{vector clock} per stabilire l'ordine causale degli eventi.

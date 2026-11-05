@@ -1,0 +1,624 @@
+\chapter[Basi di Dati Avanzate]{Basi di Dati Avanzate: Algebra, SQL, Transazioni e Indici}
+
+Il capitolo \emph{Basi di Dati} copre il modello ER, la progettazione logica, le forme normali fino alla terza e le basi di SQL. Qui si approfondiscono gli argomenti attesi per la Sezione A: \textbf{algebra relazionale}, \textbf{dipendenze funzionali e BCNF}, \textbf{SQL avanzato}, \textbf{transazioni}, \textbf{controllo della concorrenza}, \textbf{recupero dai guasti}, \textbf{indici} e \textbf{ottimizzazione delle query}. Gli esempi usano lo schema del cinema multisala del capitolo \emph{Progettazione di Sistemi e API}, con un piccolo insieme di dati.
+
+\paragraph{Dati di esempio.}
+Film: Aurora (1), Zenit (2), Mare (3), Ombra (4, mai programmato). Sala 1 con 6 posti, Sala 2 con 4. Proiezioni: p1 e p2 di Aurora in Sala 1 (prezzi 8 e 10), p3 di Zenit in Sala 2 (9), p4 di Zenit in Sala 1 (10), p5 di Mare in Sala 2 (7). Biglietti venduti: p1 ne ha 4 su 6, p2 ne ha 2 su 6, p3 ne ha 4 su 4 (esaurita), p4 ne ha 1 su 6, p5 nessuno. Tutte le query e gli output riportati sono stati eseguiti su questi dati (con SQLite).
+
+\section{Algebra Relazionale}
+L'\textbf{algebra relazionale} è il linguaggio \emph{procedurale} formale su cui si fonda SQL: ogni operatore prende relazioni e produce una relazione. È il linguaggio con cui il DBMS rappresenta e \emph{ottimizza} internamente le query.
+
+\subsection{Richiami sul modello relazionale}
+\begin{itemize}
+    \item Una \textbf{relazione} è un insieme di \textbf{tuple} sugli stessi \textbf{attributi} (ciascuno con un dominio). Un \textbf{vincolo di chiave} garantisce l'unicità; la \textbf{chiave esterna} garantisce l'\textbf{integrità referenziale}.
+    \item \textbf{NULL}: valore ``sconosciuto/inesistente''. SQL usa una \textbf{logica a tre valori} (vero, falso, \emph{sconosciuto}): \texttt{NULL = NULL} non è vero, ma sconosciuto; si usa \texttt{IS NULL}.
+    \item Differenza tra \textbf{insiemi} (algebra: nessun duplicato) e \textbf{multinsiemi} (SQL: i duplicati restano, salvo \texttt{DISTINCT}).
+\end{itemize}
+
+\subsection{Operatori}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.1cm}X@{}}
+\toprule
+\textbf{Operatore} & \textbf{Simbolo} & \textbf{Equivalente in SQL} \\
+\midrule
+Selezione (filtra righe) & $\sigma_{\text{cond}}(R)$ & \texttt{WHERE cond} \\
+Proiezione (sceglie colonne) & $\pi_{A_1,\ldots,A_k}(R)$ & \texttt{SELECT DISTINCT A1, \ldots} \\
+Ridenominazione & $\rho_{S}(R)$ & \texttt{AS} \\
+Unione, intersezione, differenza & $R\cup S$, $R\cap S$, $R - S$ & \texttt{UNION}, \texttt{INTERSECT}, \texttt{EXCEPT} (le relazioni devono avere gli stessi attributi) \\
+Prodotto cartesiano & $R\times S$ & \texttt{CROSS JOIN} \\
+Join (theta/naturale) & $R \bowtie_{\theta} S$ & \texttt{JOIN \ldots{} ON} \\
+Join esterno (sinistro) & $R \mathbin{\bowtie_{\text{sx}}} S$ & \texttt{LEFT JOIN} \\
+Divisione & $R \div S$ & \texttt{NOT EXISTS} doppio \\
+Raggruppamento e aggregazione & $\gamma$ & \texttt{GROUP BY}, \texttt{SUM}, \texttt{COUNT}, \ldots \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Esempio}: i titoli dei film proiettati il 10 novembre 2026.
+\[
+\pi_{\text{titolo}}\Bigl(\text{FILM} \bowtie_{\text{id\_film}} \sigma_{\text{data} = \text{2026-11-10}}(\text{PROIEZIONE})\Bigr)
+\]
+Operatori \emph{primitivi}: $\sigma$, $\pi$, $\rho$, $\cup$, $-$, $\times$. Gli altri (intersezione, join, divisione) si ottengono da questi; per esempio $R\bowtie_\theta S = \sigma_\theta(R\times S)$.
+
+\subsection{Equivalenze usate per ottimizzare}
+\begin{itemize}
+    \item \textbf{Anticipare le selezioni}: $\sigma_p(R\bowtie S) = \sigma_p(R)\bowtie S$ se $p$ riguarda solo attributi di $R$. \textbf{Perché}: si fa il join su meno righe. Esempio: se il join tra $10^6$ biglietti e $10^4$ proiezioni è seguito da un filtro che lascia una proiezione su cento, filtrare prima riduce di cento volte l'ingresso del join.
+    \item \textbf{Anticipare le proiezioni}: scartare le colonne non necessarie il prima possibile.
+    \item \textbf{Commutatività e associatività} del join: l'ordine dei join può cambiare; si sceglie quello più economico.
+    \item $\sigma_{p\wedge q}(R) = \sigma_p(\sigma_q(R))$.
+\end{itemize}
+
+\section{Dipendenze Funzionali e Forme Normali}
+
+\subsection{Dipendenze funzionali}
+Una \textbf{dipendenza funzionale} $X\to Y$ vale in una relazione se due tuple con lo stesso valore di $X$ hanno sempre lo stesso valore di $Y$ (\emph{$X$ determina $Y$}). Esempio: \texttt{id\_sala, fila, numero} $\to$ \texttt{tipo\_poltrona}.
+\begin{itemize}
+    \item \textbf{Assiomi di Armstrong} (corretti e completi): \textbf{riflessività} (se $Y\subseteq X$ allora $X\to Y$), \textbf{aumento} (se $X\to Y$ allora $XZ\to YZ$), \textbf{transitività} (se $X\to Y$ e $Y\to Z$ allora $X\to Z$). Derivate: unione, decomposizione, pseudotransitività.
+    \item \textbf{Chiusura} $X^+$: insieme di tutti gli attributi determinati da $X$ (si calcola aggiungendo ripetutamente i membri destri delle dipendenze i cui membri sinistri sono già inclusi).
+    \item \textbf{Superchiave}: $X$ con $X^+ = $ tutti gli attributi. \textbf{Chiave candidata}: superchiave \emph{minimale}. \textbf{Attributo primo}: appartiene ad almeno una chiave candidata.
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={Chiusura di un insieme di attributi, chiavi candidate e controllo BCNF}]
+from itertools import combinations
+
+def chiusura(X, dipendenze):
+    """Chiusura X+ di un insieme di attributi rispetto a un insieme di dipendenze funzionali."""
+    risultato = set(X)
+    cambiato = True
+    while cambiato:
+        cambiato = False
+        for sx, dx in dipendenze:
+            if set(sx) <= risultato and not set(dx) <= risultato:
+                risultato |= set(dx)
+                cambiato = True
+    return risultato
+
+def chiavi_candidate(attributi, dipendenze):
+    """Insiemi minimali di attributi la cui chiusura contiene tutti gli attributi."""
+    chiavi = []
+    for k in range(1, len(attributi) + 1):
+        for comb in combinations(sorted(attributi), k):
+            if chiusura(comb, dipendenze) >= set(attributi):
+                if not any(set(c) <= set(comb) for c in chiavi):   # minimalita'
+                    chiavi.append(comb)
+    return chiavi
+
+def viola_bcnf(attributi, dipendenze):
+    """Dipendenze non banali X -> Y in cui X non e' una superchiave."""
+    return [(sx, dx) for sx, dx in dipendenze
+            if not set(dx) <= set(sx) and chiusura(sx, dipendenze) < set(attributi)]
+
+# R(Studente, Corso, Docente)  con  {Studente, Corso} -> Docente  e  Docente -> Corso
+R = {"Studente", "Corso", "Docente"}
+F = [(("Studente", "Corso"), ("Docente",)), (("Docente",), ("Corso",))]
+
+print(sorted(chiusura({"Studente", "Corso"}, F)))
+print(sorted(chiusura({"Docente"}, F)))
+print(chiavi_candidate(R, F))
+print(viola_bcnf(R, F))
+\end{lstlisting}
+
+\subsection{Forme normali, definizioni formali}
+\begin{itemize}
+    \item \textbf{2NF}: in 1NF e nessun attributo non primo dipende da una \emph{parte} di una chiave candidata (niente dipendenze parziali).
+    \item \textbf{3NF}: per ogni dipendenza non banale $X\to A$ vale: $X$ è una superchiave \textbf{oppure} $A$ è un attributo primo. (Niente dipendenze transitive di attributi non primi dalla chiave.)
+    \item \textbf{BCNF} (Boyce--Codd): per ogni dipendenza non banale $X\to A$, $X$ è una \textbf{superchiave}. È più restrittiva della 3NF. Ogni schema in BCNF è in 3NF, ma non viceversa.
+\end{itemize}
+
+\subsection{Esempio: 3NF ma non BCNF}
+$R(\text{Studente}, \text{Corso}, \text{Docente})$ con $\{\text{Studente},\text{Corso}\}\to\text{Docente}$ (ogni studente ha un solo docente per corso) e $\text{Docente}\to\text{Corso}$ (ogni docente insegna un solo corso).
+\begin{itemize}
+    \item Chiavi candidate: \{Studente, Corso\} e \{Studente, Docente\} (verificate dal codice sopra). Tutti gli attributi sono \emph{primi}, quindi $R$ è in \textbf{3NF}.
+    \item $\text{Docente}\to\text{Corso}$ ha come determinante \texttt{Docente}, che \textbf{non è superchiave}: $R$ \textbf{non è in BCNF}. Conseguenza: la coppia (Docente, Corso) è ripetuta per ogni studente (ridondanza e anomalie di aggiornamento).
+    \item \textbf{Decomposizione}: $R_1(\text{Docente},\text{Corso})$ e $R_2(\text{Studente},\text{Docente})$, entrambe in BCNF.
+    \item \textbf{Senza perdita} (\emph{lossless join}): l'attributo comune \texttt{Docente} è chiave di $R_1$, quindi il join ricostruisce esattamente $R$.
+    \item \textbf{Perdita di dipendenze}: la dipendenza $\{\text{Studente},\text{Corso}\}\to\text{Docente}$ non si può più verificare su una sola relazione (richiede un join).
+\end{itemize}
+\textbf{Compromesso}: la decomposizione in \textbf{3NF} è sempre senza perdita \emph{e} conserva le dipendenze; la decomposizione in \textbf{BCNF} è sempre senza perdita ma \emph{può} non conservare le dipendenze. Si sceglie la BCNF per eliminare ogni ridondanza, la 3NF se serve poter verificare i vincoli senza join.
+
+\subsection{Denormalizzazione}
+La normalizzazione riduce ridondanze e anomalie, ma richiede più join in lettura. Si \textbf{denormalizza} consapevolmente (per esempio memorizzando un totale già calcolato) quando le letture dominano e il join è troppo costoso, accettando di dover mantenere la coerenza a mano (con trigger o a livello applicativo). In un data warehouse è la norma (vedi più avanti). Regola: prima si normalizza, poi si denormalizza \emph{dove le misure lo giustificano}.
+
+\section{SQL Avanzato}
+
+\subsection{Join esterni e la trappola delle aggregazioni}
+Un \texttt{LEFT JOIN} mantiene le righe della tabella di sinistra anche senza corrispondenza, riempiendo con \texttt{NULL}. Ma una riga \emph{con} NULL è comunque una riga: se si somma una colonna della tabella intermedia, il risultato è \textbf{sbagliato}.
+
+\begin{lstlisting}[language=SQL, caption={Errore classico: LEFT JOIN seguito da SUM}]
+-- ERRATO: per i film senza biglietti il LEFT JOIN genera comunque una riga,
+-- e SUM(pr.prezzo) somma il prezzo della proiezione anche se non e' stato venduto nulla
+SELECT f.titolo, COALESCE(SUM(pr.prezzo), 0) AS incasso
+FROM film f
+LEFT JOIN proiezione pr ON pr.id_film = f.id_film
+LEFT JOIN biglietto b   ON b.id_proiezione = pr.id_proiezione
+GROUP BY f.id_film, f.titolo;
+\end{lstlisting}
+Risultato: Aurora 52, Zenit 46, \textbf{Mare 7}, Ombra 0. Mare ha una proiezione (prezzo 7) ma \emph{nessun biglietto venduto}: il valore corretto è $0$.
+
+\begin{lstlisting}[language=SQL, caption={Versione corretta}]
+-- CORRETTO: si somma il prezzo solo se esiste davvero un biglietto
+SELECT f.titolo,
+       SUM(CASE WHEN b.id_proiezione IS NOT NULL THEN pr.prezzo ELSE 0 END) AS incasso
+FROM film f
+LEFT JOIN proiezione pr ON pr.id_film = f.id_film
+LEFT JOIN biglietto b   ON b.id_proiezione = pr.id_proiezione
+GROUP BY f.id_film, f.titolo
+ORDER BY incasso DESC, f.titolo;
+\end{lstlisting}
+Risultato corretto: Aurora 52, Zenit 46, Mare 0, Ombra 0. \textbf{Regola}: dopo un join esterno, ricordare che la riga ``vuota'' esiste; contare \texttt{COUNT(colonna\_della\_tabella\_a\_destra)} (che ignora i NULL) oppure usare \texttt{CASE}.
+
+\subsection{Sottoquery}
+\begin{itemize}
+    \item \textbf{Scalare}: restituisce un solo valore (\texttt{WHERE prezzo > (SELECT AVG(prezzo) \ldots)}).
+    \item \textbf{Con \texttt{IN}}, \textbf{con \texttt{EXISTS}}: verifica di appartenenza o di esistenza. \texttt{EXISTS} si ferma alla prima corrispondenza.
+    \item \textbf{Correlata}: la sottoquery usa colonne della query esterna; concettualmente è eseguita per ogni riga (il DBMS spesso la riscrive come join).
+\end{itemize}
+
+\begin{lstlisting}[language=SQL, caption={Anti-join con NOT EXISTS}]
+-- Film mai programmati: anti-join con NOT EXISTS
+SELECT f.titolo
+FROM film f
+WHERE NOT EXISTS (SELECT 1 FROM proiezione pr WHERE pr.id_film = f.id_film);
+\end{lstlisting}
+Risultato: \texttt{Ombra}.
+
+\begin{lstlisting}[language=SQL, caption={GROUP BY, HAVING e sottoquery: occupazione sopra il 50 per cento}]
+-- Proiezioni con piu' di meta' dei posti venduti
+SELECT pr.id_proiezione,
+       COUNT(b.fila) AS venduti,
+       (SELECT COUNT(*) FROM posto p WHERE p.id_sala = pr.id_sala) AS capienza
+FROM proiezione pr
+LEFT JOIN biglietto b ON b.id_proiezione = pr.id_proiezione
+GROUP BY pr.id_proiezione, pr.id_sala
+HAVING COUNT(b.fila) * 2 > (SELECT COUNT(*) FROM posto p WHERE p.id_sala = pr.id_sala);
+\end{lstlisting}
+Risultato: p1 (4 su 6) e p3 (4 su 4). \texttt{WHERE} filtra le \emph{righe} prima del raggruppamento; \texttt{HAVING} filtra i \emph{gruppi} dopo.
+
+\begin{lstlisting}[language=SQL, caption={Sottoquery correlata}]
+-- Sottoquery correlata: proiezioni con prezzo superiore alla media della propria sala
+SELECT pr.id_proiezione, pr.id_sala, pr.prezzo
+FROM proiezione pr
+WHERE pr.prezzo > (SELECT AVG(p2.prezzo)
+                   FROM proiezione p2
+                   WHERE p2.id_sala = pr.id_sala);
+\end{lstlisting}
+Risultato: p2 (10 > media 9,33 della Sala 1), p3 (9 > media 8 della Sala 2), p4 (10).
+
+\begin{lstlisting}[language=SQL, caption={Divisione relazionale con doppio NOT EXISTS}]
+-- Divisione relazionale: utenti che hanno prenotato TUTTE le proiezioni del film 1
+-- ("non esiste una proiezione del film 1 per cui NON esiste una sua prenotazione")
+SELECT u.nome
+FROM utente u
+WHERE NOT EXISTS (
+  SELECT 1 FROM proiezione pr
+  WHERE pr.id_film = 1
+    AND NOT EXISTS (SELECT 1 FROM prenotazione pn
+                    WHERE pn.id_utente = u.id_utente
+                      AND pn.id_proiezione = pr.id_proiezione));
+\end{lstlisting}
+Risultato: \texttt{Anna}, che ha prenotato sia p1 sia p2 (tutte le proiezioni del film 1). Il ``\emph{per ogni}'' di SQL si esprime come ``\emph{non esiste un caso in cui non}''.
+
+\begin{lstlisting}[language=SQL, caption={La trappola di NOT IN con i valori NULL}]
+-- Trappola dei NULL: se la sottoquery contiene un NULL, NOT IN non restituisce MAI righe
+SELECT titolo FROM film
+WHERE id_film NOT IN (SELECT id_film FROM (SELECT 1 AS id_film UNION ALL SELECT NULL));   -- 0 righe!
+
+SELECT titolo FROM film f
+WHERE NOT EXISTS (SELECT 1 FROM (SELECT 1 AS id_film UNION ALL SELECT NULL) t
+                  WHERE t.id_film = f.id_film);                                           -- 3 film
+\end{lstlisting}
+Se la sottoquery contiene anche un solo \texttt{NULL}, \texttt{x NOT IN (\ldots)} è \emph{sconosciuto} per ogni $x$ e non restituisce righe: nel primo caso 0 righe (sbagliato), nel secondo i 3 film corretti. \textbf{Per questo, per l'anti-join, si preferisce \texttt{NOT EXISTS}}.
+
+\subsection{CTE e query ricorsive}
+Una \textbf{CTE} (\emph{Common Table Expression}, clausola \texttt{WITH}) dà un nome a una sottoquery e rende la query leggibile e componibile. Una CTE \textbf{ricorsiva} esegue un passo base e uno ricorsivo finché non si arriva a un punto fisso: serve per gerarchie (organigrammi, categorie), grafi e sequenze.
+
+\begin{lstlisting}[language=SQL, caption={CTE ricorsiva: giorni senza proiezioni}]
+-- CTE ricorsiva: elenco dei giorni da un'origine a un'altra (utile per trovare i giorni senza proiezioni)
+WITH RECURSIVE giorni(g) AS (
+  SELECT date('2026-11-09')
+  UNION ALL
+  SELECT date(g, '+1 day') FROM giorni WHERE g < date('2026-11-12')
+)
+SELECT g FROM giorni
+WHERE NOT EXISTS (SELECT 1 FROM proiezione pr WHERE date(pr.data_ora) = g);
+\end{lstlisting}
+Risultato: 9 e 12 novembre (i giorni dell'intervallo in cui non c'è alcuna proiezione).
+
+\subsection{Funzioni finestra}
+Calcolano un valore \emph{per ogni riga} usando un insieme di righe correlate (la ``finestra''), \textbf{senza} ridurre il numero di righe come fa \texttt{GROUP BY}.
+
+\begin{lstlisting}[language=SQL, caption={Classifica con RANK, DENSE\_RANK e ROW\_NUMBER}]
+-- CTE + funzioni finestra: classifica dei film per incasso
+WITH incassi AS (
+  SELECT f.titolo,
+         SUM(CASE WHEN b.id_proiezione IS NOT NULL THEN pr.prezzo ELSE 0 END) AS incasso
+  FROM film f
+  LEFT JOIN proiezione pr ON pr.id_film = f.id_film
+  LEFT JOIN biglietto b   ON b.id_proiezione = pr.id_proiezione
+  GROUP BY f.id_film, f.titolo
+)
+SELECT titolo, incasso,
+       RANK()       OVER (ORDER BY incasso DESC) AS rank_,
+       DENSE_RANK() OVER (ORDER BY incasso DESC) AS dense_rank_,
+       ROW_NUMBER() OVER (ORDER BY incasso DESC, titolo) AS riga
+FROM incassi
+ORDER BY incasso DESC, titolo;
+\end{lstlisting}
+\begin{center}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{titolo} & \textbf{incasso} & \textbf{RANK} & \textbf{DENSE\_RANK} & \textbf{ROW\_NUMBER} \\
+\midrule
+Aurora & 52 & 1 & 1 & 1 \\
+Zenit & 46 & 2 & 2 & 2 \\
+Mare & 0 & 3 & 3 & 3 \\
+Ombra & 0 & 3 & 3 & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+A pari merito (Mare e Ombra) \texttt{RANK} dà la stessa posizione e \emph{salta} le successive; \texttt{DENSE\_RANK} non salta; \texttt{ROW\_NUMBER} numera comunque in modo univoco.
+
+\begin{lstlisting}[language=SQL, caption={Totale cumulato con una funzione finestra}]
+-- Totale cumulato per giorno (funzione finestra con ORDER BY)
+WITH giorno AS (
+  SELECT date(pr.data_ora) AS g, SUM(pr.prezzo) AS incasso
+  FROM biglietto b
+  JOIN proiezione pr ON pr.id_proiezione = b.id_proiezione
+  GROUP BY date(pr.data_ora)
+)
+SELECT g, incasso, SUM(incasso) OVER (ORDER BY g) AS cumulato
+FROM giorno
+ORDER BY g;
+\end{lstlisting}
+Risultato: 10 novembre: 88 (cumulato 88); 11 novembre: 10 (cumulato 98). \texttt{PARTITION BY} suddivide la finestra in gruppi (per esempio un cumulato per sala); \texttt{LAG}/\texttt{LEAD} accedono alla riga precedente o successiva.
+
+\subsection{Viste, vincoli e trigger}
+\begin{itemize}
+    \item \textbf{Vista}: query salvata con un nome, interrogabile come una tabella. \textbf{Perché}: nasconde la complessità (join ripetuti), restringe l'accesso (si espone una vista e non la tabella con dati sensibili) e fornisce \emph{indipendenza logica} dallo schema. La \textbf{vista materializzata} memorizza il risultato (più veloce da leggere, ma da aggiornare).
+    \item \textbf{Vincoli dichiarativi}: \texttt{PRIMARY KEY}, \texttt{UNIQUE}, \texttt{NOT NULL}, \texttt{CHECK}, \texttt{FOREIGN KEY} con azioni \texttt{ON DELETE CASCADE/RESTRICT/SET NULL}. \textbf{Perché preferirli}: sono garantiti dal DBMS \emph{per ogni applicazione e ogni accesso}, anche concorrente, mentre un controllo nel codice si può aggirare o dimenticare.
+    \item \textbf{Trigger}: codice eseguito automaticamente su \texttt{INSERT/UPDATE/DELETE}. Utile per audit, valori derivati, regole complesse; ma \emph{nasconde} la logica, rende difficile il debug e può rallentare. Si usa con parsimonia.
+    \item \textbf{Procedure memorizzate}: logica nel DBMS, vicino ai dati; riducono il traffico di rete ma legano l'applicazione a un prodotto.
+\end{itemize}
+
+\begin{lstlisting}[language=SQL, caption={Vista sull'occupazione delle proiezioni}]
+CREATE VIEW v_occupazione AS
+SELECT pr.id_proiezione, f.titolo,
+       COUNT(b.fila) AS venduti,
+       (SELECT COUNT(*) FROM posto p WHERE p.id_sala = pr.id_sala) AS capienza
+FROM proiezione pr
+JOIN film f ON f.id_film = pr.id_film
+LEFT JOIN biglietto b ON b.id_proiezione = pr.id_proiezione
+GROUP BY pr.id_proiezione, f.titolo, pr.id_sala;
+
+-- uso: la vista si interroga come una tabella
+SELECT titolo, venduti, capienza FROM v_occupazione WHERE venduti = capienza;
+\end{lstlisting}
+Risultato dell'ultima query: \texttt{Zenit}, 4 venduti su 4.
+
+\begin{lstlisting}[language=SQL, caption={Trigger di audit sui biglietti (sintassi SQLite)}]
+CREATE TABLE audit_biglietto (
+  quando         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id_proiezione  INTEGER, fila CHAR(1), numero INTEGER, id_prenotazione INTEGER
+);
+
+CREATE TRIGGER trg_audit_biglietto
+AFTER INSERT ON biglietto
+FOR EACH ROW
+BEGIN
+  INSERT INTO audit_biglietto (id_proiezione, fila, numero, id_prenotazione)
+  VALUES (NEW.id_proiezione, NEW.fila, NEW.numero, NEW.id_prenotazione);
+END;
+\end{lstlisting}
+La sintassi dei trigger varia tra i sistemi (in PostgreSQL il corpo è una funzione richiamata dal trigger).
+
+\section{Transazioni}
+Una \textbf{transazione} è una sequenza di operazioni che il DBMS tratta come una \textbf{unità logica indivisibile}. Esempio: la prenotazione inserisce una riga in \texttt{prenotazione} e una riga per ogni posto in \texttt{biglietto}: se manca un pezzo, il database sarebbe incoerente.
+
+\subsection{Proprietà ACID, con il perché}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}XX@{}}
+\toprule
+\textbf{Proprietà} & \textbf{Significato} & \textbf{Meccanismo tipico} \\
+\midrule
+\textbf{A}tomicity & Tutto o niente: se un passo fallisce, gli effetti dei precedenti sono annullati & Log di \emph{undo}, rollback \\
+\textbf{C}onsistency & Dallo stato valido a un altro stato valido: i vincoli di integrità restano veri & Vincoli, trigger, correttezza della logica applicativa \\
+\textbf{I}solation & Ogni transazione si comporta come se fosse sola, anche se ne girano molte in contemporanea & Lock, MVCC \\
+\textbf{D}urability & Dopo il commit gli effetti sopravvivono a guasti e riavvii & Log su disco scritto prima del commit (WAL), replicazione \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{lstlisting}[language=SQL, caption={Transazione: o tutto o niente}]
+BEGIN;
+  INSERT INTO prenotazione (id_prenotazione, id_utente, id_proiezione) VALUES (6, 3, 2);
+  INSERT INTO biglietto VALUES (2, 'B', 1, 6, 1);   -- posto libero: ok
+  INSERT INTO biglietto VALUES (2, 'A', 1, 6, 1);   -- posto gia' venduto: violazione di PK
+ROLLBACK;     -- l'applicazione, ricevuto l'errore, annulla TUTTO: nessuna prenotazione parziale
+\end{lstlisting}
+Il secondo biglietto viola la chiave primaria (il posto A1 della proiezione 2 è già venduto): il \texttt{ROLLBACK} annulla anche la prenotazione appena inserita. Dopo la prova, il database contiene ancora 5 prenotazioni e 11 biglietti, esattamente come prima.
+
+\subsection{Gestione}
+\begin{itemize}
+    \item \texttt{BEGIN}, \texttt{COMMIT}, \texttt{ROLLBACK}; \texttt{SAVEPOINT} per annullare solo una parte.
+    \item In modalità \textbf{autocommit} ogni istruzione è una transazione a sé: per un'operazione composta serve una transazione esplicita.
+    \item \textbf{Transazioni brevi}: tengono lock per meno tempo, riducono i conflitti. Non si aspetta mai l'input di un utente dentro una transazione.
+    \item Dopo un errore di concorrenza (deadlock, conflitto di serializzazione) la transazione va \textbf{ritentata} dall'applicazione.
+\end{itemize}
+
+\section{Controllo della Concorrenza}
+Il DBMS esegue molte transazioni insieme per usare bene CPU e dischi (mentre una attende il disco, un'altra lavora). Senza controllo, le operazioni interferiscono.
+
+\subsection{Anomalie}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}X@{}}
+\toprule
+\textbf{Anomalia} & \textbf{Descrizione} \\
+\midrule
+\textbf{Lettura sporca} (\emph{dirty read}) & $T_2$ legge un dato modificato da $T_1$ che poi fa rollback: ha letto un valore mai esistito \\
+\textbf{Aggiornamento perso} (\emph{lost update}) & $T_1$ e $T_2$ leggono lo stesso valore, lo modificano e lo scrivono: l'ultima scrittura cancella l'altra (esempio con il contatore) \\
+\textbf{Lettura non ripetibile} & $T_1$ legge due volte la stessa riga e ottiene valori diversi, perché $T_2$ l'ha modificata nel mezzo \\
+\textbf{Fantasma} (\emph{phantom}) & $T_1$ ripete una query con condizione e trova righe in più, inserite da $T_2$ \\
+\textbf{Write skew} & Due transazioni leggono dati sovrapposti, decidono in base a ciò che hanno letto e scrivono dati \emph{diversi}; il risultato viola un vincolo che ciascuna da sola rispettava (per esempio ``al massimo 2 prenotazioni attive per utente'' controllato con un \texttt{SELECT} prima dell'\texttt{INSERT}) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Livelli di isolamento (SQL standard)}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.5cm}XXX@{}}
+\toprule
+\textbf{Livello} & \textbf{Lettura sporca} & \textbf{Non ripetibile} & \textbf{Fantasma} \\
+\midrule
+READ UNCOMMITTED & possibile & possibile & possibile \\
+READ COMMITTED & \textbf{impedita} & possibile & possibile \\
+REPEATABLE READ & impedita & \textbf{impedita} & possibile (secondo lo standard) \\
+SERIALIZABLE & impedita & impedita & \textbf{impedita} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Livelli più alti} $\Rightarrow$ meno anomalie ma più attese, conflitti e tentativi. Impostazioni predefinite tipiche: \texttt{READ COMMITTED} in PostgreSQL, Oracle e SQL Server; \texttt{REPEATABLE READ} in MySQL (InnoDB). I sistemi con \textbf{snapshot isolation} (PostgreSQL in \texttt{REPEATABLE READ}) impediscono i fantasmi ma consentono ancora il \emph{write skew}: solo \texttt{SERIALIZABLE} lo evita. Una scelta consapevole: l'isolamento più basso che garantisce la correttezza del caso d'uso.
+
+\subsection{Serializzabilità}
+Un \textbf{schedule} è l'ordine di esecuzione interleaved delle operazioni di più transazioni. È \textbf{seriale} se le transazioni non si sovrappongono; è \textbf{serializzabile} se equivale a uno schedule seriale. Il criterio usato è la \textbf{serializzabilità per conflitto}.
+\begin{itemize}
+    \item Due operazioni sono in \textbf{conflitto} se sono di transazioni diverse, sullo stesso dato e \emph{almeno una} è una scrittura (lettura--scrittura, scrittura--lettura, scrittura--scrittura).
+    \item \textbf{Grafo di precedenza}: un nodo per transazione; un arco $T_i\to T_j$ se un'operazione di $T_i$ precede e confligge con una di $T_j$. Lo schedule è serializzabile per conflitto \textbf{se e solo se il grafo è aciclico}.
+\end{itemize}
+\textbf{Esempio svolto} (lost update). Schedule $S$: $R_1(X)\,R_2(X)\,W_1(X)\,W_2(X)$. Conflitti: $R_1(X)$ prima di $W_2(X)$ dà l'arco $T_1\to T_2$; $R_2(X)$ prima di $W_1(X)$ dà l'arco $T_2\to T_1$. Il grafo ha un \textbf{ciclo}: $S$ \textbf{non è serializzabile}, ed è esattamente l'aggiornamento perso. Lo schedule $R_1(X)\,W_1(X)\,R_2(X)\,W_2(X)$ ha il solo arco $T_1\to T_2$: è serializzabile (equivale a $T_1$ poi $T_2$).
+
+\subsection{Tecniche}
+\begin{itemize}
+    \item \textbf{Lock}: \emph{condivisi} (S, per leggere: compatibili tra loro) ed \emph{esclusivi} (X, per scrivere: incompatibili con tutto). Granularità: riga, pagina, tabella (lock di \emph{intenzione} per coordinare i livelli).
+    \item \textbf{Two-Phase Locking (2PL)}: ogni transazione ha una fase \emph{crescente} (acquisisce lock) e una \emph{calante} (li rilascia) e dopo aver rilasciato un lock non ne acquisisce più. \textbf{Garantisce la serializzabilità per conflitto.} Nella versione \textbf{rigorosa} (\emph{strict}) i lock esclusivi si rilasciano solo al commit, evitando letture di dati non confermati e \emph{aborti a cascata}.
+    \item \textbf{Deadlock}: due transazioni attendono i lock l'una dell'altra. Si \emph{rileva} con il grafo \emph{wait-for} (un ciclo è un deadlock) e si interrompe una vittima, oppure si \emph{previene} (\emph{wait--die}, \emph{wound--wait}) o con \emph{timeout}. Per ridurli: acquisire le risorse \textbf{sempre nello stesso ordine}, transazioni brevi.
+    \item \textbf{MVCC} (\emph{Multi-Version Concurrency Control}): ogni scrittura crea una \emph{nuova versione} del dato; ogni lettura vede uno \emph{snapshot} coerente. \textbf{Perché}: \emph{i lettori non bloccano gli scrittori e viceversa}. Usato da PostgreSQL, Oracle, MySQL InnoDB. Costo: pulizia delle versioni vecchie (\emph{vacuum}).
+    \item \textbf{Controllo ottimistico}: si lavora senza lock e si verifica alla fine che nessuno abbia modificato i dati letti; tipicamente con una colonna \texttt{versione} (\texttt{UPDATE \ldots{} WHERE versione = ?}; se nessuna riga è modificata, c'è stato un conflitto e si riprova). Adatto quando i conflitti sono rari.
+    \item \textbf{\texttt{SELECT \ldots{} FOR UPDATE}}: blocca esplicitamente le righe lette fino al commit (controllo pessimistico).
+\end{itemize}
+\textbf{Collegamento con il caso di studio}: per la prenotazione dei posti la protezione più robusta è il \textbf{vincolo di unicità}, che non dipende dal livello di isolamento né dalla correttezza del codice; la transazione garantisce l'atomicità; i lock servono solo per scenari più complessi (\emph{hold} dei posti).
+
+\section{Affidabilità e Ripristino dei Dati}
+
+\subsection{Tipi di guasto}
+\begin{itemize}
+    \item \textbf{Della transazione}: errore logico, violazione di un vincolo, deadlock $\Rightarrow$ rollback della singola transazione.
+    \item \textbf{Di sistema} (crash, mancanza di corrente): il contenuto della memoria si perde, il disco resta.
+    \item \textbf{Del supporto} (disco rotto): serve un \textbf{backup}.
+\end{itemize}
+
+\subsection{Log e Write-Ahead Logging}
+Il DBMS tiene un \textbf{registro delle transazioni} (\emph{log}) scritto in modo sequenziale su disco: per ogni modifica registra il \emph{valore precedente} (\emph{before image}, per l'\textbf{undo}) e il \emph{valore nuovo} (\emph{after image}, per il \textbf{redo}).
+\begin{itemize}
+    \item \textbf{Regola WAL}: il record di log di una modifica va su disco \emph{prima} della pagina di dati modificata, e il log va su disco \emph{prima} del commit.
+    \item \textbf{Perché}: scrivere in modo sequenziale il log è veloce; le pagine di dati (scritte a caso sul disco) si possono scrivere più tardi (\emph{no-force}, \emph{steal}), senza perdere la durabilità.
+\end{itemize}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}XX@{}}
+\toprule
+ & \textbf{Si scrive prima del commit} & \textbf{Si scrive dopo il commit} \\
+\midrule
+\textbf{Pagine dati} & \textbf{FORCE} (costoso: molte scritture casuali) & \textbf{NO-FORCE} (veloce; serve il \emph{redo}) \\
+\textbf{Pagine non confermate} & \textbf{NO-STEAL} (si tiene tutto in memoria) & \textbf{STEAL} (si possono scrivere su disco; serve l'\emph{undo}) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+I DBMS reali usano \textbf{STEAL + NO-FORCE} (più prestazioni), pagando con \emph{undo} e \emph{redo}.
+
+\subsection{Recupero dopo un crash}
+Si parte dall'ultimo \textbf{checkpoint} (un punto in cui si sa quali dati sono su disco, per non rileggere tutto il log). Poi: \textbf{analisi} (quali transazioni erano attive), \textbf{redo} (si rifanno le modifiche delle transazioni confermate non ancora su disco), \textbf{undo} (si annullano quelle delle transazioni non confermate). È lo schema dell'algoritmo \textbf{ARIES}.
+
+\subsection{Backup e alta disponibilità}
+\textbf{Backup} completi e incrementali, \textbf{point-in-time recovery} (ripristino a un istante, combinando backup e log), \textbf{replicazione} (copie su altri nodi: failover e distribuzione delle letture), con la scelta tra replica sincrona (nessuna perdita, più latenza) e asincrona (possibile perdita dell'ultimo tratto), vedi il capitolo \emph{Sistemi Distribuiti}. Un backup non testato non è un backup.
+
+\section{Indici e Progettazione Fisica}
+
+\subsection{Perché servono}
+Senza indice, per trovare le righe che soddisfano una condizione il DBMS deve \textbf{scandire l'intera tabella} (\emph{full table scan}), con costo proporzionale alla dimensione. Un \textbf{indice} è una struttura dati ausiliaria che permette di trovare le righe senza scandire tutto, come l'indice analitico di un libro.
+
+\subsection{Strutture}
+\begin{itemize}
+    \item \textbf{B+ tree} (il più usato): albero \emph{bilanciato} con alto \emph{fan-out} (centinaia di figli per nodo); le foglie contengono le chiavi ordinate e sono collegate in lista. Supporta \textbf{uguaglianza}, \textbf{intervalli} (\texttt{BETWEEN}, \texttt{<}, \texttt{>}), \textbf{ordinamento} (\texttt{ORDER BY}) e \textbf{prefissi} (\texttt{LIKE 'ab\%'}). La ricerca costa $O(\log_f N)$ accessi a pagina, dove $f$ è il fan-out. Esempio: pagine da 8\,KiB con voci di 16 byte danno $f\approx 500$; con tre livelli si indicizzano $500^3 = 125$ milioni di righe: bastano \textbf{3--4 accessi a disco}.
+    \item \textbf{Indice hash}: solo \emph{uguaglianza}, in media $O(1)$; non supporta intervalli né ordinamento.
+    \item \textbf{Altri}: indici \emph{bitmap} (poche modalità distinte, analisi), \emph{full-text}, \emph{spaziali}.
+\end{itemize}
+
+\subsection{Tipi di indice}
+\begin{itemize}
+    \item \textbf{Clustered} (primario): le righe della tabella sono \emph{fisicamente ordinate} secondo la chiave dell'indice (al più uno per tabella; in InnoDB e SQL Server è la chiave primaria). \textbf{Non-clustered}: struttura separata con puntatori alle righe.
+    \item \textbf{Indice composto} (su più colonne): vale la regola del \textbf{prefisso sinistro}. Un indice su (\texttt{id\_proiezione}, \texttt{creata\_il}) serve le ricerche su \texttt{id\_proiezione} da sola o su entrambe le colonne, \emph{non} quelle sulla sola seconda colonna. Ordine delle colonne: prima quelle con condizioni di \emph{uguaglianza}, poi quella con \emph{intervallo} o ordinamento.
+    \item \textbf{Indice coprente} (\emph{covering}): contiene tutte le colonne richieste dalla query, che si risolve \emph{senza leggere la tabella}.
+    \item \textbf{Indice univoco}: oltre che a velocizzare, impone un vincolo (la chiave primaria e \texttt{UNIQUE} lo creano).
+\end{itemize}
+
+\subsection{Esperimento}
+Tabella \texttt{prenotazione} con \textbf{300\,000 righe} (SQLite, la mia macchina; i valori variano, l'ordine di grandezza no).
+\begin{lstlisting}[language=SQL, caption={Indici semplici e composti; quando NON vengono usati}]
+-- "Le prenotazioni di un utente": senza indice, scansione dell'intera tabella
+SELECT * FROM prenotazione WHERE id_utente = 777;
+
+CREATE INDEX idx_prenotazione_utente ON prenotazione (id_utente);
+-- indice composto: l'ordine delle colonne conta
+CREATE INDEX idx_pren_proiezione_data ON prenotazione (id_proiezione, creata_il);
+
+-- usa l'indice (prefisso sinistro):   WHERE id_proiezione = 10 AND creata_il = '2026-05-05'
+-- usa l'indice (solo il prefisso):    WHERE id_proiezione = 10
+-- NON usa l'indice:                   WHERE creata_il = '2026-05-05'      (manca il prefisso)
+-- NON usa l'indice:                   WHERE id_utente + 0 = 777           (funzione sulla colonna)
+-- NON usa l'indice:                   WHERE stato LIKE '%FERMATA'         (carattere jolly iniziale)
+\end{lstlisting}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{4.5cm}r@{}}
+\toprule
+\textbf{Query} & \textbf{Piano di esecuzione} & \textbf{Tempo} \\
+\midrule
+\texttt{WHERE id\_utente = 777}, senza indice & \texttt{SCAN} (tutta la tabella) & 5{,}5 ms \\
+La stessa, con l'indice su \texttt{id\_utente} & \texttt{SEARCH USING INDEX} & 0{,}006 ms \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Circa \textbf{mille volte} più veloce, e il divario cresce con la dimensione della tabella. Il piano si legge con \texttt{EXPLAIN} (\texttt{EXPLAIN ANALYZE} in PostgreSQL, che esegue e misura).
+
+\subsection{Costi e quando non indicizzare}
+\begin{itemize}
+    \item Ogni indice \textbf{rallenta} \texttt{INSERT}, \texttt{UPDATE}, \texttt{DELETE} (va aggiornato) e \textbf{occupa spazio}. Indicizzare le colonne usate in \texttt{WHERE}, \texttt{JOIN}, \texttt{ORDER BY}, non \emph{tutte}.
+    \item \textbf{Chiavi esterne}: alcuni DBMS (PostgreSQL) \emph{non} creano automaticamente l'indice sulla colonna referenziante; senza, i join e le cancellazioni a cascata sono lenti.
+    \item \textbf{Selettività}: un indice su una colonna con pochissimi valori distinti (per esempio \texttt{stato} con due valori) serve a poco; l'ottimizzatore preferisce comunque la scansione se la query restituisce una grossa frazione della tabella.
+    \item L'indice \textbf{non viene usato} se si applica una \textbf{funzione alla colonna} (\texttt{WHERE id\_utente + 0 = 777}, \texttt{WHERE YEAR(data) = 2026}), con un \textbf{carattere jolly iniziale} (\texttt{LIKE '\%x'}), con una \textbf{conversione di tipo implicita}, o senza il prefisso sinistro di un indice composto: nell'esperimento ciascuno di questi casi dà \texttt{SCAN}.
+\end{itemize}
+
+\subsection{Indici per il sistema del cinema}
+\begin{itemize}
+    \item La chiave primaria di \texttt{biglietto} (\texttt{id\_proiezione}, \texttt{fila}, \texttt{numero}) serve già la query dei posti occupati di una proiezione e il vincolo anti-doppioni.
+    \item \texttt{prenotazione(id\_utente)}: ``le mie prenotazioni''.
+    \item \texttt{proiezione(data\_ora)} o \texttt{(id\_film, data\_ora)}: la programmazione per giorno o per film.
+    \item \texttt{biglietto(id\_prenotazione)}: i biglietti di una prenotazione (e le chiavi esterne).
+\end{itemize}
+
+\subsection{Altri strumenti di progettazione fisica}
+\textbf{Partizionamento} orizzontale (per intervallo di date, per hash) per tabelle enormi: le query e la manutenzione toccano solo le partizioni utili; \textbf{sharding} su più nodi; \textbf{viste materializzate} e tabelle riassuntive; \textbf{compressione}; \textbf{memorizzazione per colonne} per l'analisi.
+
+\section{Ottimizzazione delle Query}
+
+\subsection{Fasi di elaborazione}
+\begin{enumerate}
+    \item \textbf{Analisi} sintattica e semantica; \textbf{traduzione} in algebra relazionale (piano logico).
+    \item \textbf{Riscrittura logica}: anticipare selezioni e proiezioni, eliminare ridondanze, trasformare sottoquery in join.
+    \item \textbf{Scelta del piano fisico} basata sui \textbf{costi}: per ogni operatore si sceglie l'algoritmo (scansione o uso di un indice; tipo di join), usando \textbf{statistiche} (numero di righe, valori distinti, istogrammi).
+    \item \textbf{Esecuzione}.
+\end{enumerate}
+Il costo si misura soprattutto in \textbf{accessi a disco} e in CPU. Le statistiche vanno tenute \emph{aggiornate} (\texttt{ANALYZE}); statistiche vecchie causano piani sbagliati.
+
+\subsection{Algoritmi di join}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}XX@{}}
+\toprule
+\textbf{Algoritmo} & \textbf{Idea} & \textbf{Quando conviene} \\
+\midrule
+\textbf{Nested loop} & Per ogni riga di $R$ cerca le corrispondenze in $S$; $O(|R|\cdot|S|)$ senza indice & Una delle due tabelle è piccola, oppure c'è un \textbf{indice} sulla colonna di join di $S$ ($O(|R|\log|S|)$) \\
+\textbf{Hash join} & Costruisce una tabella hash sulla relazione più piccola, poi scandisce l'altra; $O(|R|+|S|)$ & Join di uguaglianza su grandi insiemi non ordinati; richiede memoria \\
+\textbf{Sort-merge join} & Ordina entrambe sulla colonna di join e le fonde & Dati già ordinati o intervalli; join di non-uguaglianza \\
+\bottomrule
+\end{tabularx}
+\end{center}
+L'\textbf{ordine dei join} conta molto: conviene unire prima le relazioni che producono meno righe intermedie.
+
+\subsection{Buone pratiche}
+\begin{itemize}
+    \item \textbf{Leggere solo ciò che serve}: indicare le colonne (non \texttt{SELECT *}), filtrare nel database, non nell'applicazione.
+    \item \textbf{Indici adatti} alle query più frequenti e \textbf{predicati ``sargable''} (condizioni che permettono l'uso dell'indice: nessuna funzione sulla colonna).
+    \item \textbf{Operazioni a blocchi}: inserimenti in batch, non una riga per volta.
+    \item \textbf{Evitare il problema N+1} (sotto).
+    \item \textbf{Paginazione keyset} invece di \texttt{OFFSET} grandi.
+    \item \textbf{Misurare}: leggere il piano con \texttt{EXPLAIN}, non indovinare.
+\end{itemize}
+
+\begin{lstlisting}[language=SQL, caption={Paginazione: OFFSET contro keyset}]
+-- Paginazione con OFFSET: il database scarta le prime 100000 righe a ogni richiesta
+SELECT id_prenotazione, creata_il FROM prenotazione
+ORDER BY creata_il, id_prenotazione LIMIT 20 OFFSET 100000;
+
+-- Paginazione "keyset": si riparte dall'ultima riga vista (usa l'indice, costo costante)
+SELECT id_prenotazione, creata_il FROM prenotazione
+WHERE (creata_il, id_prenotazione) > ('2026-05-05', 4711)
+ORDER BY creata_il, id_prenotazione LIMIT 20;
+\end{lstlisting}
+Con \texttt{OFFSET 100000} il database legge e scarta centomila righe a ogni pagina (costo crescente con la pagina); con la \emph{keyset} riparte dall'ultima riga vista e usa l'indice (costo costante). Il confronto di tuple \texttt{(a, b) > (x, y)} è supportato da PostgreSQL e MySQL; per altri sistemi si scrive con \texttt{OR}.
+
+\section{Accesso ai Dati dalle Applicazioni}
+\begin{itemize}
+    \item \textbf{Pool di connessioni}: aprire una connessione costa (rete, autenticazione, risorse sul server); si riusano connessioni già aperte. \textbf{Perché}: il numero di connessioni del DBMS è limitato e ogni richiesta web non deve pagare l'apertura.
+    \item \textbf{Query parametriche} (\emph{prepared statements}): sicure contro la SQL injection (vedi capitolo \emph{Sicurezza}) e con piani riusabili.
+    \item \textbf{Transazioni a livello di servizio}: la transazione racchiude un'operazione di business (nel capitolo \emph{Progettazione di Sistemi e API}, \texttt{creaPrenotazione}).
+    \item \textbf{ORM} (\emph{Object--Relational Mapping}): mappa le classi sulle tabelle. \textbf{Pro}: produttività, meno SQL ripetitivo, portabilità. \textbf{Contro}: nasconde le query (rischio di query inefficienti), il \emph{problema N+1}, divario tra modello a oggetti e relazionale (\emph{impedance mismatch}).
+\end{itemize}
+
+\subsection{Il problema N+1}
+Si carica un elenco con \textbf{1 query}, poi per ognuno degli $N$ elementi se ne fa un'altra: \textbf{$N+1$ query}. Con 1000 film sono 1001 viaggi al database. È un difetto tipico degli ORM con il caricamento ``pigro'' (\emph{lazy loading}).
+
+\begin{lstlisting}[language=Python, caption={N+1 query contro una sola query con JOIN}]
+import sqlite3
+
+db = sqlite3.connect("cinema.db")
+film = db.execute("SELECT id_film, titolo FROM film").fetchall()      # 1 query
+
+# N+1: una query in piu' per ogni film
+for id_film, titolo in film:
+    n = db.execute("SELECT COUNT(*) FROM proiezione WHERE id_film = ?",
+                   (id_film,)).fetchone()[0]                          # N query
+
+# Una sola query con JOIN e raggruppamento
+righe = db.execute("""
+    SELECT f.titolo, COUNT(pr.id_proiezione)
+    FROM film f LEFT JOIN proiezione pr ON pr.id_film = f.id_film
+    GROUP BY f.id_film, f.titolo""").fetchall()                       # 1 query
+\end{lstlisting}
+Contando le istruzioni inviate al database (4 film): \textbf{5 query} con il ciclo, \textbf{1} con il join. Soluzioni: \texttt{JOIN}, caricamento anticipato (\emph{eager loading}, \texttt{JOIN FETCH}), oppure una seconda query con \texttt{IN (\ldots)} per tutti gli identificativi insieme.
+
+\section{Data Warehouse e Analisi OLAP}
+I sistemi \textbf{OLTP} (transazionali: prenotazioni, ordini) gestiscono molte piccole operazioni concorrenti con dati normalizzati. I sistemi \textbf{OLAP} (analisi) eseguono poche interrogazioni pesanti su grandi dati storici. Il \textbf{data warehouse} è un archivio separato, integrato e storico per l'analisi, alimentato con processi \textbf{ETL} (\emph{Extract, Transform, Load}) o \textbf{ELT}; vedi anche la sezione sui Big Data del capitolo \emph{Sistemi Distribuiti}.
+
+\begin{itemize}
+    \item \textbf{Schema a stella}: una \textbf{tabella dei fatti} al centro (per esempio \emph{biglietti venduti}: misure come numero di biglietti e incasso, più le chiavi delle dimensioni) circondata da \textbf{tabelle delle dimensioni} (\emph{tempo}, \emph{film}, \emph{sala}, \emph{cliente}). Dimensioni \textbf{denormalizzate}: meno join, query più rapide. \textbf{Schema a fiocco di neve}: dimensioni normalizzate.
+    \item \textbf{Operazioni OLAP}: \emph{roll-up} (aggregare a un livello più alto: da giorno a mese), \emph{drill-down} (l'opposto), \emph{slice} e \emph{dice} (selezionare una o più dimensioni), \emph{pivot}. In SQL: \texttt{GROUP BY}, \texttt{ROLLUP}, \texttt{CUBE}, funzioni finestra.
+    \item \textbf{Perché separare} OLTP e OLAP: le query analitiche pesanti rallenterebbero le transazioni; i dati operativi sono normalizzati e senza storico; l'analisi richiede dati integrati da più fonti.
+    \item \textbf{Archivi a colonne}: memorizzare per colonna accelera le aggregazioni su poche colonne e comprime meglio.
+\end{itemize}
+
+\section{Scalette di Risposta}
+
+\paragraph{Tema: ``consistenza dei dati nei sistemi SQL e NoSQL''} (vedi anche il capitolo \emph{Sistemi Distribuiti}).
+\begin{enumerate}
+    \item Transazioni e \textbf{ACID}: che cosa garantiscono e con quali meccanismi (log, lock, MVCC).
+    \item \textbf{Isolamento}: anomalie, livelli, serializzabilità, il compromesso con le prestazioni.
+    \item Scalabilità dei DBMS relazionali: verticale, replicazione, partizionamento; costo delle transazioni distribuite (two-phase commit).
+    \item NoSQL: BASE, consistenza eventuale, teorema CAP; esempi di scelta.
+    \item Conclusione: \textbf{persistenza poliglotta}.
+\end{enumerate}
+
+\paragraph{Tema: ``prestazioni di una base di dati''.}
+\begin{enumerate}
+    \item Modello logico adeguato: normalizzazione e, se serve, denormalizzazione.
+    \item \textbf{Indici}: B+ tree, composti, copranti, costi; query ``sargable''.
+    \item Ottimizzatore: piano logico e fisico, statistiche, algoritmi di join, \texttt{EXPLAIN}.
+    \item Livello applicativo: pool di connessioni, N+1, paginazione, batch.
+    \item Architettura: cache, replicazione per le letture, partizionamento, separazione OLTP/OLAP.
+    \item \textbf{Misurare prima di ottimizzare}.
+\end{enumerate}
+
+\paragraph{Checklist per un esercizio di basi di dati (ER, relazionale, SQL).}
+\begin{itemize}
+    \item ER con \textbf{cardinalità} e \textbf{identificatori}, vincoli non esprimibili elencati a parte.
+    \item Schema relazionale con \textbf{chiavi primarie ed esterne}; verifica delle forme normali (almeno 3NF, meglio BCNF).
+    \item \texttt{CREATE TABLE} con \textbf{vincoli dichiarativi} (\texttt{NOT NULL}, \texttt{CHECK}, \texttt{UNIQUE}, chiavi esterne).
+    \item Query: attenzione ai \textbf{join esterni}, ai \textbf{NULL}, a \texttt{HAVING} contro \texttt{WHERE}, ai duplicati (\texttt{DISTINCT}); l'\emph{``per ogni''} si scrive con doppio \texttt{NOT EXISTS}.
+    \item Transazioni dove un'operazione tocca più tabelle.
+    \item Indici sulle colonne usate nei join e nei filtri più frequenti.
+\end{itemize}

@@ -1,0 +1,270 @@
+\chapter{Intelligenza Artificiale e Machine Learning}
+
+L'\textbf{intelligenza artificiale (IA)} studia sistemi capaci di compiere compiti che richiedono intelligenza: ragionare, pianificare, apprendere, percepire. Il \textbf{machine learning (ML)} ne è il ramo in cui il comportamento non è programmato esplicitamente, ma \emph{appreso dai dati}. Il capitolo copre due filoni usciti agli Esami di Stato: la \textbf{ricerca nello spazio degli stati} (2024) e i \textbf{paradigmi di apprendimento} (2024), più l'identificazione e l'overfitting (2024, tema di Automazione) e un'applicazione di ML nel tema di progetto del 2026.
+
+\section{Ricerca nello Spazio degli Stati}
+Molti problemi (percorsi, puzzle, pianificazione) si formalizzano così:
+\begin{itemize}
+    \item \textbf{Stato iniziale}, \textbf{azioni} possibili in ogni stato, \textbf{modello di transizione} (stato risultante), \textbf{test di obiettivo}, \textbf{costo di cammino}.
+    \item Una \textbf{soluzione} è una sequenza di azioni dallo stato iniziale a uno stato obiettivo; è \textbf{ottima} se ha costo minimo.
+    \item Si costruisce un \textbf{albero (o grafo) di ricerca}; la \emph{frontiera} contiene i nodi generati e non ancora espansi. Nella ricerca su grafo si tiene una lista dei nodi già visitati per evitare cicli.
+\end{itemize}
+
+Parametri con cui si valutano gli algoritmi, con $b$ = fattore di ramificazione, $d$ = profondità della soluzione meno profonda, $m$ = profondità massima:
+\begin{itemize}
+    \item \textbf{Completezza}: trova sempre una soluzione se esiste?
+    \item \textbf{Ottimalità}: trova la soluzione di costo minimo?
+    \item \textbf{Complessità temporale} e \textbf{spaziale}: nodi generati e nodi tenuti in memoria.
+\end{itemize}
+
+\subsection{Ricerca non informata (cieca)}
+Usa solo la definizione del problema, senza sapere ``quanto è vicino'' l'obiettivo.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}X>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.6cm}@{}}
+\toprule
+\textbf{Algoritmo} & \textbf{Idea} & \textbf{Completo} & \textbf{Ottimo} & \textbf{Tempo / Spazio} \\
+\midrule
+Ampiezza (BFS) & Espande per livelli; frontiera FIFO & Sì & Sì (costi uguali) & $O(b^d)$, $O(b^d)$ \\
+Costo uniforme & Espande il nodo con costo di cammino $g$ minore & Sì & Sì & $\approx O(b^{1+C^*/\varepsilon})$ \\
+Profondità (DFS) & Va in fondo a un ramo; frontiera LIFO & No (cicli, rami infiniti) & No & $O(b^m)$ / $O(bm)$ \\
+Profondità limitata & DFS con limite $\ell$ & No & No & $O(b^\ell)$ / $O(b\ell)$ \\
+Approfondimento iterativo (IDS) & DFS con limite crescente & Sì & Sì (costi uguali) & $O(b^d)$ / $O(bd)$ \\
+Bidirezionale & Due ricerche, da start e da goal & Sì & Sì & $O(b^{d/2})$ \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Ricerca informata (euristica)}
+Usa una \textbf{funzione euristica} $h(n)$ che stima il costo dal nodo $n$ all'obiettivo, per espandere prima i nodi più promettenti.
+
+\begin{itemize}
+    \item \textbf{Greedy best-first}: espande il nodo con $h(n)$ minore. Veloce, ma né ottimo né completo (può finire in vicoli ciechi).
+    \item \textbf{A$^*$}: espande il nodo con $f(n) = g(n) + h(n)$ minore, dove $g(n)$ è il costo già speso. È \textbf{completo} e \textbf{ottimo} se $h$ è \emph{ammissibile}.
+    \item \textbf{Euristica ammissibile}: non sovrastima mai il costo reale, $h(n) \le h^*(n)$. Per A$^*$ su grafo serve la \textbf{consistenza} (monotonia): $h(n) \le c(n,n') + h(n')$.
+    \item \textbf{Euristica dominante}: tra $h_1 \le h_2$ ammissibili, $h_2$ espande meno nodi.
+    \item \textbf{Come costruire euristiche}: rilassando il problema (per esempio la distanza di Manhattan nel puzzle dell'8, la distanza in linea d'aria per i percorsi stradali).
+    \item \textbf{IDA$^*$}: A$^*$ con approfondimento iterativo, per ridurre la memoria.
+\end{itemize}
+
+Problema di A$^*$: nel caso peggiore la memoria è esponenziale, perché mantiene tutta la frontiera.
+
+\subsection{Ricerca locale}
+Non tiene traccia del cammino, ma solo dello stato corrente: utile quando conta lo stato finale (ottimizzazione, scheduling, N-regine).
+\begin{itemize}
+    \item \textbf{Hill climbing}: passa al vicino migliore. Rischio di massimi locali, plateau e creste.
+    \item \textbf{Simulated annealing}: accetta talvolta mosse peggiorative con probabilità decrescente (``temperatura'').
+    \item \textbf{Algoritmi genetici}: popolazione di soluzioni, selezione, crossover, mutazione.
+\end{itemize}
+
+\subsection{Confronto: informata e non informata}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+ & \textbf{Non informata} & \textbf{Informata} \\
+\midrule
+Conoscenza & Solo la definizione del problema & Euristica $h(n)$ specifica del dominio \\
+Efficienza & Esplora molti nodi inutili (esplosione combinatoria) & Esplora molto meno, se $h$ è buona \\
+Ottimalità & BFS/UCS/IDS sì & A$^*$ sì (con $h$ ammissibile); greedy no \\
+Memoria & DFS/IDS molto contenuta; BFS/UCS esponenziale & A$^*$ può essere esponenziale \\
+Costo di progetto & Nessuno & Serve una buona euristica \\
+Esempi & Esplorare un labirinto senza mappa; verifica esaustiva di configurazioni & Navigatori (percorsi), puzzle, pianificazione di robot, giochi \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Scaletta per il tema ``ricerca informata e non informata''.}
+\begin{enumerate}
+    \item Formulare il problema (stati, azioni, costo) e i criteri di valutazione (completezza, ottimalità, tempo, spazio).
+    \item Non informata: BFS, UCS, DFS, IDS, con complessità e limiti.
+    \item Informata: euristica, greedy, A$^*$, ammissibilità e consistenza.
+    \item Tabella di confronto su efficienza, memoria e ottimalità.
+    \item Esempi pratici per ciascuna classe (labirinto/verifica esaustiva contro navigatore/puzzle) e cenno alla ricerca locale.
+\end{enumerate}
+
+\section{Machine Learning: Concetti Base}
+Un algoritmo di ML apprende da un insieme di \textbf{esempi} (\emph{training set}) una funzione $f$ che generalizza a dati nuovi.
+
+\begin{itemize}
+    \item \textbf{Feature} (caratteristiche in ingresso $x$), \textbf{etichetta/target} ($y$), \textbf{modello} con \textbf{parametri} $\theta$ da apprendere, \textbf{funzione di costo} (loss) da minimizzare.
+    \item \textbf{Iperparametri}: scelti prima dell'addestramento (profondità di un albero, $k$ dei $k$-NN, tasso di apprendimento).
+    \item \textbf{Obiettivo}: non adattarsi ai dati visti, ma \emph{generalizzare}.
+\end{itemize}
+
+\section{Paradigmi di Apprendimento}
+
+\subsection{Apprendimento supervisionato}
+Si dispone di dati \textbf{etichettati} $(x_i, y_i)$ e si apprende la relazione $x \to y$ minimizzando l'errore di predizione.
+\begin{itemize}
+    \item \textbf{Classificazione}: $y$ è una categoria (spam/non spam, diagnosi). Algoritmi: regressione logistica, $k$-NN, alberi di decisione, random forest, SVM, reti neurali.
+    \item \textbf{Regressione}: $y$ è un valore continuo (prezzo di una casa, consumo energetico). Algoritmi: regressione lineare, alberi di regressione, reti neurali.
+    \item \textbf{Esempio}: classificare le email come spam usando migliaia di email già etichettate.
+    \item \textbf{Vantaggi}: obiettivo ben definito, prestazioni misurabili con precisione.
+    \item \textbf{Limiti}: serve una grande quantità di dati etichettati (costosi, spesso etichettati a mano); le etichette possono contenere errori o pregiudizi; non scopre strutture nuove.
+\end{itemize}
+
+\subsection{Apprendimento non supervisionato}
+Dati \textbf{non etichettati}: si cerca una struttura nascosta.
+\begin{itemize}
+    \item \textbf{Clustering}: raggruppa esempi simili ($k$-means, clustering gerarchico, DBSCAN).
+    \item \textbf{Riduzione della dimensionalità}: PCA, autoencoder.
+    \item \textbf{Regole di associazione} e \textbf{rilevamento di anomalie}.
+    \item \textbf{Esempio}: segmentare i clienti di un negozio in gruppi con abitudini di acquisto simili, senza sapere a priori quali gruppi esistano.
+    \item \textbf{Vantaggi}: usa dati abbondanti e a basso costo; può scoprire strutture inattese.
+    \item \textbf{Limiti}: risultati difficili da valutare e da interpretare (non c'è una ``risposta giusta''); sensibile alla scelta della metrica di distanza e del numero di gruppi.
+\end{itemize}
+
+\subsection{Apprendimento per rinforzo}
+Un \textbf{agente} interagisce con un \textbf{ambiente}: in ogni stato $s$ sceglie un'azione $a$, riceve una \textbf{ricompensa} $r$ e passa in un nuovo stato. Obiettivo: apprendere una \textbf{politica} $\pi(s)$ che massimizzi la ricompensa cumulata (con fattore di sconto $\gamma$).
+\begin{itemize}
+    \item \textbf{Formalismo}: processo decisionale di Markov (MDP); funzione valore $V(s)$ e funzione azione-valore $Q(s,a)$.
+    \item \textbf{Q-learning}: $Q(s,a) \leftarrow Q(s,a) + \alpha\,[\,r + \gamma \max_{a'} Q(s',a') - Q(s,a)\,]$.
+    \item \textbf{Dilemma esplorazione/sfruttamento}: provare azioni nuove contro scegliere quella migliore nota ($\varepsilon$-greedy).
+    \item \textbf{Esempio}: un robot che impara a camminare, un programma che gioca a scacchi o Go, il controllo di un impianto di climatizzazione.
+    \item \textbf{Vantaggi}: non servono dati etichettati, ottimizza decisioni sequenziali a lungo termine.
+    \item \textbf{Limiti}: richiede moltissime interazioni (spesso in simulazione), ricompensa difficile da definire, addestramento instabile, problemi di sicurezza durante l'esplorazione.
+\end{itemize}
+
+\subsection{Confronto}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXXX@{}}
+\toprule
+ & \textbf{Supervisionato} & \textbf{Non supervisionato} & \textbf{Per rinforzo} \\
+\midrule
+Dati & Etichettati $(x,y)$ & Solo $x$, non etichettati & Esperienze $(s,a,r,s')$ da un ambiente \\
+Segnale di apprendimento & Errore rispetto alla risposta corretta & Nessuno esplicito (struttura dei dati) & Ricompensa, spesso ritardata \\
+Obiettivo & Predire $y$ & Scoprire struttura & Massimizzare la ricompensa cumulata \\
+Problemi tipici & Classificazione, regressione & Clustering, riduzione dimensionale & Controllo, giochi, robotica \\
+Esempio & Diagnosi da immagini & Segmentazione clienti & Guida autonoma, gioco \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Esistono anche forme intermedie: \textbf{semi-supervisionato} (pochi dati etichettati e molti no), \textbf{auto-supervisionato} (le etichette si ricavano dai dati stessi, come nei modelli linguistici).
+
+\paragraph{Scegliere il paradigma.} Etichette disponibili e obiettivo di predizione chiaro $\to$ supervisionato. Solo dati grezzi e voglia di esplorarli $\to$ non supervisionato. Decisioni sequenziali con feedback, senza una soluzione corretta nota $\to$ rinforzo.
+
+\section{Valutazione, Overfitting e Underfitting}
+
+\subsection{Suddivisione dei dati}
+\begin{itemize}
+    \item \textbf{Training set}: usato per apprendere i parametri.
+    \item \textbf{Validation set}: usato per scegliere iperparametri e confrontare modelli.
+    \item \textbf{Test set}: usato \emph{una sola volta} alla fine per stimare le prestazioni su dati nuovi. Non deve influenzare in alcun modo l'addestramento (nessun \emph{data leakage}).
+    \item \textbf{Cross-validation} a $k$ fold: i dati sono divisi in $k$ parti, ognuna usata a turno come validazione; utile con pochi dati. Tipici: $60$--$20$--$20$ oppure $70$--$15$--$15$.
+\end{itemize}
+
+\subsection{Underfitting e overfitting}
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+ & \textbf{Underfitting} & \textbf{Overfitting} \\
+\midrule
+Problema & Modello troppo semplice & Modello troppo complesso, memorizza anche il rumore \\
+Errore di training & Alto & Molto basso \\
+Errore su validation/test & Alto & Alto (molto più alto del training) \\
+Bias / varianza & Alto bias & Alta varianza \\
+Rimedi & Modello più ricco, più feature, meno regolarizzazione & Più dati, modello più semplice, \textbf{regolarizzazione} ($L_1$, $L_2$), early stopping, dropout, data augmentation, cross-validation \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Il \textbf{compromesso bias--varianza}: all'aumentare della complessità il bias diminuisce e la varianza cresce; la complessità ottima minimizza l'errore sul validation set. La \textbf{capacità di generalizzazione} è la prestazione su dati mai visti.
+
+\subsection{Metriche}
+\begin{itemize}
+    \item \textbf{Classificazione}: matrice di confusione (TP, FP, TN, FN);
+    \[
+    \text{Accuracy} = \frac{TP+TN}{TP+TN+FP+FN},\quad
+    \text{Precision} = \frac{TP}{TP+FP},\quad
+    \text{Recall} = \frac{TP}{TP+FN}
+    \]
+    \[
+    F_1 = 2\,\frac{\text{Precision}\cdot\text{Recall}}{\text{Precision}+\text{Recall}}
+    \]
+    Con classi sbilanciate l'accuracy inganna: in una diagnosi con l'1\% di malati, dire sempre ``sano'' ha il 99\% di accuracy ma recall nulla.
+    \item \textbf{Regressione}: errore quadratico medio $\mathrm{MSE} = \frac{1}{n}\sum_i (y_i-\hat y_i)^2$, RMSE, MAE, $R^2$.
+\end{itemize}
+
+\section{Regressione Lineare e Minimi Quadrati}
+Modello lineare nei parametri: $\hat y = \theta^\top x$, ovvero in forma matriciale $\hat y = \Phi\theta$, dove $\Phi$ è la matrice dei regressori (una riga per esempio).
+
+\paragraph{Metodo dei minimi quadrati.} Si cerca $\theta$ che minimizza il costo
+\[
+J(\theta) = \sum_{i=1}^{N} \bigl(y_i - \theta^\top x_i\bigr)^2 = \lVert y - \Phi\theta\rVert^2 .
+\]
+Imponendo il gradiente nullo si ottengono le \textbf{equazioni normali}
+\[
+\Phi^\top\Phi\,\hat\theta = \Phi^\top y
+\quad\Longrightarrow\quad
+\hat\theta = (\Phi^\top\Phi)^{-1}\Phi^\top y .
+\]
+\begin{itemize}
+    \item \textbf{Interpretazione geometrica}: $\Phi\hat\theta$ è la \textbf{proiezione ortogonale} del vettore $y$ sul sottospazio generato dalle colonne di $\Phi$; il residuo $y-\Phi\hat\theta$ è ortogonale a tale sottospazio.
+    \item \textbf{Identificabilità}: la soluzione è unica se e solo se $\Phi^\top\Phi$ è invertibile, cioè le colonne di $\Phi$ sono linearmente indipendenti. Se non lo sono (regressori ridondanti) esistono infinite soluzioni e si ricorre alla pseudo-inversa o alla regolarizzazione.
+    \item \textbf{Persistenza dell'eccitazione} (identificazione di sistemi dinamici): per stimare in modo univoco i parametri di un sistema l'ingresso deve essere \emph{sufficientemente ricco} (per esempio rumore bianco o somma di sinusoidi di frequenze diverse); un ingresso costante o troppo povero non rende $\Phi^\top\Phi$ invertibile.
+    \item \textbf{Regolarizzazione (ridge)}: $\hat\theta = (\Phi^\top\Phi + \lambda I)^{-1}\Phi^\top y$; penalizza i parametri grandi e riduce l'overfitting.
+    \item \textbf{Minimi quadrati ricorsivi (RLS)}: aggiornano la stima a ogni nuovo dato, senza ricalcolare tutto; usati nei sistemi che variano nel tempo.
+    \item \textbf{Alternativa iterativa}: discesa del gradiente $\theta \leftarrow \theta - \eta\,\nabla J(\theta)$.
+\end{itemize}
+
+\subsection{Identificazione di sistemi dinamici}
+Dato un sistema, si stima un modello dai dati ingresso--uscita.
+\begin{itemize}
+    \item \textbf{Modelli parametrici lineari}: ARX, $y(t) = -a_1y(t-1) - \dots - a_ny(t-n) + b_1u(t-1)+\dots+b_mu(t-m)+e(t)$, lineare nei parametri $\Rightarrow$ si risolve con i minimi quadrati. Altri: ARMAX, Output-Error, Box--Jenkins.
+    \item \textbf{Predizione a un passo} (usa le uscite misurate passate) e \textbf{simulazione} (usa solo l'ingresso e le uscite stimate): la simulazione è un test più severo del modello.
+    \item \textbf{Scelta dell'ordine}: troppo basso $\to$ underfitting, troppo alto $\to$ overfitting; si usa la validazione e criteri come AIC/BIC.
+    \item \textbf{Validazione}: analisi dei residui (devono essere bianchi e incorrelati con l'ingresso), prestazioni su dati non usati per la stima.
+    \item \textbf{Modelli non lineari basati su ML}: reti neurali, NARX e LSTM quando la dinamica non è lineare.
+\end{itemize}
+
+\section{Principali Modelli di ML}
+\begin{itemize}
+    \item \textbf{$k$-nearest neighbors}: classifica un punto in base alla maggioranza dei suoi $k$ vicini. Semplice, nessun addestramento, ma lento in predizione e sensibile alla scala delle feature.
+    \item \textbf{Regressione logistica}: modello lineare con sigmoide $\sigma(z)=1/(1+e^{-z})$ per la probabilità di classe.
+    \item \textbf{Alberi di decisione e random forest}: l'albero divide lo spazio con test sulle feature (criterio: guadagno di informazione/Gini); interpretabile ma incline all'overfitting. Una \emph{random forest} media molti alberi (\emph{bagging}) e riduce la varianza.
+    \item \textbf{SVM}: separa le classi con l'iperpiano a margine massimo; con i \emph{kernel} gestisce casi non lineari.
+    \item \textbf{$k$-means}: assegna i punti al centroide più vicino e ricalcola i centroidi, iterando fino a convergenza; richiede di fissare $k$.
+    \item \textbf{Naive Bayes}: classificatore probabilistico basato sul teorema di Bayes con ipotesi di indipendenza tra le feature.
+\end{itemize}
+
+\subsection{Reti neurali e deep learning}
+\begin{itemize}
+    \item \textbf{Neurone artificiale}: $a = \phi\bigl(\sum_i w_i x_i + b\bigr)$, con funzione di attivazione $\phi$ (ReLU, sigmoide, tanh).
+    \item \textbf{Rete feed-forward (MLP)}: strati di neuroni; il deep learning usa molti strati.
+    \item \textbf{Addestramento}: si minimizza la loss con la \textbf{discesa del gradiente} (SGD, Adam); i gradienti sono calcolati con la \textbf{retropropagazione} (\emph{backpropagation}), che applica la regola della catena.
+    \item \textbf{Architetture}: \textbf{CNN} (immagini: filtri convoluzionali che condividono i pesi), \textbf{RNN/LSTM} (sequenze), \textbf{Transformer} (attenzione; base dei modelli linguistici).
+    \item \textbf{Tecniche anti-overfitting}: dropout, regolarizzazione dei pesi, early stopping, data augmentation, batch normalization.
+\end{itemize}
+
+\section{Flusso di un Progetto di ML}
+\begin{enumerate}
+    \item \textbf{Definizione del problema} e della metrica di successo.
+    \item \textbf{Raccolta e pulizia dei dati}: valori mancanti, outlier, duplicati, bilanciamento delle classi.
+    \item \textbf{Feature engineering}: normalizzazione/standardizzazione, codifica delle variabili categoriche, selezione delle feature.
+    \item \textbf{Suddivisione} in training, validation e test.
+    \item \textbf{Scelta e addestramento del modello}, con ottimizzazione degli iperparametri.
+    \item \textbf{Valutazione} sul test set.
+    \item \textbf{Deployment} e \textbf{monitoraggio}: il modello si degrada se la distribuzione dei dati cambia (\emph{data drift}); servono riaddestramento periodico (MLOps).
+\end{enumerate}
+
+\paragraph{Aspetti etici e di affidabilità.} Pregiudizi (\emph{bias}) nei dati, interpretabilità (spiegabilità) delle decisioni, privacy e conformità (GDPR), robustezza contro attacchi avversari.
+
+\section{Rappresentazione della Conoscenza (cenni)}
+\begin{itemize}
+    \item \textbf{Logica proposizionale e del primo ordine}: rappresentano fatti e regole; l'inferenza è basata su risoluzione o concatenazione in avanti/indietro.
+    \item \textbf{Sistemi basati su regole} (sistemi esperti), \textbf{ontologie} e \textbf{grafi di conoscenza}.
+    \item \textbf{Ragionamento probabilistico}: reti bayesiane, che codificano dipendenze condizionali tra variabili casuali.
+    \item \textbf{Giochi a due avversari}: algoritmo \textbf{minimax} e potatura \textbf{alfa--beta}.
+\end{itemize}
+
+\section{Esempio: ML in un Sistema Completo}
+Nel tema di progetto del 2026 (cinema multisala) un \textbf{modulo di Machine Learning} supporta la pianificazione delle proiezioni, prevedendo le presenze.
+\begin{itemize}
+    \item \textbf{Problema}: regressione supervisionata. Ingresso: film, genere, giorno e orario, stagione, prezzi, presenze storiche. Uscita: biglietti venduti attesi.
+    \item \textbf{Dati}: estratti dalla base di dati delle prenotazioni; pulizia e codifica di giorno e genere.
+    \item \textbf{Modello}: partire da una baseline (regressione lineare o random forest), valutare con MAE/RMSE su un test set \emph{successivo nel tempo} (split temporale, per evitare leakage).
+    \item \textbf{Integrazione}: il modello è esposto da un servizio con un'API (per esempio \texttt{POST /predizioni}) chiamata dal backend; riaddestramento periodico con i nuovi dati e monitoraggio dell'errore.
+    \item \textbf{Alternativa non supervisionata}: segmentare gli spettatori per abitudini (clustering) per campagne mirate.
+\end{itemize}
