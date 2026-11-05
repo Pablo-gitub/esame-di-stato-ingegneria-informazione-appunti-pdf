@@ -1,0 +1,401 @@
+\chapter{Sicurezza Informatica e Crittografia}
+
+La sicurezza non è una funzionalità da aggiungere alla fine, ma una proprietà da progettare fin dall'inizio. Nelle tracce passate presenti in questo repository \textbf{non compaiono temi dedicati alla sicurezza}; il capitolo è però \emph{preventivo}: la sicurezza è richiesta in modo trasversale in qualunque progetto (autenticazione degli utenti, protezione delle API, TLS, protezione dei dati personali) e un candidato di Ingegneria Informatica deve saperne parlare. Il capitolo si chiude con un esempio di messa in sicurezza del sistema di prenotazione del cinema del capitolo \emph{Progettazione di Sistemi e API}.
+
+\section{Concetti Fondamentali}
+
+\subsection{Obiettivi: la triade CIA e oltre}
+\begin{itemize}
+    \item \textbf{Confidenzialità} (\emph{confidentiality}): solo i soggetti autorizzati accedono alle informazioni. Strumento: cifratura, controllo degli accessi.
+    \item \textbf{Integrità}: i dati non sono modificati in modo non autorizzato o non rilevato. Strumenti: hash, MAC, firme digitali.
+    \item \textbf{Disponibilità} (\emph{availability}): il servizio è utilizzabile quando serve. Strumenti: ridondanza, backup, protezione da DoS.
+    \item \textbf{Autenticazione}: verificare l'identità di chi comunica. \textbf{Autorizzazione}: stabilire che cosa può fare. \textbf{Non ripudio}: chi ha compiuto un'azione non può negarla (firma digitale). \textbf{Tracciabilità} (\emph{accountability}): le azioni sono registrate.
+\end{itemize}
+
+\subsection{Minacce, vulnerabilità, rischio}
+\begin{itemize}
+    \item \textbf{Minaccia}: evento o soggetto che può causare un danno (un attaccante, un malware, un guasto).
+    \item \textbf{Vulnerabilità}: debolezza che può essere sfruttata (un errore di programmazione, una configurazione errata, un utente ingannabile).
+    \item \textbf{Attacco}: azione che sfrutta una vulnerabilità. \textbf{Exploit}: strumento o tecnica che lo realizza.
+    \item \textbf{Rischio} $\approx$ \textbf{probabilità} $\times$ \textbf{impatto}. Non si elimina: si \textbf{valuta} e si \textbf{tratta} (mitigare, trasferire con un'assicurazione, accettare, evitare).
+\end{itemize}
+
+\subsection{Principi di progettazione sicura}
+\begin{itemize}
+    \item \textbf{Difesa in profondità} (\emph{defense in depth}): più livelli di protezione indipendenti; se uno cade, gli altri reggono.
+    \item \textbf{Privilegio minimo}: ogni utente e programma ha solo i permessi indispensabili. \textbf{Perché}: riduce il danno se un account o un componente è compromesso.
+    \item \textbf{Default sicuri} e \textbf{fail-safe}: in caso di errore si nega l'accesso, non lo si concede.
+    \item \textbf{Mediazione completa}: ogni accesso è controllato, ogni volta.
+    \item \textbf{Principio di Kerckhoffs}: la sicurezza di un sistema crittografico deve dipendere \emph{solo dalla segretezza della chiave}, non da quella dell'algoritmo. \textbf{Perché}: gli algoritmi pubblici sono studiati e attaccati da tutti; la ``sicurezza per oscurità'' crolla appena il segreto è scoperto.
+    \item \textbf{Semplicità e riduzione della superficie di attacco}: meno codice, meno servizi esposti, meno vulnerabilità.
+    \item \textbf{Mai fidarsi dell'input}: ogni dato esterno si valida.
+    \item \textbf{Non inventare la propria crittografia}: usare algoritmi e librerie standard, verificati.
+\end{itemize}
+
+\section{Crittografia Simmetrica}
+Mittente e destinatario condividono la \textbf{stessa chiave segreta} $K$: $c = E_K(m)$, $m = D_K(c)$.
+
+\subsection{Cifrari a blocchi e a flusso}
+\begin{itemize}
+    \item \textbf{Cifrari a blocchi}: operano su blocchi di dimensione fissa. \textbf{AES} (\emph{Advanced Encryption Standard}): blocchi di 128 bit, chiavi da 128, 192 o 256 bit (10, 12, 14 \emph{round} di sostituzioni e permutazioni). Lo standard attuale. \textbf{DES} (chiave a 56 bit) è obsoleto: esplorabile con la forza bruta; \textbf{3DES} è deprecato.
+    \item \textbf{Cifrari a flusso}: generano un flusso di bit pseudocasuali sommato (XOR) al messaggio; per esempio \textbf{ChaCha20}, molto veloce senza hardware dedicato.
+    \item \textbf{One-time pad}: XOR con una chiave casuale lunga quanto il messaggio e usata \emph{una sola volta}; garantisce segretezza \emph{perfetta} (Shannon), ma è impraticabile (distribuzione della chiave).
+    \item \textbf{Confusione e diffusione} (Shannon): la confusione rende complessa la relazione tra chiave e testo cifrato; la diffusione fa dipendere ogni bit cifrato da molti bit del messaggio.
+\end{itemize}
+
+\subsection{Modi di funzionamento}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.1cm}XX@{}}
+\toprule
+\textbf{Modo} & \textbf{Come funziona} & \textbf{Note} \\
+\midrule
+\textbf{ECB} & Ogni blocco cifrato indipendentemente & \textbf{Insicuro}: blocchi uguali producono testi cifrati uguali; rivela la struttura dei dati (l'immagine cifrata ``si vede'') \\
+\textbf{CBC} & Ogni blocco è messo in XOR con il precedente cifrato; serve un \emph{IV} imprevedibile & Non fornisce integrità; vulnerabile ad attacchi \emph{padding oracle} se mal usato \\
+\textbf{CTR} & Trasforma il cifrario in cifrario a flusso con un contatore & Parallelizzabile; il \emph{nonce} non va mai riusato con la stessa chiave \\
+\textbf{GCM} & CTR più autenticazione (\emph{AEAD}) & \textbf{Consigliato}: cifra e autentica insieme; riusare il nonce è catastrofico \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Perché la cifratura da sola non basta}: un attaccante può modificare un testo cifrato senza conoscere la chiave. Si usano quindi modi \textbf{AEAD} (\emph{Authenticated Encryption with Associated Data}: AES-GCM, ChaCha20-Poly1305) che garantiscono riservatezza \emph{e} integrità.
+
+\subsection{Il problema della distribuzione delle chiavi}
+La crittografia simmetrica è veloce, ma richiede che le parti \emph{si siano già scambiate la chiave} in modo sicuro. Con $n$ utenti che vogliono comunicare a coppie in modo riservato servono $n(n-1)/2$ chiavi (con 1000 utenti, quasi mezzo milione). Questo problema è stato superato dalla crittografia asimmetrica.
+
+\section{Crittografia Asimmetrica}
+Ogni soggetto ha una \textbf{coppia di chiavi}: una \textbf{pubblica} (distribuibile liberamente) e una \textbf{privata} (segreta). Ciò che è cifrato con una si decifra solo con l'altra.
+\begin{itemize}
+    \item \textbf{Riservatezza}: si cifra con la chiave \emph{pubblica del destinatario}; solo lui, con la privata, decifra.
+    \item \textbf{Firma}: si firma con la chiave \emph{privata del mittente}; chiunque, con la pubblica, verifica.
+\end{itemize}
+
+\subsection{RSA}
+Si basa sulla difficoltà di \textbf{fattorizzare} il prodotto di due numeri primi grandi.
+\begin{enumerate}
+    \item Si scelgono due primi grandi $p$ e $q$; $n = p\cdot q$; $\varphi(n) = (p-1)(q-1)$.
+    \item Si sceglie $e$ coprimo con $\varphi(n)$; si calcola $d$ tale che $e\cdot d \equiv 1 \pmod{\varphi(n)}$.
+    \item \textbf{Chiave pubblica} $(n, e)$; \textbf{chiave privata} $(n, d)$.
+    \item \textbf{Cifratura}: $c = m^e \bmod n$. \textbf{Decifratura}: $m = c^d \bmod n$.
+\end{enumerate}
+
+\begin{lstlisting}[language=Python, caption={RSA con numeri piccoli (solo didattico)}]
+# RSA "giocattolo": SOLO a scopo didattico (numeri minuscoli, niente padding)
+p, q = 61, 53
+n = p * q                       # 3233: parte pubblica del modulo
+phi = (p - 1) * (q - 1)         # 3120
+e = 17                          # esponente pubblico, coprimo con phi
+d = pow(e, -1, phi)             # esponente privato: e*d = 1 (mod phi)  -> 2753
+
+m = 65                          # messaggio (numero < n)
+c = pow(m, e, n)                # cifratura con la chiave PUBBLICA  (n, e)
+m2 = pow(c, d, n)               # decifratura con la chiave PRIVATA (n, d)
+print(n, phi, d, c, m2)
+
+# Firma: si "cifra" con la chiave privata, si verifica con la pubblica
+firma = pow(m, d, n)
+print(firma, pow(firma, e, n) == m)
+\end{lstlisting}
+Con $p=61$, $q=53$: $n=3233$, $\varphi=3120$, $e=17$, $d=2753$; il messaggio $65$ diventa $2790$ e torna $65$. \textbf{Attenzione}: questo è RSA ``da manuale''; l'RSA reale usa chiavi di almeno \textbf{2048 bit} (3072 per la protezione di lungo periodo) e un \textbf{padding} (OAEP per la cifratura, PSS per la firma), altrimenti è insicuro.
+
+\subsection{Scambio di chiavi Diffie--Hellman}
+Permette a due parti di accordarsi su una chiave segreta \emph{su un canale pubblico}, grazie alla difficoltà del \textbf{logaritmo discreto}.
+\begin{lstlisting}[language=Python, caption={Diffie-Hellman con numeri piccoli (didattico)}]
+# Diffie-Hellman con numeri piccoli (didattico)
+p, g = 23, 5                    # parametri pubblici
+a, b = 6, 15                    # segreti di Alice e Bob (mai trasmessi)
+A = pow(g, a, p)                # Alice invia A = g^a mod p  -> 8
+B = pow(g, b, p)                # Bob   invia B = g^b mod p  -> 19
+print(A, B, pow(B, a, p), pow(A, b, p))     # stesso segreto condiviso: g^(ab) mod p = 2
+\end{lstlisting}
+Un osservatore vede $p, g, A, B$ ma non può calcolare facilmente $g^{ab}$. Usato da solo \emph{non} autentica le parti: è vulnerabile all'attacco \textbf{man-in-the-middle} se non è accompagnato da firme o certificati. La variante effimera (DHE/ECDHE) garantisce la \textbf{forward secrecy}: la compromissione futura della chiave a lungo termine non permette di decifrare il traffico passato.
+
+\subsection{Crittografia a curve ellittiche (ECC)}
+Stessa idea con operazioni su curve ellittiche: a pari sicurezza servono chiavi \emph{molto più corte} (una chiave ECC a 256 bit equivale circa a RSA a 3072 bit), con minor calcolo e banda. Esempi: ECDH, ECDSA, Ed25519.
+
+\subsection{Confronto e crittografia ibrida}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}XX@{}}
+\toprule
+ & \textbf{Simmetrica} & \textbf{Asimmetrica} \\
+\midrule
+Chiavi & Una, condivisa & Coppia pubblica/privata \\
+Velocità & Molto alta & Da centinaia a migliaia di volte più lenta \\
+Distribuzione delle chiavi & Problema (serve un canale sicuro) & Semplificata: si pubblica la chiave pubblica \\
+Servizi & Riservatezza (e integrità con AEAD) & Scambio di chiavi, firma digitale, non ripudio \\
+Esempi & AES, ChaCha20 & RSA, ECC, Diffie--Hellman \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Perché si usano insieme} (\textbf{crittografia ibrida}, come in TLS e PGP): l'asimmetrica serve a \emph{scambiare} una chiave di sessione e ad autenticare; i dati si cifrano poi con la simmetrica, veloce. Si ottiene la comodità della prima e la velocità della seconda.
+
+\paragraph{Crittografia post-quantistica.} Un computer quantistico sufficientemente potente romperebbe RSA, Diffie--Hellman ed ECC (algoritmo di Shor) e dimezzerebbe la sicurezza dei cifrari simmetrici (Grover: AES-256 resta adeguato). Il NIST ha standardizzato algoritmi \emph{post-quantistici} (come ML-KEM e ML-DSA); è in corso la migrazione.
+
+\section{Funzioni Hash, MAC e Firma Digitale}
+
+\subsection{Funzioni hash crittografiche}
+Una funzione hash $H$ trasforma un messaggio di lunghezza arbitraria in un \textbf{digest} di lunghezza fissa (SHA-256: 256 bit). Proprietà:
+\begin{itemize}
+    \item \textbf{Deterministica} e veloce da calcolare.
+    \item \textbf{Resistenza alla preimmagine}: dato $h$ è impraticabile trovare $m$ con $H(m)=h$ (non è invertibile).
+    \item \textbf{Resistenza alla seconda preimmagine}: dato $m$ è impraticabile trovare $m'\neq m$ con lo stesso hash.
+    \item \textbf{Resistenza alle collisioni}: è impraticabile trovare due messaggi qualsiasi con lo stesso hash. Per un hash di $n$ bit la ricerca di una collisione richiede circa $2^{n/2}$ tentativi (\emph{paradosso del compleanno}), quindi servono almeno 256 bit per una sicurezza di 128 bit.
+    \item \textbf{Effetto valanga}: cambiare un bit del messaggio cambia circa metà dei bit del digest.
+\end{itemize}
+\textbf{Algoritmi}: \textbf{SHA-256/SHA-512} (famiglia SHA-2) e SHA-3 sono sicuri; \textbf{MD5} e \textbf{SHA-1} sono \emph{rotti} (collisioni dimostrate) e non vanno più usati per scopi di sicurezza.
+\textbf{Usi}: verifica dell'integrità dei file, firme digitali (si firma l'hash, non il messaggio), memorizzazione delle password, blockchain, \emph{deduplicazione}.
+
+\subsection{MAC e HMAC: integrità e autenticità con chiave condivisa}
+Un \textbf{MAC} (\emph{Message Authentication Code}) è un tag calcolato da messaggio \emph{e chiave segreta}; chi non conosce la chiave non può produrre un tag valido. \textbf{HMAC} costruisce un MAC a partire da una funzione hash. Un semplice hash \emph{non} basta: chiunque può ricalcolarlo dopo aver modificato il messaggio.
+
+\begin{lstlisting}[language=Python, caption={Hash, effetto valanga e HMAC}]
+import hashlib, hmac, secrets
+
+# 1) Hash: stesso ingresso -> stesso digest; una minima modifica -> digest completamente diverso
+print(hashlib.sha256(b"abc").hexdigest())
+print(hashlib.sha256(b"abd").hexdigest())
+
+# 2) HMAC: integrita' + autenticita' con una chiave condivisa
+chiave = secrets.token_bytes(32)
+messaggio = b"importo=100;iban=IT60X0542811101000000123456"
+tag = hmac.new(chiave, messaggio, hashlib.sha256).digest()
+
+def verifica(chiave, messaggio, tag):
+    atteso = hmac.new(chiave, messaggio, hashlib.sha256).digest()
+    return hmac.compare_digest(atteso, tag)       # confronto a tempo costante
+
+print(verifica(chiave, messaggio, tag))                              # True
+print(verifica(chiave, b"importo=900;iban=IT60X0542811101000000123456", tag))  # False
+\end{lstlisting}
+
+\subsection{Firma digitale}
+\begin{enumerate}
+    \item Il mittente calcola l'\textbf{hash} del documento.
+    \item Lo \textbf{firma} con la propria \textbf{chiave privata}.
+    \item Il destinatario \textbf{ricalcola l'hash} e verifica la firma con la \textbf{chiave pubblica} del mittente.
+\end{enumerate}
+Garantisce \textbf{integrità}, \textbf{autenticità} e \textbf{non ripudio}: solo il possessore della chiave privata può aver firmato. \textbf{Differenza da MAC}: con il MAC la chiave è condivisa, quindi \emph{entrambe} le parti potrebbero aver generato il tag, e non c'è non ripudio; con la firma solo il mittente possiede la chiave privata.
+
+\section{Infrastruttura a Chiave Pubblica (PKI) e Certificati}
+Come si sa che una chiave pubblica appartiene davvero a chi dice? Un \textbf{certificato digitale} (standard \textbf{X.509}) lega un'identità (nome di dominio, persona) a una chiave pubblica ed è \textbf{firmato} da una \textbf{Autorità di Certificazione (CA)}.
+\begin{itemize}
+    \item \textbf{Catena di fiducia}: il certificato del server è firmato da una CA intermedia, che è firmata da una CA radice; le radici di cui ci si fida sono preinstallate nel sistema o nel browser.
+    \item \textbf{Verifica}: firma valida, catena fino a una radice fidata, periodo di validità, nome corrispondente, certificato non revocato.
+    \item \textbf{Revoca}: liste di revoca (CRL) o protocollo OCSP.
+    \item \textbf{TLS}: usa i certificati per autenticare il server (e a volte il client) e per accordarsi sulla chiave di sessione (vedi capitolo \emph{Sistemi Operativi e Reti: Approfondimenti}).
+\end{itemize}
+
+\paragraph{Contesto italiano ed europeo.} La \textbf{firma digitale} italiana (qualificata) si basa su PKI; il regolamento europeo \textbf{eIDAS} attribuisce alla firma elettronica qualificata \emph{lo stesso valore giuridico della firma autografa}. Altri strumenti: \textbf{SPID} e \textbf{CIE} (identità digitale), \textbf{PEC} (posta elettronica certificata). Per un ingegnere che firma progetti e relazioni la firma digitale è uno strumento professionale quotidiano.
+
+\section{Autenticazione e Autorizzazione}
+
+\subsection{Fattori di autenticazione}
+\textbf{Qualcosa che si sa} (password), \textbf{che si ha} (telefono, chiave hardware, smart card), \textbf{che si è} (biometria). L'\textbf{autenticazione a più fattori (MFA)} ne combina almeno due, perché una password rubata non basta. Esempi: codici temporanei \textbf{TOTP} (RFC 6238, cambiano ogni 30 secondi), chiavi \textbf{FIDO2/WebAuthn} (resistenti al \emph{phishing}).
+
+\subsection{Conservare le password}
+\textbf{Non si memorizzano mai le password in chiaro}, né con un semplice hash veloce. La regola è: \textbf{funzione di derivazione di chiave lenta} (\emph{password hashing}) con \textbf{sale} casuale per utente.
+\begin{itemize}
+    \item \textbf{Hash veloci} (SHA-256 semplice): un attaccante con una GPU prova miliardi di password al secondo (\emph{brute force} e dizionari).
+    \item \textbf{Sale} (\emph{salt}): valore casuale per utente, memorizzato accanto all'hash. Perché: due utenti con la stessa password hanno hash diversi, e le tabelle pre-calcolate (\emph{rainbow table}) diventano inutili.
+    \item \textbf{Funzioni lente e configurabili}: \textbf{Argon2id} (consigliata), \textbf{scrypt}, \textbf{bcrypt}, \textbf{PBKDF2} con molte iterazioni. Il costo si regola in base all'hardware.
+    \item \textbf{Confronto a tempo costante} per evitare attacchi basati sul tempo di risposta.
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={Salvataggio sicuro di una password (PBKDF2 con sale)}]
+import hashlib, hmac, secrets
+
+ITERAZIONI = 600_000                              # costo configurabile: rallenta chi prova a indovinare
+
+def hash_password(password: str) -> str:
+    sale = secrets.token_bytes(16)                # sale casuale, diverso per ogni utente
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), sale, ITERAZIONI)
+    return f"{ITERAZIONI}${sale.hex()}${dk.hex()}"
+
+def verifica_password(password: str, salvato: str) -> bool:
+    it, sale_hex, dk_hex = salvato.split("$")
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(sale_hex), int(it))
+    return hmac.compare_digest(dk, bytes.fromhex(dk_hex))
+
+h = hash_password("correct horse battery staple")
+print(verifica_password("correct horse battery staple", h), verifica_password("password123", h))
+print(hash_password("x") != hash_password("x"))    # stesso testo, sale diverso -> hash diversi
+\end{lstlisting}
+
+\subsection{Sessioni, token e cookie}
+\begin{itemize}
+    \item \textbf{Sessione lato server}: un identificatore casuale nel cookie; lo stato è sul server. Facile da revocare.
+    \item \textbf{Token (JWT)}: un token firmato \texttt{intestazione.contenuto.firma} che contiene l'identità e la scadenza; il server verifica la firma senza consultare uno stato (comodo con servizi senza stato). \textbf{Attenzioni}: scadenza breve, verifica sempre la firma e l'algoritmo atteso, nessun dato segreto nel contenuto (è solo codificato, non cifrato), difficoltà di revoca.
+    \item \textbf{Cookie sicuri}: \texttt{HttpOnly} (non leggibile da JavaScript, limita il furto via XSS), \texttt{Secure} (solo HTTPS), \texttt{SameSite} (limita il CSRF).
+    \item \textbf{OAuth 2.0 / OpenID Connect}: delega dell'autenticazione e dell'autorizzazione a un provider (``accedi con\ldots''), senza condividere la password con l'applicazione.
+\end{itemize}
+
+\subsection{Autorizzazione}
+\begin{itemize}
+    \item \textbf{RBAC} (basato sui ruoli: utente, gestore, amministratore) e \textbf{ABAC} (basato su attributi e contesto).
+    \item \textbf{Controllo a ogni richiesta, lato server}: nascondere un pulsante nell'interfaccia non è una protezione.
+    \item \textbf{Controllo della proprietà della risorsa}: un utente autenticato deve poter leggere \emph{solo} le proprie prenotazioni (vedi \emph{IDOR} più avanti).
+\end{itemize}
+
+\section{Vulnerabilità delle Applicazioni}
+\textbf{OWASP Top 10} (edizione 2021; verificare l'edizione più recente) elenca le categorie di rischio più frequenti nelle applicazioni web:
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.2cm}X@{}}
+\toprule
+\textbf{Categoria} & \textbf{Significato e contromisura} \\
+\midrule
+Broken Access Control & Controlli di autorizzazione mancanti o aggirabili (per esempio leggere i dati di un altro utente cambiando un identificativo). \emph{Controllo lato server su ogni richiesta, privilegio minimo.} \\
+Cryptographic Failures & Dati sensibili non cifrati, algoritmi deboli, chiavi gestite male. \emph{TLS, cifratura a riposo, algoritmi standard.} \\
+Injection & L'input è interpretato come comando (SQL, shell, LDAP). \emph{Query parametriche, validazione.} \\
+Insecure Design & Difetti di progetto, non di codice. \emph{Threat modeling, progettazione sicura.} \\
+Security Misconfiguration & Impostazioni di default, servizi non necessari, messaggi d'errore dettagliati. \emph{Hardening, configurazione ripetibile.} \\
+Vulnerable and Outdated Components & Librerie con vulnerabilità note. \emph{Inventario delle dipendenze, aggiornamenti.} \\
+Identification and Authentication Failures & Password deboli, sessioni non invalidate, assenza di MFA. \\
+Software and Data Integrity Failures & Aggiornamenti o pipeline non verificati (\emph{supply chain}). \emph{Firme, controllo di integrità.} \\
+Logging and Monitoring Failures & Attacchi non rilevati. \emph{Log centralizzati, allarmi.} \\
+Server-Side Request Forgery & Il server è indotto a fare richieste verso risorse interne. \emph{Elenco di destinazioni consentite.} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{SQL injection}
+Se l'input dell'utente è \emph{concatenato} nella query, può cambiarne il significato. Con $\texttt{nome} = $ \verb|x' OR '1'='1| la condizione diventa sempre vera e la query restituisce tutti gli utenti. La causa è il \textbf{mescolamento di dati e codice}; la soluzione è tenerli separati con \textbf{query parametriche} (\emph{prepared statements}): il database tratta il parametro sempre come un \emph{dato}.
+
+\begin{lstlisting}[language=Python, caption={SQL injection e query parametrica}]
+import sqlite3
+
+db = sqlite3.connect(":memory:")
+db.execute("CREATE TABLE utente (nome TEXT, password_hash TEXT)")
+db.execute("INSERT INTO utente VALUES ('alice', 'h1'), ('bob', 'h2')")
+
+def login_vulnerabile(nome):
+    q = f"SELECT nome FROM utente WHERE nome = '{nome}'"     # concatenazione: PERICOLOSO
+    return db.execute(q).fetchall()
+
+def login_sicuro(nome):
+    q = "SELECT nome FROM utente WHERE nome = ?"             # query parametrica
+    return db.execute(q, (nome,)).fetchall()
+
+attacco = "x' OR '1'='1"
+print(login_vulnerabile(attacco))     # restituisce TUTTI gli utenti
+print(login_sicuro(attacco))          # [] : l'input e' trattato come DATO, non come SQL
+print(login_sicuro("alice"))
+\end{lstlisting}
+
+\subsection{Altre vulnerabilità frequenti}
+\begin{itemize}
+    \item \textbf{XSS} (\emph{Cross-Site Scripting}): lo script di un attaccante viene eseguito nel browser della vittima, perché l'applicazione include input non filtrato nelle pagine. \emph{Contromisure}: \textbf{escape dell'output} secondo il contesto (HTML, attributo, JavaScript), \textbf{Content Security Policy}, cookie \texttt{HttpOnly}.
+    \item \textbf{CSRF} (\emph{Cross-Site Request Forgery}): un sito ostile induce il browser, già autenticato, a inviare una richiesta all'applicazione. \emph{Contromisure}: \textbf{token anti-CSRF}, cookie \texttt{SameSite}, controllo dell'\emph{origine}.
+    \item \textbf{IDOR} (\emph{Insecure Direct Object Reference}): \texttt{GET /prenotazioni/17} restituisce la prenotazione 17 anche se appartiene a un altro utente. \emph{Contromisura}: verificare che l'oggetto appartenga all'utente autenticato.
+    \item \textbf{Buffer overflow} (C/C++): scrivere oltre la fine di un array sovrascrive dati o l'indirizzo di ritorno nello stack (vedi \emph{Record di attivazione}). \emph{Contromisure}: controllo dei limiti, linguaggi con sicurezza della memoria (Rust, Java, Python), \textbf{stack canary}, \textbf{ASLR} (indirizzi casuali), \textbf{DEP/NX} (pagine dati non eseguibili).
+    \item \textbf{Path traversal}: \verb|../../etc/passwd| per uscire dalla cartella consentita. \emph{Contromisura}: normalizzare e limitare i percorsi.
+    \item \textbf{Deserializzazione non sicura} e \textbf{segreti nel codice} (chiavi API nel repository): usare gestori di segreti e variabili d'ambiente.
+\end{itemize}
+
+\section{Sicurezza di Rete}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.3cm}XX@{}}
+\toprule
+\textbf{Attacco} & \textbf{Descrizione} & \textbf{Contromisura} \\
+\midrule
+Intercettazione (\emph{sniffing}) & Lettura del traffico non cifrato & Cifratura (TLS, VPN, Wi-Fi WPA3) \\
+Man-in-the-middle & L'attaccante si pone tra le parti e legge o modifica & Certificati e autenticazione reciproca \\
+Spoofing (IP, ARP, DNS) & Falsificazione di indirizzi o risposte & Filtri, ARP ispezionato, \textbf{DNSSEC} \\
+Denial of Service (DoS/DDoS) & Esaurire le risorse con enormi quantità di richieste & Limitazione del traffico (\emph{rate limiting}), CDN, ridondanza \\
+Phishing e ingegneria sociale & Si inganna l'utente (non il sistema) & Formazione, MFA, filtri della posta \\
+Malware (virus, worm, trojan, ransomware) & Software ostile & Aggiornamenti, antivirus/EDR, privilegi minimi, backup offline \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Difese}
+\begin{itemize}
+    \item \textbf{Firewall}: filtra il traffico in base a indirizzi, porte e stato delle connessioni (\emph{stateful}); a livello applicativo (\emph{WAF}) ispeziona anche il contenuto.
+    \item \textbf{Segmentazione} della rete e \textbf{DMZ}: i servizi esposti (web) stanno in una zona separata, i database in una zona interna non raggiungibile da Internet. \textbf{Perché}: limita i movimenti dell'attaccante (\emph{lateral movement}) se un componente è compromesso.
+    \item \textbf{IDS/IPS}: rilevano (e bloccano) attività sospette.
+    \item \textbf{VPN}: tunnel cifrato tra reti o verso un utente remoto (IPsec, WireGuard, TLS).
+    \item \textbf{Zero trust}: nessuna fiducia implicita nella rete interna; ogni accesso è autenticato e autorizzato.
+\end{itemize}
+
+\section{Gestione del Rischio, Normativa e Ciclo di Vita}
+
+\subsection{Valutare il rischio e modellare le minacce}
+Si identificano i \textbf{beni} da proteggere, le \textbf{minacce}, le \textbf{vulnerabilità}, e si stima probabilità e impatto per decidere le priorità. Il \textbf{threat modeling} con il metodo \textbf{STRIDE} classifica le minacce:
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}>{\raggedright\arraybackslash}p{3.4cm}X@{}}
+\toprule
+\textbf{Minaccia} & \textbf{Proprietà violata} & \textbf{Contromisura tipica} \\
+\midrule
+\textbf{S}poofing (falsa identità) & Autenticazione & Autenticazione forte, MFA, certificati \\
+\textbf{T}ampering (manomissione) & Integrità & Firme, MAC, controllo degli accessi, vincoli nel database \\
+\textbf{R}epudiation (negare un'azione) & Non ripudio & Log protetti, firme digitali \\
+\textbf{I}nformation disclosure (divulgazione) & Riservatezza & Cifratura, controllo degli accessi \\
+\textbf{D}enial of service & Disponibilità & Rate limiting, ridondanza, scalabilità \\
+\textbf{E}levation of privilege & Autorizzazione & Privilegio minimo, validazione, separazione dei ruoli \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Standard e normativa}
+\begin{itemize}
+    \item \textbf{ISO/IEC 27001}: sistema di gestione della sicurezza delle informazioni (ciclo \emph{plan--do--check--act}); \textbf{NIST Cybersecurity Framework}: identificare, proteggere, rilevare, rispondere, recuperare (in più: governare).
+    \item \textbf{GDPR} (Regolamento UE 2016/679): liceità e minimizzazione dei dati; \textbf{privacy by design e by default} (art.~25); misure di sicurezza adeguate (art.~32, per esempio cifratura e pseudonimizzazione); valutazione d'impatto (DPIA); \textbf{notifica di una violazione dei dati al Garante entro 72 ore}; sanzioni fino a 20 milioni di euro o al 4\% del fatturato.
+    \item \textbf{Direttiva NIS2} (sicurezza di reti e sistemi per soggetti essenziali e importanti) e, in Italia, l'\textbf{Agenzia per la Cybersicurezza Nazionale (ACN)}.
+\end{itemize}
+
+\subsection{Sicurezza nel ciclo di sviluppo (DevSecOps)}
+\begin{itemize}
+    \item \textbf{Spostare la sicurezza a sinistra} (\emph{shift left}): requisiti di sicurezza e threat modeling nella progettazione, non dopo.
+    \item \textbf{Analisi statica} (SAST) e \textbf{dinamica} (DAST), \textbf{scansione delle dipendenze} (SCA), \textbf{revisione del codice}, \textbf{test di penetrazione}, scansione dei segreti nel repository.
+    \item \textbf{Aggiornamenti e gestione delle patch}; \textbf{backup} testati e copia offline; \textbf{piano di risposta agli incidenti}.
+\end{itemize}
+
+\section{Esempio: Messa in Sicurezza del Sistema di Prenotazione}
+Si riprende il sistema del cinema (capitolo \emph{Progettazione di Sistemi e API}). Per ogni componente si indica la minaccia e la misura, in ottica STRIDE.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{3.5cm}X@{}}
+\toprule
+\textbf{Aspetto} & \textbf{Minaccia} & \textbf{Misura} \\
+\midrule
+Comunicazione Web $\leftrightarrow$ backend & Intercettazione, man-in-the-middle & \textbf{HTTPS (TLS 1.2+)} ovunque; HSTS; certificati validi \\
+Accesso degli utenti & Furto o indovinamento delle password; credenziali riusate & Password con \textbf{Argon2id} o PBKDF2 e sale; \textbf{MFA} opzionale; blocco o rallentamento dopo tentativi falliti; token con scadenza breve \\
+Ruoli (utente, gestore) & Un utente usa le funzioni del gestore & \textbf{RBAC} verificato lato server sugli endpoint \texttt{/gestore/\ldots}; privilegio minimo per l'account del database \\
+Dati delle prenotazioni & \textbf{IDOR}: leggere o annullare le prenotazioni altrui & Controllo \texttt{prenotazione.id\_utente = utente del token} su ogni richiesta; identificatori non indovinabili (UUID) come difesa aggiuntiva \\
+Accesso al database & \textbf{SQL injection} & \textbf{Query parametriche} nel livello Repository; utente di database con permessi minimi; nessun SQL costruito per concatenazione \\
+Input delle API & Dati malformati, valori fuori intervallo & \textbf{Validazione} (tipi, lunghezze, intervalli: la fila è una sola lettera, il numero è positivo) e rifiuto con 400/422 \\
+Prenotazione dei posti & \textbf{Accaparramento} automatico dei posti da parte di bot; DoS & \textbf{Rate limiting} per utente e per IP; limite al numero di posti per prenotazione; scadenza delle prenotazioni non confermate; \textbf{vincolo di unicità} nel database contro i doppioni \\
+Errori e log & Divulgazione di dettagli interni; azioni non tracciabili & Messaggi d'errore generici al client; \textbf{log} con identificativo della richiesta e dell'utente, \emph{senza} password o token; log protetti da modifiche \\
+Dati personali (GDPR) & Violazione della privacy; perdita di dati & \textbf{Minimizzazione}: solo i dati necessari; cifratura a riposo di dati e backup; periodi di conservazione; procedura di notifica entro 72 ore \\
+Modulo di Machine Learning & Esposizione dei dati degli spettatori; manipolazione del servizio di previsione & Addestrare su dati \textbf{aggregati e anonimizzati}; servizio non esposto a Internet, solo al backend; autenticazione tra servizi (\emph{mTLS} o token); validazione dell'input \\
+Dipendenze e segreti & Librerie vulnerabili; chiavi nel repository & Scansione delle dipendenze, aggiornamenti; \textbf{gestore di segreti}, mai le chiavi nel codice \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{lstlisting}[language=Python, caption={Controllo di autorizzazione contro l'IDOR (pseudocodice)}]
+def leggi_prenotazione(db, utente, id_prenotazione):
+    riga = db.una_riga(
+        "SELECT id_prenotazione, id_utente, id_proiezione "
+        "FROM prenotazione WHERE id_prenotazione = ?", (id_prenotazione,))
+    if riga is None:
+        raise NonTrovato()                          # 404
+    if riga.id_utente != utente.id and utente.ruolo != "gestore":
+        raise NonTrovato()                          # 404 (non rivela che esiste), oppure 403
+    return riga
+\end{lstlisting}
+
+\section{Scaletta per un Tema sulla Sicurezza}
+\begin{enumerate}
+    \item \textbf{Obiettivi}: riservatezza, integrità, disponibilità, autenticazione, non ripudio; minacce e rischio.
+    \item \textbf{Strumenti crittografici}: simmetrica (AES-GCM), asimmetrica (RSA, ECC, DH), hash, MAC, firma digitale; e \emph{perché} si combinano (crittografia ibrida).
+    \item \textbf{Infrastruttura}: certificati, PKI, TLS.
+    \item \textbf{Autenticazione e autorizzazione}: password con hashing lento e sale, MFA, token, ruoli.
+    \item \textbf{Vulnerabilità tipiche} (injection, XSS, CSRF, IDOR, buffer overflow) e relative contromisure.
+    \item \textbf{Difesa in profondità}: firewall, segmentazione, monitoraggio; principio del privilegio minimo.
+    \item \textbf{Processo e normativa}: threat modeling, DevSecOps, GDPR, ISO 27001.
+    \item \textbf{Esempio concreto} nel sistema descritto dalla traccia, con una tabella minaccia--misura.
+\end{enumerate}

@@ -45,6 +45,15 @@ reti, programmazione, progettazione del software, elettronica e
 sistemi numerici. Ogni sezione include anche esercizi ed esempi
 per facilitare la preparazione pratica.
 
+Il documento è organizzato in \textbf{due parti}. La \textbf{Parte I}
+raccoglie i \emph{fondamenti} per l'Esame di Stato di Ingegnere Junior.
+La \textbf{Parte II} contiene gli \emph{approfondimenti} per la Sezione A
+(Ingegnere, laurea magistrale), con un'impostazione orientata a
+Ingegneria Informatica: temi aperti, prove pratiche di progettazione e
+relative tracce d'esame. Chi prepara la Sezione B può fermarsi alla
+Parte I; chi prepara la Sezione A trova nella Parte I le basi su cui la
+Parte II si appoggia.
+
 \medskip
 \noindent
 \textbf{Un invito:} se noti errori, hai suggerimenti o vuoi aggiungere
@@ -63,10 +72,29 @@ Forlì, \today
 \chapter*{Collaboratori}
 Questo documento è stato sviluppato con la collaborazione di:
 \begin{itemize}
-  \item Paolo Pietrelli – autore principale
+  \item Paolo Pietrelli – autore principale; Parte I (Fondamenti)
+  \item Nicolò Venieri – Parte II (Approfondimenti per la Sezione A)
   % \item Nome Cognome – contributo su Basi di Dati
   % \item Nome Cognome – contributo su Reti di Calcolatori
 \end{itemize}
+
+\section*{Nota sulla Parte II}
+La \textbf{Parte I} è opera dell'autore originale del progetto.
+La \textbf{Parte II} (Approfondimenti per la Sezione A) è stata aggiunta
+in un secondo momento da Nicolò Venieri, a partire dalle tracce delle
+prove passate raccolte nella cartella \texttt{TraccePassate}, con
+l'obiettivo di estendere gli appunti alla Sezione A di Ingegneria
+Informatica.
+
+\medskip
+\noindent
+\textbf{Limiti e verifica.} Il codice e i calcoli numerici riportati
+nella Parte II sono stati eseguiti e controllati (tranne gli esempi
+indicati come pseudocodice). Le parti teoriche, le
+norme e i valori di riferimento \emph{non} hanno ricevuto la revisione
+di un docente o di un professionista abilitato: vanno verificati su fonti
+ufficiali prima di farvi affidamento. Chiunque può segnalare errori con una \emph{issue} o proporre
+correzioni con una \emph{pull request}.
 
 % Indici
 \tableofcontents
@@ -74,6 +102,9 @@ Questo documento è stato sviluppato con la collaborazione di:
 \lstlistoflistings
 
 \mainmatter
+
+% =====================  PARTE I  =====================
+\part{Fondamenti: livello Ingegnere Junior}
 
 % Capitolo 1: Sistemi Operativi
 \include{capitoli/sistemi_operativi/riassunto_sistemi_operativi}
@@ -102,6 +133,42 @@ Questo documento è stato sviluppato con la collaborazione di:
 % Capitolo 7: Sistemi Numerici
 \include{capitoli/sistemi_numerici/riassunto_sistemi_numerici}
 % \input{capitoli/sistemi_numerici/domande_ed_esercizi_sn.tex}
+
+% =====================  PARTE II  =====================
+\part{Approfondimenti per la Sezione A}
+\include{capitoli/introduzione_parte_ii}
+
+% Capitolo 8: Sistemi Distribuiti, Cloud e Big Data (livello Sezione A)
+\include{capitoli/sistemi_distribuiti/riassunto_sistemi_distribuiti}
+\input{capitoli/sistemi_distribuiti/tracce_sistemi_distribuiti.tex}
+
+% Capitolo 9: Intelligenza Artificiale e Machine Learning (livello Sezione A)
+\include{capitoli/intelligenza_artificiale/riassunto_intelligenza_artificiale}
+\input{capitoli/intelligenza_artificiale/tracce_intelligenza_artificiale.tex}
+
+% Capitolo 10: Progettazione di Sistemi Software, API e tema svolto (livello Sezione A)
+\include{capitoli/progettazione_sistemi/riassunto_progettazione_sistemi}
+\input{capitoli/progettazione_sistemi/tracce_progettazione_sistemi.tex}
+
+% Capitolo 11: Programmazione ad Oggetti e Algoritmi (livello Sezione A)
+\include{capitoli/programmazione_avanzata/riassunto_programmazione_avanzata}
+\input{capitoli/programmazione_avanzata/tracce_programmazione_avanzata.tex}
+
+% Capitolo 12: Sistemi Operativi e Reti, approfondimenti (livello Sezione A)
+\include{capitoli/so_reti_avanzati/riassunto_so_reti_avanzati}
+\input{capitoli/so_reti_avanzati/tracce_so_reti_avanzati.tex}
+
+% Capitolo 13: Sicurezza Informatica e Crittografia (livello Sezione A)
+\include{capitoli/sicurezza/riassunto_sicurezza}
+\input{capitoli/sicurezza/collegamenti_sicurezza.tex}
+
+% Capitolo 14: Basi di Dati Avanzate (livello Sezione A)
+\include{capitoli/basi_di_dati_avanzate/riassunto_basi_di_dati_avanzate}
+\input{capitoli/basi_di_dati_avanzate/tracce_basi_di_dati_avanzate.tex}
+
+% Capitolo 15: Architettura del Calcolatore (livello Sezione A)
+\include{capitoli/architettura_calcolatore/riassunto_architettura_calcolatore}
+\input{capitoli/architettura_calcolatore/tracce_architettura_calcolatore.tex}
 
 \backmatter
 \printbibliography

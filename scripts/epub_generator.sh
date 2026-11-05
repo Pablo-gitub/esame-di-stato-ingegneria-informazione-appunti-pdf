@@ -15,6 +15,7 @@ pandoc -f latex -t epub3 main.tex \
   --epub-cover-image=stili/cover.png \
   --css=stili/epub.css \
   --lua-filter=filters/lstlisting2fenced.lua \
+  --lua-filter=filters/epub_parti.lua \
   --highlight-style=kate \
   --mathjax \
   -o "$OUTPUT"

@@ -1,0 +1,811 @@
+\chapter[Programmazione e Algoritmi]{Programmazione ad Oggetti e Algoritmi: Teoria, Codice e Motivazioni}
+
+Nelle tracce della Sezione A il tema di informatica chiede quasi sempre due cose insieme: \textbf{spiegare un concetto} (classe, polimorfismo, chiamata a funzione, complessità) e \textbf{mostrarlo in codice}. Una buona risposta non si limita a definire, ma spiega \emph{perché} si programma in quel modo: quale problema risolve e che cosa succederebbe senza. Questo capitolo completa il capitolo \emph{Programmazione Orientata agli Oggetti (e Fondamenti)} e ne approfondisce gli argomenti usciti negli esami: classe e oggetto (2016), ricorsione e iterazione (2018), algoritmi e complessità (2018), stack e passaggio dei parametri (2025), polimorfismo (2026).
+
+Gli esempi sono in \textbf{Java} (tipizzazione statica, utile per spiegare classi e interfacce), \textbf{Python} (algoritmi) e \textbf{C++} (riferimenti e puntatori). Nell'esame il linguaggio è a scelta, o si può usare pseudocodice.
+
+\section{Perché si Programma ad Oggetti}
+
+\subsection{Il problema: la complessità e il cambiamento}
+Un programma piccolo si può scrivere come una lunga sequenza di istruzioni. Un sistema reale (centinaia di migliaia di righe, decine di sviluppatori, anni di vita) pone invece tre problemi:
+\begin{enumerate}
+    \item \textbf{Complessità}: nessuno riesce a tenere a mente l'intero programma. Serve poter ragionare su una \emph{parte} alla volta, senza conoscere i dettagli del resto.
+    \item \textbf{Cambiamento}: i requisiti cambiano di continuo (nuovo metodo di pagamento, nuovo tipo di sensore, nuovo database). Il costo di una modifica dipende da \emph{quanto codice è toccato} da quella modifica.
+    \item \textbf{Lavoro in gruppo e riuso}: più persone devono lavorare in parallelo senza ostacolarsi, e riusare parti già scritte e testate.
+\end{enumerate}
+
+\subsection{L'idea di fondo: nascondere ciò che può cambiare}
+Il principio guida (D.~Parnas, \emph{information hiding}) è: \textbf{scomporre il sistema in moduli in modo che ogni decisione di progetto che potrebbe cambiare sia nascosta dentro un solo modulo}. Gli altri moduli conoscono solo l'\emph{interfaccia} stabile. Così un cambiamento resta locale.
+
+La programmazione a oggetti applica questa idea in modo sistematico: l'unità di modularità è la \textbf{classe}, che riunisce \emph{dati} e \emph{operazioni} sui dati, espone un'interfaccia pubblica e nasconde l'implementazione.
+
+\subsection{Metriche di qualità: coesione e accoppiamento}
+\begin{itemize}
+    \item \textbf{Coesione alta}: tutto ciò che sta in una classe ha uno scopo comune (una classe \texttt{Rational} contiene solo ciò che riguarda i numeri razionali).
+    \item \textbf{Accoppiamento basso}: le classi dipendono il meno possibile dai dettagli interni delle altre. Se $A$ usa solo l'interfaccia di $B$, cambiare $B$ non rompe $A$.
+\end{itemize}
+Tutti gli strumenti dell'OOP (incapsulamento, interfacce, polimorfismo, composizione) servono a ottenere \textbf{alta coesione e basso accoppiamento}.
+
+\subsection{Confronto tra paradigmi}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}XXX@{}}
+\toprule
+ & \textbf{Procedurale} & \textbf{Orientato agli oggetti} & \textbf{Funzionale} \\
+\midrule
+Unità di base & Funzione e dati separati & Oggetto = dati + metodi & Funzione pura \\
+Come si gestisce la complessità & Scomposizione in funzioni & Scomposizione in classi e responsabilità & Composizione di funzioni, dati immutabili \\
+Stato & Variabili condivise & Incapsulato negli oggetti & Evitato (immutabilità) \\
+Punto di forza & Semplicità, efficienza & Sistemi grandi che evolvono, modelli del dominio & Parallelismo, correttezza, trasformazione di dati \\
+Esempi & C & Java, C++, Python & Haskell, funzionale in Python e Java \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Nessun paradigma è migliore in assoluto: per un piccolo script o una pipeline di dati l'OOP può essere eccessiva; per un sistema grande e in evoluzione offre una struttura che resiste ai cambiamenti. Molti linguaggi moderni li combinano.
+
+\section{Classi e Oggetti}
+
+\subsection{Definizioni}
+\begin{itemize}
+    \item \textbf{Classe}: descrizione di un insieme di oggetti con la stessa struttura e lo stesso comportamento. Definisce gli \textbf{attributi} (campi) e i \textbf{metodi}. È un \emph{tipo}. Esiste nel codice sorgente.
+    \item \textbf{Oggetto}: \emph{istanza} di una classe, creata a tempo di esecuzione con \texttt{new} (o chiamando il costruttore). Ha un'\textbf{identità}, uno \textbf{stato} (i valori degli attributi) e un \textbf{comportamento} (i metodi). Esiste in memoria.
+    \item \textbf{Differenza}: la classe è lo \emph{stampino}, gli oggetti sono i \emph{biscotti}. Una classe, molti oggetti; ciascuno ha il proprio stato e condivide il codice dei metodi.
+    \item \textbf{Costruttore}: metodo speciale che inizializza l'oggetto e deve lasciarlo in uno stato \emph{valido}.
+    \item \textbf{Riferimento}: una variabile di tipo classe non contiene l'oggetto, ma un \emph{riferimento} a esso nello \textbf{heap}; due variabili possono riferirsi allo stesso oggetto (\emph{aliasing}).
+    \item \textbf{Membri statici}: appartengono alla classe, non alla singola istanza (contatori, costanti, metodi di utilità).
+    \item \textbf{Identità e uguaglianza}: \texttt{==} confronta i riferimenti (stesso oggetto?), \texttt{equals} confronta lo stato (stesso valore?). Se si ridefinisce \texttt{equals} bisogna ridefinire anche \texttt{hashCode}.
+\end{itemize}
+
+\subsection{Perché una classe e non una struttura con funzioni?}
+Con una semplice \emph{struct} (record di dati) e funzioni separate, \textbf{qualunque} parte del programma può modificare i campi e rompere le regole del dominio (un conto con saldo negativo, una frazione con denominatore zero). Per sapere se i dati sono sempre validi bisognerebbe controllare tutto il codice.
+
+Con una classe:
+\begin{itemize}
+    \item i dati sono \textbf{privati}: si modificano solo tramite i metodi della classe;
+    \item le regole (\textbf{invarianti}) sono controllate \emph{in un solo punto} (il costruttore e i metodi che modificano lo stato);
+    \item se cambia la rappresentazione interna (per esempio una frazione ridotta ai minimi termini invece di no) l'esterno non se ne accorge.
+\end{itemize}
+Questa è la risposta alla domanda ``perché si fa così'': una classe è un \emph{custode degli invarianti} del proprio stato.
+
+\subsection{Esempio: la classe \texttt{Rational} (traccia 2016)}
+\textbf{Traccia}: classe \texttt{Rational} con numeratore e denominatore interi e metodo \texttt{mult} (moltiplicazione per un intero) che ritorna un \emph{nuovo} oggetto \texttt{Rational}.
+
+\begin{lstlisting}[language=Java, caption={Classe Rational: classe, oggetto, incapsulamento e immutabilita}]
+public final class Rational {
+    private final int num;   // privati: nessuno li modifica dall'esterno
+    private final int den;
+
+    public Rational(int num, int den) {
+        if (den == 0)                       // invariante: denominatore != 0
+            throw new IllegalArgumentException("denominatore nullo");
+        if (den < 0) { num = -num; den = -den; }   // segno sempre sul numeratore
+        int g = gcd(Math.abs(num), den);    // forma canonica: ridotta ai minimi termini
+        this.num = num / g;
+        this.den = den / g;
+    }
+
+    private static int gcd(int a, int b) {  // algoritmo di Euclide
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    public Rational mult(int k) {           // ritorna un NUOVO oggetto
+        return new Rational(num * k, den);
+    }
+
+    public Rational mult(Rational r) {      // overloading: stesso nome, altri parametri
+        return new Rational(num * r.num, den * r.den);
+    }
+
+    public int getNum() { return num; }
+    public int getDen() { return den; }
+
+    @Override public String toString() { return num + "/" + den; }
+
+    @Override public boolean equals(Object o) {
+        if (!(o instanceof Rational)) return false;
+        Rational r = (Rational) o;
+        return num == r.num && den == r.den;    // vale perche' e' in forma canonica
+    }
+    @Override public int hashCode() { return 31 * num + den; }
+}
+
+// Uso:
+//   Rational a = new Rational(3, 4);
+//   Rational b = a.mult(2);        // 3/2: a resta 3/4
+\end{lstlisting}
+
+\textbf{Perché questa progettazione}
+\begin{itemize}
+    \item \textbf{Campi \texttt{private final}} $\Rightarrow$ la classe è \textbf{immutabile}: dopo la creazione l'oggetto non cambia mai. Un oggetto immutabile si può condividere senza rischi (niente effetti collaterali, niente problemi di concorrenza) ed è facile da ragionare.
+    \item \textbf{\texttt{mult} ritorna un nuovo oggetto} (come chiede la traccia): è la conseguenza dell'immutabilità; è lo stesso modello di \texttt{String} in Java.
+    \item \textbf{Costruttore che valida e normalizza}: l'invariante (``$den \neq 0$, ridotta ai minimi termini, segno sul numeratore'') è vera per \emph{ogni} oggetto creato, in un unico punto. Così \texttt{equals} si riduce a confrontare i due campi.
+    \item \textbf{Overloading di \texttt{mult}}: si usa la stessa operazione concettuale con argomenti diversi.
+\end{itemize}
+
+\section{Incapsulamento}
+L'\textbf{incapsulamento} (o \emph{information hiding}) consiste nel \textbf{nascondere lo stato interno} e consentirne l'accesso solo tramite metodi che ne garantiscono la coerenza.
+
+\begin{lstlisting}[language=Java, caption={Incapsulamento: il metodo protegge l'invariante}]
+public class ContoCorrente {
+    private long saldoCentesimi;                 // stato nascosto
+
+    public ContoCorrente(long saldoIniziale) {
+        if (saldoIniziale < 0) throw new IllegalArgumentException();
+        this.saldoCentesimi = saldoIniziale;
+    }
+    public void preleva(long importo) {          // unico modo per ridurre il saldo
+        if (importo <= 0 || importo > saldoCentesimi)
+            throw new IllegalStateException("operazione non valida");
+        saldoCentesimi -= importo;
+    }
+    public long getSaldo() { return saldoCentesimi; }
+}
+\end{lstlisting}
+
+\textbf{Perché}
+\begin{itemize}
+    \item Se \texttt{saldoCentesimi} fosse pubblico, ogni riga di codice potrebbe scrivere un valore negativo: l'invariante ``saldo $\geq 0$'' sarebbe verificabile solo ispezionando \emph{tutto} il programma.
+    \item La rappresentazione è libera di cambiare (da \texttt{long} a \texttt{BigDecimal}) senza toccare i chiamanti.
+    \item \textbf{Attenzione}: un campo privato con \texttt{getX()} e \texttt{setX()} per ogni campo \emph{non} è vero incapsulamento: espone comunque tutto. Meglio metodi che esprimono operazioni del dominio (\texttt{preleva}, \texttt{versa}) rispetto a \texttt{setSaldo}. Principio \emph{Tell, don't ask}: si chiede all'oggetto di fare, non gli si chiedono i dati per decidere al posto suo.
+    \item \textbf{Modificatori di accesso}: \texttt{private} (solo la classe), \texttt{protected} (classe e sottoclassi), \texttt{public}. La regola è esporre il minimo necessario.
+\end{itemize}
+
+\section{Astrazione, Interfacce e Classi Astratte}
+\begin{itemize}
+    \item \textbf{Astrazione}: rappresentare solo gli aspetti rilevanti, ignorando i dettagli. Un'\textbf{interfaccia} è il \emph{contratto} di un tipo: cosa si può chiedere, non come viene fatto.
+    \item \textbf{Interfaccia}: elenco di metodi (firme) senza stato; una classe la \texttt{implements}, anche più di una.
+    \item \textbf{Classe astratta}: classe parzialmente implementata che non si può istanziare; contiene anche stato e codice comune e metodi astratti da completare nelle sottoclassi.
+\end{itemize}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}XX@{}}
+\toprule
+ & \textbf{Interfaccia} & \textbf{Classe astratta} \\
+\midrule
+Stato (campi) & No (solo costanti) & Sì \\
+Codice implementato & Solo metodi di default & Sì, anche costruttori \\
+Ereditarietà multipla & Una classe può implementare più interfacce & Una sola superclasse \\
+Si usa quando & Si definisce un \emph{ruolo} o capacità (``leggibile'', ``ordinabile'') indipendente dalla gerarchia & Si condivide codice e stato fra classi strettamente imparentate (``è un tipo di'') \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Perché ``programmare verso l'interfaccia, non verso l'implementazione''.} Se il codice dipende da un tipo concreto (\texttt{PostgresDatabase}), cambiare il database significa riscrivere tutti gli utilizzatori. Se dipende da un'interfaccia (\texttt{Repository}), si può sostituire l'implementazione, anche solo per i test, senza modificare il resto. È il \textbf{principio di inversione delle dipendenze}.
+
+\begin{lstlisting}[language=Java, caption={Dipendere da un'interfaccia: sostituibilita e testabilita}]
+interface PrenotazioneRepository {
+    void salva(String idPrenotazione);
+    boolean esiste(String idPrenotazione);
+}
+
+class PostgresRepository implements PrenotazioneRepository {
+    public void salva(String id) { /* INSERT INTO ... via JDBC */ }
+    public boolean esiste(String id) { /* SELECT ... */ return false; }
+}
+
+class InMemoryRepository implements PrenotazioneRepository {   // per i test
+    private final java.util.Set<String> dati = new java.util.HashSet<>();
+    public void salva(String id) { dati.add(id); }
+    public boolean esiste(String id) { return dati.contains(id); }
+}
+
+class ServizioPrenotazioni {
+    private final PrenotazioneRepository repo;          // dipende dall'interfaccia
+    ServizioPrenotazioni(PrenotazioneRepository repo) { // iniezione della dipendenza
+        this.repo = repo;
+    }
+    void prenota(String id) {
+        if (repo.esiste(id)) throw new IllegalStateException("gia' prenotata");
+        repo.salva(id);
+    }
+}
+\end{lstlisting}
+Il servizio funziona con \texttt{PostgresRepository} in produzione e con \texttt{InMemoryRepository} nei test, \emph{senza modificare una riga}. È la ragione per cui nel progetto del backend (capitolo \emph{Progettazione di Sistemi e API}) il livello di accesso ai dati è un'interfaccia \emph{Repository}.
+
+\section{Ereditarietà}
+L'\textbf{ereditarietà} permette a una \textbf{sottoclasse} di acquisire attributi e metodi della \textbf{superclasse}, estendendoli o ridefinendoli. Modella la relazione ``\emph{è un}''.
+
+\paragraph{Perché si usa}
+\begin{itemize}
+    \item \textbf{Riuso}: il codice comune sta in un solo posto (una correzione vale per tutte le sottoclassi).
+    \item \textbf{Sottotipazione}: un oggetto della sottoclasse può essere usato dove ci si aspetta la superclasse; è la base del polimorfismo.
+\end{itemize}
+
+\paragraph{Rischi e quando evitarla}
+\begin{itemize}
+    \item \textbf{Accoppiamento forte}: la sottoclasse dipende dai dettagli della superclasse (problema della \emph{fragile base class}: una modifica innocua alla base rompe le derivate).
+    \item \textbf{Principio di sostituzione di Liskov} (LSP): una sottoclasse deve poter sostituire la superclasse \emph{senza cambiare il comportamento atteso}. L'esempio classico è \texttt{Quadrato extends Rettangolo}: se \texttt{setLarghezza} nel quadrato cambia anche l'altezza, il codice che assume ``cambio la larghezza e l'altezza resta uguale'' si rompe. Una sottoclasse che non è davvero un sottotipo è un errore di progetto.
+    \item \textbf{Gerarchie profonde} difficili da capire; \textbf{ereditarietà multipla} (problema del rombo).
+\end{itemize}
+
+\paragraph{Composizione al posto dell'ereditarietà} (\emph{``favor composition over inheritance''}). Relazione ``\emph{ha un}'': l'oggetto \emph{contiene} un altro oggetto e gli inoltra le chiamate.
+
+\begin{lstlisting}[language=Java, caption={Composizione: una pila non e' una lista}]
+// SBAGLIATO: Pila extends ArrayList<Integer>
+//   espone anche add(indice, x), remove(indice)... che violano la regola LIFO.
+
+class Pila {
+    private final java.util.ArrayDeque<Integer> elementi = new java.util.ArrayDeque<>();
+    public void push(int x) { elementi.addFirst(x); }
+    public int pop()        { return elementi.removeFirst(); }
+    public boolean vuota()  { return elementi.isEmpty(); }
+}
+\end{lstlisting}
+La pila \emph{usa} un contenitore ma ne nasconde l'interfaccia: espone solo le operazioni dell'ADT Stack. L'implementazione è sostituibile senza che il chiamante se ne accorga.
+
+\section{Polimorfismo}
+\textbf{Traccia 2026 (A1-INF-4)}: illustrare il polimorfismo, principi, finalità e vantaggi (modularità, estensibilità, riusabilità); le modalità di realizzazione e il ruolo tra interfacce e implementazioni; limiti e problematiche; un esempio applicativo nell'Ingegneria dell'Informazione, con motivazione delle scelte.
+
+\subsection{Definizione}
+\textbf{Polimorfismo} (``molte forme''): la capacità di \textbf{un'unica interfaccia} di riferirsi a oggetti di tipi diversi, ciascuno dei quali risponde alla stessa chiamata \textbf{a modo proprio}. Il codice chiamante scrive \texttt{x.leggi()} senza sapere \emph{quale} classe concreta sia \texttt{x}: la scelta del metodo da eseguire avviene \textbf{a tempo di esecuzione} in base al tipo reale dell'oggetto.
+
+\subsection{Modalità di realizzazione}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}XX@{}}
+\toprule
+\textbf{Tipo} & \textbf{Come funziona} & \textbf{Quando viene scelto il metodo} \\
+\midrule
+\textbf{Di sottotipo} (inclusione, \emph{overriding}) & Una sottoclasse ridefinisce un metodo della superclasse o implementa un'interfaccia; un riferimento al tipo base punta a un oggetto derivato & \textbf{Run-time} (binding dinamico, \emph{dynamic dispatch}) \\
+\textbf{Ad hoc} (\emph{overloading}) & Più metodi con lo stesso nome e parametri diversi & \textbf{Compile-time} (in base ai tipi \emph{dichiarati} degli argomenti) \\
+\textbf{Parametrico} (\emph{generics}, \emph{template}) & Lo stesso codice funziona per qualunque tipo: \texttt{List<T>}, \texttt{Comparable<T>} & Compile-time \\
+\textbf{\emph{Duck typing}} (linguaggi dinamici) & ``Se cammina e fa qua come un'anatra\ldots'': conta che l'oggetto abbia il metodo richiesto, non il suo tipo dichiarato & Run-time \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Come funziona il binding dinamico.} Ogni classe con metodi ridefinibili ha una \textbf{tabella dei metodi virtuali} (\emph{vtable}); ogni oggetto contiene un puntatore alla vtable della sua classe. Una chiamata polimorfica significa: seguire il puntatore, leggere la voce del metodo, saltare. Il costo è una \emph{indirezione} in più.
+
+\begin{lstlisting}[language=Java, caption={Overriding (run-time) contro overloading (compile-time)}]
+class Animale { String verso() { return "..."; } }
+class Cane extends Animale { @Override String verso() { return "bau"; } }
+
+class Demo {
+    static String descrivi(Animale a) { return "animale"; }
+    static String descrivi(Cane c)    { return "cane"; }
+
+    public static void main(String[] args) {
+        Animale a = new Cane();       // tipo dichiarato Animale, tipo reale Cane
+        System.out.println(a.verso());      // "bau": overriding, scelto a RUN-TIME
+        System.out.println(descrivi(a));    // "animale": overloading, scelto in base
+                                            // al tipo DICHIARATO (compile-time)
+    }
+}
+\end{lstlisting}
+
+\subsection{Perché si fa: il problema che risolve}
+Senza polimorfismo, per gestire tipi diversi il codice usa \textbf{blocchi \texttt{if}/\texttt{switch} sul tipo}. Ogni nuovo tipo obbliga a modificare \emph{tutti} quei blocchi, sparsi in tutto il programma.
+
+\begin{lstlisting}[language=Java, caption={Senza polimorfismo: switch sul tipo}]
+enum Tipo { CERCHIO, RETTANGOLO }
+
+class Forma { Tipo tipo; double a, b; }      // a = raggio oppure base, b = altezza
+
+static double area(Forma f) {
+    switch (f.tipo) {
+        case CERCHIO:     return Math.PI * f.a * f.a;
+        case RETTANGOLO:  return f.a * f.b;
+        default: throw new IllegalArgumentException();
+    }
+}
+static double perimetro(Forma f) { /* un altro switch identico nella struttura */ return 0; }
+// Aggiungere TRIANGOLO: bisogna modificare area, perimetro e ogni altra funzione
+// con lo switch. Se se ne dimentica una: errore a run-time, non a compile-time.
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Con polimorfismo: ogni tipo conosce se stesso}]
+interface Forma {
+    double area();
+    double perimetro();
+}
+class Cerchio implements Forma {
+    private final double r;
+    Cerchio(double r) { this.r = r; }
+    public double area()      { return Math.PI * r * r; }
+    public double perimetro() { return 2 * Math.PI * r; }
+}
+class Rettangolo implements Forma {
+    private final double b, h;
+    Rettangolo(double b, double h) { this.b = b; this.h = h; }
+    public double area()      { return b * h; }
+    public double perimetro() { return 2 * (b + h); }
+}
+
+static double areaTotale(java.util.List<Forma> forme) {
+    double s = 0;
+    for (Forma f : forme) s += f.area();     // nessun if sul tipo
+    return s;
+}
+// Aggiungere Triangolo: si scrive UNA nuova classe. areaTotale non cambia.
+\end{lstlisting}
+
+\textbf{Vantaggi}
+\begin{itemize}
+    \item \textbf{Estensibilità} (\emph{principio aperto/chiuso}): il codice è \emph{aperto all'estensione} (nuove classi) ma \emph{chiuso alla modifica} (il codice esistente non si tocca). Aggiungere un tipo non rischia di rompere ciò che funzionava.
+    \item \textbf{Modularità}: la logica specifica di ogni tipo sta \emph{nella sua classe}; il chiamante è generico.
+    \item \textbf{Riusabilità}: algoritmi scritti sull'interfaccia (ordinare, stampare, monitorare) funzionano con tutti i tipi presenti e futuri.
+    \item \textbf{Testabilità}: si sostituiscono le implementazioni reali con \emph{finte} (mock, stub); vedi il Repository in memoria.
+    \item \textbf{Minore accoppiamento}: il chiamante conosce solo il contratto.
+\end{itemize}
+
+\subsection{Ruolo di interfacce e implementazioni}
+L'interfaccia fissa il \textbf{contratto} (che cosa, con quali pre-condizioni e post-condizioni); le implementazioni concrete decidono il \textbf{come}. Il chiamante dipende solo dal contratto. Il polimorfismo è il meccanismo che, a tempo di esecuzione, collega la chiamata astratta all'implementazione giusta. Un'interfaccia ben progettata è \textbf{piccola e coesa} (\emph{interface segregation}).
+
+\subsection{Esempio applicativo: monitoraggio di sensori}
+Un sistema embedded o IoT legge molti tipi di sensore; ciascuno ha una modalità di acquisizione e una conversione diversa. Il modulo di monitoraggio deve funzionare con sensori noti e futuri.
+
+\begin{lstlisting}[language=Java, caption={Sensori polimorfi: monitor generico}]
+import java.util.List;
+
+interface Sensore {
+    String nome();
+    double leggi();           // lettura gia' convertita in unita' fisica
+    String unita();
+}
+
+class SensoreTemperatura implements Sensore {
+    private final int adcRaw;                       // valore grezzo del convertitore
+    SensoreTemperatura(int adcRaw) { this.adcRaw = adcRaw; }
+    public String nome()  { return "Temperatura"; }
+    public double leggi() { return adcRaw * 0.1 - 40.0; }   // conversione specifica
+    public String unita() { return "C"; }
+}
+
+class SensoreUmidita implements Sensore {
+    private final double frazione;                  // 0..1
+    SensoreUmidita(double frazione) { this.frazione = frazione; }
+    public String nome()  { return "Umidita"; }
+    public double leggi() { return frazione * 100.0; }
+    public String unita() { return "%"; }
+}
+
+class Monitor {                                     // conosce solo l'interfaccia Sensore
+    static void stampa(List<Sensore> sensori) {
+        for (Sensore s : sensori)
+            System.out.println(s.nome() + ": " + s.leggi() + " " + s.unita());
+    }
+}
+// Nuovo sensore (pressione, CO2...): basta una nuova classe che implementa Sensore.
+// Monitor non si modifica e non si ricompila.
+\end{lstlisting}
+
+\textbf{Scelte progettuali motivate}
+\begin{itemize}
+    \item \textbf{Interfaccia} e non classe base: i sensori non condividono codice, solo un \emph{ruolo}; un'interfaccia non impone una gerarchia e una classe può implementarne più d'una.
+    \item \textbf{Conversione dentro ogni classe}: il dettaglio che varia (curva di calibrazione) è nascosto; \texttt{Monitor} resta stabile.
+    \item \textbf{Immutabilità} dei dati di lettura per semplificare l'uso concorrente.
+\end{itemize}
+
+\paragraph{Lo stesso esempio in Python (\emph{duck typing})}
+\begin{lstlisting}[language=Python, caption={Polimorfismo in Python}]
+class SensoreTemperatura:
+    def __init__(self, adc_raw): self.adc_raw = adc_raw
+    def nome(self):  return "Temperatura"
+    def leggi(self): return self.adc_raw * 0.1 - 40.0
+    def unita(self): return "C"
+
+class SensoreUmidita:
+    def __init__(self, frazione): self.frazione = frazione
+    def nome(self):  return "Umidita"
+    def leggi(self): return self.frazione * 100.0
+    def unita(self): return "%"
+
+def stampa(sensori):
+    for s in sensori:                 # basta che l'oggetto abbia questi metodi
+        print(f"{s.nome()}: {s.leggi()} {s.unita()}")
+\end{lstlisting}
+In Python non serve dichiarare l'interfaccia: il contratto è \emph{implicito} (duck typing), con il rischio che l'errore emerga solo a run-time; Python offre le classi astratte (\texttt{abc}) e i \texttt{Protocol} per renderlo esplicito.
+
+\subsection{Limiti e problematiche}
+\begin{itemize}
+    \item \textbf{Costo a run-time}: indirezione della vtable e impossibilità di alcune ottimizzazioni (\emph{inlining}); trascurabile nella maggior parte dei casi, rilevante nei cicli critici (sistemi in tempo reale, calcolo numerico).
+    \item \textbf{Comprensibilità e debug}: leggendo \texttt{s.leggi()} non si sa quale codice verrà eseguito; serve conoscere tutte le implementazioni.
+    \item \textbf{Violazione del contratto}: una sottoclasse che non rispetta il comportamento atteso rompe il codice che usa il tipo base (violazione di Liskov), con errori difficili da trovare.
+    \item \textbf{Esplosione di classi} se si abusa di gerarchie per piccole differenze (spesso meglio un parametro o la composizione).
+    \item \textbf{Problema dell'espressione}: con l'OOP aggiungere un \emph{nuovo tipo} è facile, ma aggiungere una \emph{nuova operazione} a tutti i tipi richiede di modificare tutte le classi; con \texttt{switch} (o con tipi di dati algebrici) è il contrario. Il pattern \textbf{Visitor} è una risposta.
+    \item \textbf{Downcast e \texttt{instanceof}}: se per usare un oggetto bisogna controllare il tipo concreto, il polimorfismo è stato progettato male.
+    \item \textbf{Ereditarietà multipla} (problema del rombo) e fragilità della classe base.
+    \item \textbf{Sicurezza}: i linguaggi dinamici rinviano molti errori di tipo a run-time.
+\end{itemize}
+
+\subsection{Scaletta per il tema ``polimorfismo''}
+\begin{enumerate}
+    \item Definizione e perché serve: gestire tipi diversi senza \texttt{if}/\texttt{switch}.
+    \item Principi: interfaccia, sottotipazione, binding dinamico (vtable).
+    \item Modalità: sottotipo (overriding), ad hoc (overloading), parametrico (generics), duck typing.
+    \item Finalità e vantaggi: modularità, estensibilità (aperto/chiuso), riusabilità, testabilità.
+    \item Ruolo di interfaccia e implementazioni (contratto, Liskov, dependency inversion).
+    \item Limiti: costo, comprensibilità, Liskov, esplosione di classi, problema dell'espressione.
+    \item Esempio: codice con interfaccia e almeno due implementazioni, e motivazione delle scelte.
+\end{enumerate}
+
+\section{Principi di Progettazione: SOLID}
+Cinque principi che riassumono il \emph{perché} dell'OOP:
+\begin{enumerate}
+    \item \textbf{S -- Single Responsibility}: una classe ha \emph{un solo motivo per cambiare}. Alta coesione.
+    \item \textbf{O -- Open/Closed}: aperte all'estensione, chiuse alla modifica (polimorfismo).
+    \item \textbf{L -- Liskov Substitution}: le sottoclassi devono poter sostituire le superclassi.
+    \item \textbf{I -- Interface Segregation}: molte interfacce piccole, meglio di una enorme.
+    \item \textbf{D -- Dependency Inversion}: dipendere da astrazioni, non da implementazioni concrete.
+\end{enumerate}
+Altri principi: \textbf{DRY} (non ripetersi), \textbf{KISS} (semplicità), \textbf{YAGNI} (non costruire ciò che non serve ora), \textbf{legge di Demetra} (parlare solo con i vicini diretti). Per i \emph{design pattern} (Strategy, Observer, Factory, Repository\ldots) si veda il capitolo \emph{Progettazione del Software}: sono applicazioni di questi principi.
+
+\section{Chiamate di Funzione, Stack e Passaggio dei Parametri}
+\textbf{Traccia 2025 (E05)}: descrivere il processo di chiamata a funzione; ruolo dello stack nell'allocazione dei dati; distinzione tra parametri formali e attuali; conseguenze delle diverse modalità di passaggio dei parametri; esempi di codice.
+
+\subsection{Parametri formali e attuali}
+\begin{itemize}
+    \item \textbf{Parametri formali}: i nomi (con tipo) dichiarati nella \emph{definizione} della funzione: \texttt{int somma(int a, int b)}. Sono variabili locali della funzione.
+    \item \textbf{Parametri attuali} (argomenti): le espressioni passate nella \emph{chiamata}: \texttt{somma(x, 3 + 4)}.
+    \item La chiamata associa a ogni formale il corrispondente attuale; \emph{come} avviene l'associazione è la \textbf{modalità di passaggio}.
+\end{itemize}
+
+\subsection{Che cosa succede in una chiamata (record di attivazione)}
+Lo \textbf{stack} (pila di chiamata) contiene un \textbf{record di attivazione} (\emph{stack frame}) per ogni funzione in esecuzione (vedi anche il capitolo \emph{Sistemi Operativi}).
+\begin{enumerate}
+    \item Il chiamante \textbf{valuta gli argomenti} e li mette sullo stack (o in registri, a seconda della convenzione di chiamata).
+    \item Si salva l'\textbf{indirizzo di ritorno} (l'istruzione successiva alla chiamata).
+    \item Si crea il \textbf{frame} della funzione: parametri formali, variabili locali, indirizzo di ritorno, puntatore al frame precedente.
+    \item Il controllo passa alla funzione, che accede alle proprie variabili tramite il frame.
+    \item Al \texttt{return}, il valore di ritorno è consegnato (registro o stack), il frame viene \textbf{rimosso} (si ripristina lo stack pointer) e l'esecuzione riprende all'indirizzo di ritorno.
+\end{enumerate}
+
+\textbf{Perché uno stack}: le chiamate seguono una disciplina LIFO (l'ultima funzione chiamata è la prima a terminare), quindi allocare e liberare i frame è \emph{estremamente veloce} (basta spostare un puntatore) e consente la \textbf{ricorsione} (ogni invocazione ha i propri dati) e il \textbf{rientro} (\emph{reentrancy}, thread diversi). Il limite è la dimensione finita dello stack.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}XX@{}}
+\toprule
+ & \textbf{Stack} & \textbf{Heap} \\
+\midrule
+Contiene & Frame delle chiamate: locali, parametri, indirizzi di ritorno & Oggetti e dati allocati dinamicamente (\texttt{new}, \texttt{malloc}) \\
+Allocazione & Automatica, LIFO, molto veloce & Esplicita o gestita dal \emph{garbage collector}, più lenta \\
+Durata & Fino al ritorno della funzione & Fino a deallocazione o raccolta \\
+Dimensione & Piccola e limitata (\emph{stack overflow}) & Grande (limitata dalla memoria) \\
+Errori tipici & Ricorsione infinita; array locali troppo grandi & Memory leak, puntatori pendenti (C/C++) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Esempio di stack con la ricorsione.} Per \texttt{fact(3)} lo stack cresce fino a quattro frame ($n=3,2,1$ più la chiamata iniziale) e poi si svuota in ordine inverso:
+
+\begin{lstlisting}[numbers=none, caption={Evoluzione dello stack per fact(3)}]
+chiamate:               ritorni:
+ fact(1)  -> n=1         fact(1) ritorna 1
+ fact(2)  -> n=2         fact(2) ritorna 2 * 1 = 2
+ fact(3)  -> n=3         fact(3) ritorna 3 * 2 = 6
+ main     -> ...
+\end{lstlisting}
+
+\subsection{Modalità di passaggio dei parametri}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.8cm}XXX@{}}
+\toprule
+\textbf{Modalità} & \textbf{Cosa riceve la funzione} & \textbf{Modifiche visibili al chiamante?} & \textbf{Linguaggi} \\
+\midrule
+Per valore & Una \textbf{copia} del valore & No & C, Java (primitivi), Python, C++ (default) \\
+Per riferimento & Un \textbf{alias} della variabile originale & Sì & C++ (\texttt{\&}), C\# (\texttt{ref}) \\
+Per indirizzo (puntatore) & La copia di un \textbf{indirizzo}; si accede all'originale con \texttt{*p} & Sì (tramite il puntatore) & C, C++ \\
+Per valore del riferimento (condivisione) & Una copia del \textbf{riferimento} all'oggetto & L'oggetto \emph{sì} (se mutabile); la variabile del chiamante \emph{no} & Java (oggetti), Python \\
+Per nome / per risultato & Casi storici o particolari (Algol, Ada \texttt{out}) & -- & -- \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{lstlisting}[language=C++, caption={Valore, riferimento e puntatore in C++}]
+#include <iostream>
+
+void scambia_valore(int a, int b)      { int t = a; a = b; b = t; }   // copie: inutile
+void scambia_rif(int& a, int& b)       { int t = a; a = b; b = t; }   // alias: funziona
+void scambia_ptr(int* a, int* b)       { int t = *a; *a = *b; *b = t; }
+
+int main() {
+    int x = 1, y = 2;
+    scambia_valore(x, y);  std::cout << x << " " << y << "\n";   // 1 2
+    scambia_rif(x, y);     std::cout << x << " " << y << "\n";   // 2 1
+    scambia_ptr(&x, &y);   std::cout << x << " " << y << "\n";   // 1 2
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Python e Java: passaggio per valore del riferimento}]
+def aggiungi(lista):
+    lista.append(99)          # modifica l'OGGETTO condiviso -> visibile fuori
+
+def riassegna(lista):
+    lista = [0]               # cambia solo la variabile LOCALE -> invisibile fuori
+
+def incrementa(n):
+    n += 1                    # int e' immutabile: crea un nuovo int locale
+
+a = [1, 2, 3]
+aggiungi(a);   print(a)       # [1, 2, 3, 99]
+riassegna(a);  print(a)       # [1, 2, 3, 99]
+k = 5
+incrementa(k); print(k)       # 5
+\end{lstlisting}
+
+\textbf{Conseguenze e motivazioni}
+\begin{itemize}
+    \item \textbf{Per valore}: sicuro (la funzione non può alterare l'originale), ma costoso per dati grandi perché copia.
+    \item \textbf{Per riferimento/puntatore}: efficiente (nessuna copia) e permette di \textbf{restituire più risultati}; ma introduce \textbf{effetti collaterali} e \textbf{aliasing}, e in C/C++ i rischi di puntatori nulli o pendenti. Si usa \texttt{const T\&} per passare dati grandi senza copiarli e senza poterli modificare.
+    \item \textbf{Oggetti mutabili} passati per ``valore del riferimento'': la funzione può modificare l'oggetto del chiamante; per evitare sorprese si usano oggetti \textbf{immutabili} o \textbf{copie difensive}.
+    \item \textbf{Stack overflow}: ogni chiamata consuma uno stack frame; una ricorsione troppo profonda (o infinita) lo esaurisce.
+\end{itemize}
+
+\section{Ricorsione e Iterazione}
+\textbf{Traccia 2018}: implementare \texttt{fact(x)} in versione iterativa e ricorsiva, discutendo le differenze.
+
+\begin{lstlisting}[language=Python, caption={Fattoriale: versione iterativa e ricorsiva}]
+def fact_iter(x):
+    if x < 0:
+        raise ValueError("x deve essere >= 0")
+    r = 1
+    for i in range(2, x + 1):      # un ciclo, una sola variabile accumulatore
+        r *= i
+    return r
+
+def fact_rec(x):
+    if x < 0:
+        raise ValueError("x deve essere >= 0")
+    if x <= 1:                     # caso base: ferma la ricorsione
+        return 1
+    return x * fact_rec(x - 1)     # passo ricorsivo su un problema piu' piccolo
+\end{lstlisting}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3cm}XX@{}}
+\toprule
+ & \textbf{Iterativa} & \textbf{Ricorsiva} \\
+\midrule
+Idea & Ripete un blocco con un ciclo e variabili che si aggiornano & La funzione richiama se stessa su un sottoproblema \\
+Tempo & $O(n)$ & $O(n)$ \\
+Spazio & $O(1)$ & $O(n)$: un frame per ogni chiamata \\
+Rischio & Errori sugli indici e sullo stato & \textbf{Stack overflow} (limite di Python $\approx$ 1000 chiamate; \texttt{fact\_rec(5000)} fallisce), caso base mancante \\
+Leggibilità & Chiara per problemi lineari & Più vicina alla definizione matematica; ottima per strutture ricorsive \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\paragraph{Quando preferire la ricorsione.} Quando il problema è \emph{definito in modo ricorsivo} o i dati sono ricorsivi: \textbf{alberi}, grafi, espressioni, \textbf{divide et impera} (merge sort, ricerca binaria), backtracking (labirinti, N-regine). In questi casi l'iterativa richiederebbe uno stack esplicito.
+
+\paragraph{Quando preferire l'iterazione.} Per cicli semplici, per ridurre memoria e rischio di overflow, e nei sistemi con stack limitato (embedded).
+
+\paragraph{Ricorsione in coda.} Se la chiamata ricorsiva è l'\emph{ultima} operazione, un compilatore può riusare lo stesso frame (\emph{tail call optimization}) e rendere la ricorsione efficiente quanto un ciclo; Java e Python \emph{non} lo fanno.
+
+\paragraph{Ogni ricorsione si può trasformare in iterazione} (con uno stack esplicito), e viceversa.
+
+\subsection{Attenzione alla ricorsione ridondante: Fibonacci}
+\begin{lstlisting}[language=Python, caption={Fibonacci: ricorsione ingenua, con memoizzazione, iterativa}]
+from functools import lru_cache
+
+def fib_naive(n):                  # O(2^n): ricalcola gli stessi valori
+    return n if n < 2 else fib_naive(n - 1) + fib_naive(n - 2)
+
+@lru_cache(maxsize=None)
+def fib_memo(n):                   # O(n): ogni valore calcolato una sola volta
+    return n if n < 2 else fib_memo(n - 1) + fib_memo(n - 2)
+
+def fib_iter(n):                   # O(n) tempo, O(1) spazio
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+\end{lstlisting}
+Il caso ingenuo ricalcola ripetutamente gli stessi sottoproblemi: \texttt{fib\_naive(40)} richiede oltre cento milioni di chiamate. È l'idea alla base della \textbf{programmazione dinamica} (memoizzazione dei sottoproblemi sovrapposti).
+
+\section{Complessità degli Algoritmi}
+
+\subsection{Notazioni}
+\begin{itemize}
+    \item $O(f(n))$: \textbf{limite superiore} asintotico (al più così). $\Omega(f(n))$: limite inferiore. $\Theta(f(n))$: limite stretto (sia superiore sia inferiore).
+    \item Si analizza il \textbf{caso peggiore}, il \textbf{caso migliore} e il \textbf{caso medio}; di solito si riporta il caso peggiore.
+    \item Si ignorano \textbf{costanti} e \textbf{termini di ordine inferiore}: $3n^2 + 10n + 7 = O(n^2)$.
+\end{itemize}
+
+\subsection{Come calcolarla}
+\begin{itemize}
+    \item \textbf{Cicli}: un ciclo che scorre $n$ elementi costa $O(n)$; due cicli annidati $O(n^2)$; tre cicli indipendenti annidati di lunghezze $W, H, D$ costano $O(W \cdot H \cdot D)$.
+    \item \textbf{Sequenza}: i costi si sommano e domina il maggiore.
+    \item \textbf{Ricorsione}: si scrive la \textbf{relazione di ricorrenza}. Per il divide et impera $T(n) = a\,T(n/b) + f(n)$ vale il \textbf{teorema dell'esperto} (\emph{master theorem}), con $c = \log_b a$:
+    \begin{itemize}
+        \item se $f(n) = O(n^{c-\varepsilon})$: $T(n) = \Theta(n^c)$;
+        \item se $f(n) = \Theta(n^c)$: $T(n) = \Theta(n^c \log n)$;
+        \item se $f(n) = \Omega(n^{c+\varepsilon})$ (con regolarità): $T(n) = \Theta(f(n))$.
+    \end{itemize}
+    Esempi: \textbf{ricerca binaria} $T(n)=T(n/2)+O(1)\Rightarrow\Theta(\log n)$; \textbf{merge sort} $T(n)=2T(n/2)+O(n)\Rightarrow\Theta(n\log n)$.
+\end{itemize}
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\toprule
+\textbf{Classe} & \textbf{Esempio} & \textbf{$n = 10^6$ (ordine di grandezza)} \\
+\midrule
+$O(1)$ & Accesso a un array, a una tabella hash (caso medio) & immediato \\
+$O(\log n)$ & Ricerca binaria & $\approx 20$ operazioni \\
+$O(n)$ & Scansione lineare & $10^6$ \\
+$O(n\log n)$ & Merge sort, heap sort & $\approx 2\cdot 10^7$ \\
+$O(n^2)$ & Insertion sort, doppio ciclo & $10^{12}$ (ore) \\
+$O(2^n)$ & Fibonacci ingenuo, sottoinsiemi & intrattabile \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Ricerca e Ordinamento}
+
+\subsection{Ricerca binaria}
+Su un array \emph{ordinato}: si confronta con l'elemento centrale e si scarta metà dell'intervallo. $O(\log n)$ tempo; $O(1)$ spazio (iterativa) o $O(\log n)$ (ricorsiva, per lo stack). Richiede accesso diretto agli indici e dati ordinati.
+
+\begin{lstlisting}[language=Python, caption={Ricerca binaria iterativa e ricorsiva}]
+def ricerca_binaria(a, x):             # a ordinato crescente
+    lo, hi = 0, len(a) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if a[mid] == x:   return mid
+        elif a[mid] < x:  lo = mid + 1
+        else:             hi = mid - 1
+    return -1                          # non trovato
+
+def ricerca_binaria_rec(a, x, lo=0, hi=None):
+    if hi is None: hi = len(a) - 1
+    if lo > hi: return -1
+    mid = (lo + hi) // 2
+    if a[mid] == x:  return mid
+    if a[mid] < x:   return ricerca_binaria_rec(a, x, mid + 1, hi)
+    return ricerca_binaria_rec(a, x, lo, mid - 1)
+\end{lstlisting}
+
+\subsection{Algoritmi di ordinamento}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.2cm}lllll@{}}
+\toprule
+\textbf{Algoritmo} & \textbf{Migliore} & \textbf{Medio} & \textbf{Peggiore} & \textbf{Spazio} & \textbf{Stabile} \\
+\midrule
+Bubble sort & $O(n)$ & $O(n^2)$ & $O(n^2)$ & $O(1)$ & Sì \\
+Selection sort & $O(n^2)$ & $O(n^2)$ & $O(n^2)$ & $O(1)$ & No \\
+Insertion sort & $O(n)$ & $O(n^2)$ & $O(n^2)$ & $O(1)$ & Sì \\
+Merge sort & $O(n\log n)$ & $O(n\log n)$ & $O(n\log n)$ & $O(n)$ & Sì \\
+Quick sort & $O(n\log n)$ & $O(n\log n)$ & $O(n^2)$ & $O(\log n)$ & No \\
+Heap sort & $O(n\log n)$ & $O(n\log n)$ & $O(n\log n)$ & $O(1)$ & No \\
+Counting sort & $O(n+k)$ & $O(n+k)$ & $O(n+k)$ & $O(k)$ & Sì \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Un ordinamento è \textbf{stabile} se mantiene l'ordine relativo degli elementi uguali. Ogni ordinamento \emph{per confronti} richiede $\Omega(n\log n)$ confronti nel caso peggiore; il \emph{counting sort} lo supera sfruttando il fatto che le chiavi siano interi in un intervallo limitato.
+
+\begin{lstlisting}[language=Python, caption={Merge sort (divide et impera)}]
+def merge_sort(a):
+    if len(a) <= 1:                    # caso base
+        return a
+    mid = len(a) // 2
+    sx, dx = merge_sort(a[:mid]), merge_sort(a[mid:])   # divide
+    out, i, j = [], 0, 0
+    while i < len(sx) and j < len(dx):                  # fonde due liste ordinate
+        if sx[i] <= dx[j]:             # <= mantiene la stabilita'
+            out.append(sx[i]); i += 1
+        else:
+            out.append(dx[j]); j += 1
+    return out + sx[i:] + dx[j:]
+\end{lstlisting}
+
+\section{Strutture Dati e Grafi}
+
+\subsection{Complessità delle operazioni}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.2cm}XXXX@{}}
+\toprule
+\textbf{Struttura} & \textbf{Accesso/ricerca} & \textbf{Inserimento} & \textbf{Cancellazione} & \textbf{Note} \\
+\midrule
+Array & $O(1)$ per indice; $O(n)$ per valore & $O(n)$ & $O(n)$ & Memoria contigua \\
+Lista concatenata & $O(n)$ & $O(1)$ in testa & $O(1)$ se si ha il nodo & Nessun accesso diretto \\
+Pila / coda & $O(1)$ in cima / in testa & $O(1)$ & $O(1)$ & LIFO / FIFO \\
+Tabella hash & $O(1)$ medio, $O(n)$ peggiore & $O(1)$ medio & $O(1)$ medio & Non ordinata \\
+Albero binario di ricerca (bilanciato) & $O(\log n)$ & $O(\log n)$ & $O(\log n)$ & $O(n)$ se degenere \\
+Heap (min/max) & $O(1)$ per il minimo & $O(\log n)$ & $O(\log n)$ & Coda con priorità \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Perché tante strutture}: ognuna rende veloci alcune operazioni a scapito di altre; la scelta dipende da \emph{quali operazioni sono più frequenti}. Nasconderne l'implementazione dietro un ADT (interfaccia \texttt{Mappa}, \texttt{Pila}) permette di cambiarla senza modificare il resto.
+
+\subsection{Visite di grafi e cammini minimi}
+Un grafo $G=(V,E)$ è rappresentato con \textbf{liste di adiacenza} (spazio $O(V+E)$, adatto ai grafi sparsi) o \textbf{matrice di adiacenza} (spazio $O(V^2)$, test di un arco in $O(1)$).
+\begin{itemize}
+    \item \textbf{BFS} (ampiezza): usa una coda; trova i cammini con meno archi; $O(V+E)$.
+    \item \textbf{DFS} (profondità): usa lo stack (o la ricorsione); rileva cicli, componenti connesse, ordinamento topologico; $O(V+E)$.
+    \item \textbf{Dijkstra}: cammini minimi da una sorgente con pesi non negativi; con un heap $O((V+E)\log V)$. È la \emph{ricerca a costo uniforme} del capitolo di Intelligenza Artificiale.
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption={BFS e Dijkstra su liste di adiacenza}]
+from collections import deque
+import heapq
+
+def bfs(grafo, s):                       # grafo: dict nodo -> lista di vicini
+    dist, coda = {s: 0}, deque([s])
+    while coda:
+        u = coda.popleft()
+        for v in grafo[u]:
+            if v not in dist:
+                dist[v] = dist[u] + 1
+                coda.append(v)
+    return dist
+
+def dijkstra(grafo, s):                  # grafo: dict nodo -> lista di (vicino, peso)
+    dist, heap = {s: 0}, [(0, s)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if d > dist.get(u, float("inf")):
+            continue                     # voce obsoleta
+        for v, w in grafo[u]:
+            nd = d + w
+            if nd < dist.get(v, float("inf")):
+                dist[v] = nd
+                heapq.heappush(heap, (nd, v))
+    return dist
+\end{lstlisting}
+
+\subsection{Paradigmi algoritmici}
+\begin{itemize}
+    \item \textbf{Divide et impera}: divide il problema in sottoproblemi indipendenti, risolve e ricombina (merge sort, ricerca binaria).
+    \item \textbf{Programmazione dinamica}: sottoproblemi \emph{sovrapposti} risolti una sola volta (Fibonacci, zaino, cammini minimi).
+    \item \textbf{Greedy}: a ogni passo sceglie la scelta localmente migliore (Dijkstra, codici di Huffman); corretto solo se il problema ha la proprietà della scelta greedy.
+    \item \textbf{Backtracking}: prova le scelte e torna indietro se non funzionano (N-regine, sudoku).
+    \item \textbf{Classi P e NP}: P = risolvibili in tempo polinomiale; NP = soluzioni verificabili in tempo polinomiale; i problemi \textbf{NP-completi} (SAT, commesso viaggiatore) non hanno algoritmi polinomiali noti e si affrontano con euristiche e approssimazioni.
+\end{itemize}
+
+\section{Tema Svolto: Corrispondenze tra Due Immagini (2018)}
+\textbf{Traccia}: date due immagini $A$ e $B$ di dimensione $W\times H$ (pixel con valori $0$--$255$), per ogni pixel $A[x][y]$ cercare in $B$ il pixel più simile nella posizione $[x-d][y]$ con $d\in[0,D]$. Due pixel sono tanto più simili quanto più bassa è la differenza in valore assoluto; se $x-d$ esce dall'immagine, la differenza è infinita. L'output è un'immagine $C$ in cui ogni pixel contiene il valore $d$ che dà la differenza minore. Indicare la complessità in tempo e memoria.
+
+(È il calcolo della \emph{mappa di disparità} in visione stereoscopica.)
+
+\begin{lstlisting}[language=Python, caption={Mappa di disparita: corrispondenze tra due immagini}]
+def corrispondenze(A, B, D):
+    """A, B: matrici H x W (liste di liste); ritorna C con lo spostamento d ottimo."""
+    H, W = len(A), len(A[0])
+    C = [[0] * W for _ in range(H)]
+    for y in range(H):                           # per ogni riga
+        for x in range(W):                       # per ogni pixel di A
+            migliore = float("inf")
+            d_ottimo = 0
+            for d in range(D + 1):               # per ogni candidato
+                if x - d < 0:                    # fuori immagine: differenza infinita
+                    break                        # (e lo e' anche per ogni d maggiore)
+                diff = abs(A[y][x] - B[y][x - d])
+                if diff < migliore:              # < : a parita' vince il d piu' piccolo
+                    migliore, d_ottimo = diff, d
+            C[y][x] = d_ottimo
+    return C
+\end{lstlisting}
+
+\textbf{Spiegazione e scelte}
+\begin{itemize}
+    \item Tre cicli annidati: righe ($H$), colonne ($W$), candidati ($D+1$). Per ogni pixel si tiene il minimo corrente.
+    \item Il \texttt{break} quando $x-d<0$ è corretto perché per $d$ maggiori anche $x-d$ è negativo (differenza infinita per tutti); evita confronti inutili ma non cambia la complessità asintotica.
+    \item In caso di parità si sceglie il $d$ minore (la condizione è $<$, non $\le$): va dichiarato come assunzione.
+\end{itemize}
+
+\textbf{Complessità}
+\begin{itemize}
+    \item \textbf{Tempo}: $O(W \cdot H \cdot D)$, perché per ognuno dei $W\cdot H$ pixel si valutano al più $D+1$ candidati con costo costante.
+    \item \textbf{Memoria}: $O(W \cdot H)$ per l'immagine di uscita $C$ (oltre alle due immagini di ingresso, che sono già date); la memoria \emph{ausiliaria} è $O(1)$ oltre all'output (solo \texttt{migliore}, \texttt{d\_ottimo} e gli indici).
+\end{itemize}
+
+\textbf{Possibili miglioramenti (da citare)}
+\begin{itemize}
+    \item Confrontare \textbf{finestre} di pixel (blocchi $k\times k$) invece di singoli pixel, per ridurre il rumore: il costo diventa $O(W \cdot H \cdot D \cdot k^2)$; con somme cumulate (\emph{integral image}) si torna a $O(W\cdot H\cdot D)$.
+    \item \textbf{Parallelizzazione}: ogni pixel è indipendente $\Rightarrow$ si può calcolare su GPU o con thread.
+\end{itemize}
+
+\section{Checklist per un Tema di Informatica}
+\begin{itemize}
+    \item \textbf{Definire}, poi spiegare \emph{perché} serve (problema risolto, che cosa accadrebbe senza).
+    \item \textbf{Un esempio in codice} piccolo ma completo e corretto; commentare le scelte.
+    \item Ogni scelta di progetto con la sua \textbf{motivazione} (incapsulamento $\to$ invarianti; interfaccia $\to$ sostituibilità; immutabilità $\to$ sicurezza).
+    \item \textbf{Vantaggi e limiti}: mostrare che si conoscono i compromessi.
+    \item \textbf{Complessità} dichiarata in tempo e spazio, con la motivazione.
+    \item Dichiarare le \textbf{assunzioni} (parità, valori non validi, input vuoto) e gestire i \textbf{casi limite}.
+\end{itemize}

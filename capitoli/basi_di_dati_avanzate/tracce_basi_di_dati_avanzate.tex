@@ -1,0 +1,26 @@
+% Tracce uscite agli Esami di Stato (Sezione A) sugli argomenti del capitolo.
+% Incluso da main.tex subito dopo il riassunto.
+
+\section*{Tracce Uscite} % Usiamo * per non numerare la sezione nell'indice
+\addcontentsline{toc}{section}{Tracce Uscite: Basi di Dati Avanzate}
+
+\subsection*{Prima sessione 2024 -- Informatica \#1}
+\textbf{Traccia}: consistenza del dato in un sistema distribuito; confronto tra soluzioni dei database SQL e NoSQL, con esempi e casi in cui un'azienda preferirebbe l'uno o l'altro; teorema CAP.
+
+\textbf{Dove trovare la risposta}: sezioni \emph{Transazioni}, \emph{Controllo della Concorrenza} (ACID, isolamento) di questo capitolo e sezioni \emph{Il Teorema CAP} e \emph{Database SQL e NoSQL} del capitolo \emph{Sistemi Distribuiti}; scaletta a fine capitolo.
+
+\subsection*{Seconda sessione 2024 -- Informatica \#3}
+\textbf{Traccia}: database per i Big Data; modelli relazionale e non relazionale; scalabilità, flessibilità, velocità; elaborazione batch e streaming; teorema CAP.
+
+\textbf{Dove trovare la risposta}: sezione \emph{Data Warehouse e Analisi OLAP}, indici e partizionamento (\emph{Progettazione Fisica}) e capitolo \emph{Sistemi Distribuiti}.
+
+\subsection*{Prima sessione 2026 -- A3-INF-4, Parte 1 (punti 1--3)}
+\textbf{Traccia}: modello ER del cinema, modello relazionale con chiavi e vincoli, SQL di creazione delle tabelle e query dei posti disponibili.
+
+\textbf{Dove trovare la risposta}: capitolo \emph{Progettazione di Sistemi e API}, sezione del tema svolto. In questo capitolo trovi query di verifica sullo stesso schema, la trappola dei join esterni, gli indici da creare, le transazioni e le forme normali.
+
+\subsection*{Esercizio tipo (non una traccia ufficiale)}
+Per esercitarsi sulla normalizzazione: dato lo schema $R(\text{Studente},\text{Corso},\text{Docente})$ con $\{\text{Studente},\text{Corso}\}\to\text{Docente}$ e $\text{Docente}\to\text{Corso}$, trovare le chiavi candidate, stabilire se è in 3NF e in BCNF, decomporlo e discutere la perdita di dipendenze. Svolto nella sezione \emph{Dipendenze Funzionali e Forme Normali}.
+
+\subsection*{Domande teoriche già presenti nel repository}
+Le domande su ER, normalizzazione e SQL con soluzione sono in \texttt{domande\_ed\_esercizi\_bd.tex}.

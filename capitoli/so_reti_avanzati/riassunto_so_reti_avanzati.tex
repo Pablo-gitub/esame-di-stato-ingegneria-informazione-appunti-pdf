@@ -1,0 +1,531 @@
+\chapter[Sistemi Operativi e Reti: Approfondimenti]{Sistemi Operativi e Reti: Approfondimenti per la Sezione A}
+
+Questo capitolo completa i capitoli \emph{Sistemi Operativi} e \emph{Reti di Calcolatori} con gli argomenti usciti nella Sezione A o tipici delle prove di Ingegneria Informatica: processi, thread e concorrenza con esempi pratici, sostituzione delle pagine, il concetto di protocollo, lo stack TCP/IP nel dettaglio, routing, DNS e programmazione con i socket.
+
+\bigskip
+\noindent{\Large\bfseries Parte I -- Sistemi Operativi}
+
+\section{Modalità Utente e Kernel, Chiamate di Sistema, Interrupt}
+
+\subsection{Perché due modalità}
+Se ogni programma potesse eseguire qualsiasi istruzione e leggere qualsiasi indirizzo, un'applicazione difettosa o ostile potrebbe corrompere gli altri processi o il sistema stesso. La CPU distingue quindi due modalità (un bit nel registro di stato):
+\begin{itemize}
+    \item \textbf{Modalità utente}: i programmi applicativi; istruzioni privilegiate (accesso diretto all'hardware, gestione della memoria, disabilitare gli interrupt) \emph{vietate}.
+    \item \textbf{Modalità kernel} (supervisore): il nucleo del sistema operativo; accesso completo.
+\end{itemize}
+Il \textbf{perché} è la \emph{protezione}: l'hardware impone l'isolamento, il sistema operativo ne è il garante.
+
+\subsection{Chiamate di sistema (system call)}
+Un programma utente chiede un servizio al kernel (aprire un file, creare un processo, inviare dati in rete) con una \textbf{system call}:
+\begin{enumerate}
+    \item il programma chiama una funzione di libreria (per esempio \texttt{read});
+    \item la libreria esegue un'istruzione di \textbf{trap} che commuta la CPU in modalità kernel e salta a un indirizzo \emph{fissato dal sistema operativo};
+    \item il kernel verifica i parametri e il permesso, esegue il servizio;
+    \item ritorno in modalità utente e ripresa del programma.
+\end{enumerate}
+Il programma non può saltare a un punto qualsiasi del kernel: entra solo dalle porte previste.
+
+\subsection{Interrupt, eccezioni e trap}
+\begin{itemize}
+    \item \textbf{Interrupt}: segnale \emph{asincrono} da un dispositivo (disco, rete, timer). La CPU salva lo stato, esegue la routine di servizio (\emph{ISR}) e riprende.
+    \item \textbf{Eccezione}: evento \emph{sincrono} causato dall'istruzione (divisione per zero, accesso non valido, \textbf{page fault}).
+    \item \textbf{Trap}: eccezione \emph{voluta} (system call).
+    \item \textbf{Timer interrupt}: permette al sistema operativo di riprendere il controllo della CPU, e quindi la \textbf{prelazione} (\emph{preemption}) nello scheduling.
+\end{itemize}
+
+\section{Processi: Stati, PCB e Cambio di Contesto}
+
+\subsection{Stati di un processo}
+\begin{itemize}
+    \item \textbf{Nuovo} $\to$ \textbf{Pronto} (\emph{ready}: attende la CPU) $\leftrightarrow$ \textbf{In esecuzione} $\to$ \textbf{In attesa} (\emph{waiting}: attende un evento, come un'operazione di I/O) $\to$ \textbf{Pronto} $\to\ldots\to$ \textbf{Terminato}.
+    \item Transizioni: \emph{dispatch} (pronto $\to$ esecuzione), \emph{prelazione} per scadenza del quanto (esecuzione $\to$ pronto), \emph{richiesta di I/O} (esecuzione $\to$ attesa), \emph{completamento dell'I/O} (attesa $\to$ pronto).
+\end{itemize}
+
+\subsection{Process Control Block (PCB)}
+Struttura dati del kernel che descrive il processo: identificatore (PID), stato, \textbf{program counter} e registri, informazioni di scheduling (priorità), informazioni sulla memoria (tabella delle pagine), file aperti, informazioni di contabilità.
+
+\subsection{Cambio di contesto (context switch)}
+Passaggio della CPU da un processo a un altro: si \textbf{salva lo stato} (registri, PC) nel PCB del processo uscente e si \textbf{carica} quello dell'entrante.
+\begin{itemize}
+    \item È \textbf{puro overhead}: durante il cambio non si esegue lavoro utile. Costo tipico di qualche microsecondo, aumentato dalla perdita di contenuto di cache e TLB.
+    \item Per i \textbf{thread dello stesso processo} è più economico: non cambia lo spazio di indirizzamento.
+    \item È il \textbf{compromesso dello scheduling}: un quanto piccolo dà reattività, ma più cambi di contesto e meno lavoro utile.
+\end{itemize}
+
+\subsection{Creazione di processi: \texttt{fork}, \texttt{exec}, \texttt{wait}}
+In Unix un processo nasce \emph{duplicando} il genitore (\texttt{fork}); il figlio può poi \emph{sostituire} il proprio programma con un altro (\texttt{exec}); il genitore attende con \texttt{wait}.
+
+\begin{lstlisting}[language=C, caption={fork, exec e wait in C}]
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main(void) {
+    int x = 10;
+    pid_t pid = fork();              // crea una copia del processo
+    if (pid < 0) {                   // errore
+        perror("fork");
+        exit(1);
+    } else if (pid == 0) {           // codice del FIGLIO (fork ritorna 0)
+        x += 5;                      // modifica la SUA copia di x
+        printf("figlio: x = %d\n", x);
+        fflush(stdout);              // svuota il buffer: exec lo scarterebbe
+        execlp("echo", "echo", "il figlio ora esegue un altro programma", (char *)NULL);
+        perror("exec");              // si arriva qui solo se exec fallisce
+        exit(1);
+    } else {                         // codice del PADRE (fork ritorna il pid del figlio)
+        wait(NULL);                  // attende la terminazione del figlio
+        printf("padre: x = %d\n", x);   // x e' ancora 10: spazi di indirizzamento separati
+    }
+    return 0;
+}
+\end{lstlisting}
+Dopo \texttt{fork} i due processi hanno \textbf{spazi di indirizzamento separati}: la modifica di \texttt{x} nel figlio non è visibile al padre. È l'isolamento tra processi.
+
+\subsection{Comunicazione tra processi (IPC)}
+Poiché i processi sono isolati servono meccanismi espliciti:
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.3cm}XX@{}}
+\toprule
+\textbf{Meccanismo} & \textbf{Descrizione} & \textbf{Note} \\
+\midrule
+\textbf{Memoria condivisa} & Un'area di memoria mappata in più processi & Molto veloce (nessuna copia, nessun intervento del kernel dopo la creazione); \emph{richiede sincronizzazione} esplicita \\
+\textbf{Scambio di messaggi} (message passing) & Il kernel recapita messaggi: \texttt{send}/\texttt{receive} & Più lento (copie e system call), ma più semplice e sicuro, funziona anche tra macchine diverse \\
+\textbf{Pipe / FIFO} & Canale unidirezionale di byte & Semplice; pipe tra processi imparentati, FIFO con nome \\
+\textbf{Code di messaggi} & Messaggi strutturati in coda & Disaccoppia mittente e destinatario \\
+\textbf{Socket} & Comunicazione bidirezionale locale o di rete & Base delle applicazioni client/server \\
+\textbf{Segnali} & Notifica asincrona minima (\texttt{SIGTERM}, \texttt{SIGINT}) & Trasporta pochissima informazione \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Thread e Modelli di Multithreading}
+
+\subsection{Perché i thread}
+\begin{itemize}
+    \item \textbf{Reattività}: l'interfaccia grafica continua a rispondere mentre un altro thread lavora.
+    \item \textbf{Condivisione delle risorse}: i thread di un processo condividono codice, dati e file aperti; la comunicazione è una semplice lettura di memoria.
+    \item \textbf{Economia}: creare un thread e passare da uno all'altro costa molto meno che con i processi.
+    \item \textbf{Parallelismo} sui sistemi multicore: thread diversi su core diversi.
+    \item Il prezzo è la \textbf{perdita di isolamento}: un thread difettoso può danneggiare tutto il processo, e la memoria condivisa introduce le \emph{race condition}.
+\end{itemize}
+
+\subsection{Thread a livello utente e a livello kernel}
+\begin{itemize}
+    \item \textbf{Thread utente}: gestiti da una libreria nello spazio utente; il kernel \emph{non sa} che esistono. Creazione e cambio rapidissimi, ma una chiamata bloccante di un thread blocca tutto il processo e non usano più core.
+    \item \textbf{Thread kernel}: creati e schedulati direttamente dal sistema operativo; il kernel può eseguirli in parallelo su più core e un thread bloccato non ferma gli altri; costo maggiore (system call).
+\end{itemize}
+
+\subsection{I tre modelli di multithreading}
+Il modello descrive come i thread utente sono \emph{mappati} sui thread kernel.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}XXX@{}}
+\toprule
+ & \textbf{Many-to-one} & \textbf{One-to-one} & \textbf{Many-to-many} \\
+\midrule
+Mappatura & Molti thread utente su \emph{un} thread kernel & Ogni thread utente ha un thread kernel & $m$ thread utente su $n \le m$ thread kernel \\
+Parallelismo multicore & \textbf{No} (un solo thread kernel) & \textbf{Sì} & Sì (fino a $n$) \\
+Chiamata bloccante & Blocca \emph{tutti} i thread del processo & Blocca solo quel thread & Blocca solo quel thread; il sistema può riassegnare \\
+Costo di creazione & Molto basso & Più alto (un thread kernel per thread) & Basso: i thread utente sono economici \\
+Numero di thread & Molto elevato & Limitato dal kernel (risorse) & Molto elevato \\
+Complessità & Semplice & Semplice & \textbf{Alta} (scheduler a due livelli) \\
+Esempi & Vecchie librerie (per esempio i \emph{green thread} delle prime JVM) & \textbf{Linux, Windows, macOS}, Java (thread della piattaforma) & Go (\emph{goroutine}), Java 21 (\emph{virtual thread}), Erlang \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Perché esistono tutti e tre}
+\begin{itemize}
+    \item \textbf{Many-to-one} è economico, ma non sfrutta i multicore e un'operazione bloccante ferma tutto: oggi è raro.
+    \item \textbf{One-to-one} è il modello più diffuso per la sua semplicità e perché sfrutta il parallelismo; il limite è che \emph{ogni thread costa un thread kernel} (memoria dello stack, risorse del kernel), quindi non si possono avere milioni di thread.
+    \item \textbf{Many-to-many} cerca il meglio dei due: moltissimi thread leggeri multiplati su pochi thread kernel (adatto a server con milioni di connessioni), a costo di uno scheduler più complesso.
+\end{itemize}
+
+\paragraph{Thread pool.} Creare un thread per ogni richiesta è costoso e illimitato (rischio di esaurire le risorse). Un \emph{pool} crea in anticipo un numero fisso di thread che prendono le richieste da una coda: riuso dei thread, limite al carico e prevedibilità.
+
+\paragraph{Nota su Python.} L'implementazione di riferimento (CPython) ha un \textbf{GIL} (\emph{Global Interpreter Lock}): un solo thread alla volta esegue bytecode Python. I thread aiutano per l'I/O, ma non per i calcoli intensivi, per i quali si usano più \emph{processi}.
+
+\section{Race Condition: dall'Esempio alla Soluzione}
+Una \textbf{race condition} si ha quando il risultato dipende dall'\emph{ordine temporale} di accessi concorrenti a dati condivisi, di cui almeno uno in scrittura.
+
+\subsection{Perché \texttt{contatore++} non è sicuro}
+L'istruzione \texttt{contatore++} non è un'operazione sola, ma tre: \textbf{leggere} il valore, \textbf{sommare} 1, \textbf{scrivere} il risultato. Se due thread si alternano in mezzo, un aggiornamento viene perso (\emph{lost update}):
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Passo} & \textbf{Thread A} & \textbf{Thread B} & \textbf{contatore} \\
+\midrule
+1 & legge $5$ & & 5 \\
+2 & & legge $5$ & 5 \\
+3 & calcola $6$ & calcola $6$ & 5 \\
+4 & scrive $6$ & & 6 \\
+5 & & scrive $6$ & \textbf{6} (atteso: 7) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}[language=Java, caption={Race condition e tre rimedi in Java}]
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Race {
+    static int contatore = 0;                       // condiviso, NON protetto
+    static int sicuro = 0;
+    static final Object lock = new Object();
+    static AtomicInteger atomico = new AtomicInteger();
+
+    public static void main(String[] args) throws Exception {
+        Runnable r = () -> {
+            for (int i = 0; i < 1_000_000; i++) {
+                contatore++;                         // lettura, somma, scrittura: 3 passi
+                synchronized (lock) { sicuro++; }    // sezione critica (mutua esclusione)
+                atomico.incrementAndGet();           // operazione atomica (CAS)
+            }
+        };
+        Thread t1 = new Thread(r), t2 = new Thread(r);
+        t1.start(); t2.start();
+        t1.join();  t2.join();
+        System.out.println(contatore + " " + sicuro + " " + atomico.get());
+    }
+}
+// Risultato tipico (cambia ad ogni esecuzione):  1999973  2000000  2000000
+\end{lstlisting}
+Il contatore non protetto restituisce un valore \textbf{inferiore e diverso a ogni esecuzione}: è questo il segno delle race condition. Sono bug \emph{non deterministici}: possono sparire con il debugger o con un carico diverso.
+
+\subsection{Rimedi}
+\begin{itemize}
+    \item \textbf{Mutua esclusione} (lock, \texttt{synchronized}, mutex): una sola esecuzione per volta nella sezione critica. Semplice, ma serializza il lavoro (\emph{contesa}) e introduce il rischio di \textbf{deadlock}.
+    \item \textbf{Operazioni atomiche} (\emph{compare-and-swap}): l'hardware garantisce l'esecuzione indivisibile; senza blocchi, ottime per contatori e flag.
+    \item \textbf{Immutabilità}: dati che non cambiano non possono avere race condition (vedi \texttt{Rational} nel capitolo sulla programmazione).
+    \item \textbf{Confinamento}: ogni dato appartiene a un solo thread; si evita la condivisione.
+    \item \textbf{Scambio di messaggi} tra thread o processi, senza stato condiviso (modello degli \emph{attori}, code).
+    \item \textbf{Strutture dati concorrenti} della libreria (\texttt{ConcurrentHashMap}, \texttt{BlockingQueue}).
+\end{itemize}
+\textbf{Attenzione}: proteggere tutto con un unico lock risolve le race ma azzera il parallelismo; il lavoro sta nel proteggere \emph{solo} ciò che serve, per il tempo minimo, e acquisire più lock \textbf{sempre nello stesso ordine} per evitare deadlock.
+
+\subsection{Problemi classici di sincronizzazione}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.1cm}XX@{}}
+\toprule
+\textbf{Problema} & \textbf{Descrizione} & \textbf{Soluzione} \\
+\midrule
+Produttore--consumatore & Un buffer limitato condiviso & Semafori \texttt{empty}, \texttt{full}, \texttt{mutex} (vedi capitolo SO) oppure una coda bloccante \\
+Lettori--scrittori & Molti lettori possono leggere insieme; uno scrittore vuole accesso esclusivo & Lock lettore/scrittore; attenzione alla \textbf{starvation} di scrittori o lettori \\
+Cena dei filosofi & Cinque filosofi, cinque forchette; per mangiare ne servono due $\Rightarrow$ rischio di deadlock (attesa circolare) & Imporre un \textbf{ordine} sulle forchette; al massimo quattro filosofi a tavola; prendere le due forchette in modo atomico \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Sostituzione delle Pagine}
+Nella memoria virtuale con paginazione su richiesta, quando un processo accede a una pagina non presente in RAM si verifica un \textbf{page fault}: il sistema operativo carica la pagina dal disco in un frame libero; se non ce ne sono, deve scegliere una pagina \emph{vittima} da rimuovere. \textbf{Obiettivo}: minimizzare il numero di page fault.
+
+\subsection{Costo di un page fault}
+Con probabilità di fault $p$, tempo di accesso in memoria $t_m$ e tempo di servizio del fault $t_f$ ($\approx$ ms, perché richiede il disco), il \textbf{tempo medio di accesso} è
+\[
+\text{EAT} = (1-p)\,t_m + p\,t_f .
+\]
+Con $t_m = 200\,\text{ns}$, $t_f = 8\,\text{ms}$ e $p = 1/1000$:
+$\text{EAT} = 0{,}999\cdot 200 + 0{,}001 \cdot 8\,000\,000 \approx 8200\,\text{ns}$: \textbf{un fault ogni mille accessi rallenta il sistema di circa 40 volte}. Per questo i page fault devono essere rarissimi.
+
+\subsection{Algoritmi}
+\begin{itemize}
+    \item \textbf{FIFO}: si rimuove la pagina caricata da più tempo. Semplice, ma può rimuovere pagine molto usate; soffre dell'\textbf{anomalia di Belady}.
+    \item \textbf{OPT} (ottimo): si rimuove la pagina che sarà usata \emph{più in là nel futuro}. Dà il minimo numero di fault, ma \textbf{non è realizzabile} (richiede di conoscere il futuro); serve come limite di confronto.
+    \item \textbf{LRU} (\emph{Least Recently Used}): si rimuove la pagina non usata da più tempo, assumendo la \textbf{località temporale}. Buona approssimazione di OPT, ma richiede hardware per tracciare l'uso (costoso).
+    \item \textbf{Clock} (seconda chance): approssimazione di LRU con un bit di riferimento e un puntatore circolare; è molto usata in pratica.
+\end{itemize}
+
+\subsection{Esempio svolto}
+Stringa di riferimenti: \texttt{7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1} (20 accessi) con \textbf{3 frame}.
+
+\begin{center}
+\begin{tabular}{@{}lc@{}}
+\toprule
+\textbf{Algoritmo} & \textbf{Page fault} \\
+\midrule
+FIFO & 15 \\
+LRU & 12 \\
+OPT & 9 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Metodo per risolverlo a mano}: si scorre la stringa tenendo la lista dei frame; a ogni accesso, se la pagina è presente è un \emph{hit}, altrimenti è un \emph{fault} e, se i frame sono pieni, si applica la regola dell'algoritmo per scegliere la vittima (FIFO: la più vecchia; LRU: quella usata meno di recente; OPT: quella il cui prossimo uso è più lontano).
+
+\paragraph{Anomalia di Belady.} Con FIFO, \emph{aumentare} i frame può \emph{aumentare} i fault. Stringa \texttt{1 2 3 4 1 2 5 1 2 3 4 5}: FIFO ha 9 fault con 3 frame e \textbf{10} con 4 frame. LRU e OPT non soffrono di questa anomalia (sono \emph{algoritmi a stack}): con LRU, 10 fault con 3 frame e 8 con 4.
+
+\subsection{Thrashing e working set}
+Se un processo non ha abbastanza frame per il proprio \emph{working set} (l'insieme delle pagine usate nell'intervallo recente) genera page fault continui: il sistema passa quasi tutto il tempo a caricare pagine e quasi nessuno a lavorare (\textbf{thrashing}). Rimedi: ridurre il grado di multiprogrammazione, assegnare i frame in base al working set, politiche di sostituzione locali.
+
+\subsection{Dimensione della tabella delle pagine}
+Spazio di indirizzamento di 32 bit, pagine da 4\,KiB ($2^{12}$ byte): numero di pagine $= 2^{32}/2^{12} = 2^{20}$. Con 4 byte per voce la tabella occupa $2^{20}\cdot 4 = 4$\,MiB \textbf{per processo}. Soluzioni: \textbf{tabelle a più livelli} (si allocano solo le parti usate), \textbf{tabella invertita}, \textbf{TLB} per accelerare la traduzione.
+
+\bigskip
+\noindent{\Large\bfseries Parte II -- Reti di Calcolatori}
+
+\section{Il Concetto di Protocollo}
+\textbf{Traccia 2026 (A2-INF-4)}: illustrare il concetto di protocollo nei sistemi distribuiti, il ruolo nel garantire interoperabilità, affidabilità e sincronizzazione; funzioni di un protocollo; modelli orientato e non orientato alla connessione; esempi dallo stack TCP/IP e impiego nei sistemi distribuiti e nelle applicazioni Internet.
+
+\subsection{Definizione}
+Un \textbf{protocollo di comunicazione} è l'insieme di \textbf{regole} che le entità comunicanti (\emph{peer}) devono seguire per scambiarsi informazioni. Definisce:
+\begin{itemize}
+    \item la \textbf{sintassi}: formato e struttura dei messaggi (campi, lunghezze, codifica);
+    \item la \textbf{semantica}: il significato dei messaggi e le azioni da compiere;
+    \item la \textbf{temporizzazione}: ordine degli scambi, velocità, timeout, sincronizzazione.
+\end{itemize}
+Un protocollo si descrive con il formato delle \textbf{PDU} (\emph{Protocol Data Unit}: intestazione + dati) e con una \textbf{macchina a stati finiti} (stati, messaggi ricevuti, azioni).
+
+\subsection{Perché servono i protocolli}
+Due calcolatori diversi, di produttori e sistemi operativi diversi, collegati da un canale \emph{non affidabile} e \emph{senza orologio comune}, non possono comunicare senza regole concordate. Il protocollo risolve tre problemi:
+\begin{itemize}
+    \item \textbf{Interoperabilità}: sistemi eterogenei si capiscono perché implementano lo \emph{stesso standard} (RFC dell'IETF, standard IEEE). Un browser di un produttore parla con un server di un altro perché entrambi seguono HTTP.
+    \item \textbf{Affidabilità}: la rete può perdere, duplicare, corrompere o riordinare i messaggi; il protocollo aggiunge rilevamento di errori, riscontri (\emph{ACK}), ritrasmissioni e numerazione.
+    \item \textbf{Sincronizzazione}: le entità devono concordare lo \emph{stato} della comunicazione (la connessione è aperta? quale byte è stato ricevuto? quanto posso inviare?). Si ottiene con scambi di messaggi (handshake), numeri di sequenza e timer.
+\end{itemize}
+
+\subsection{Funzioni tipiche di un protocollo}
+\begin{itemize}
+    \item \textbf{Indirizzamento e identificazione} (indirizzi IP, porte).
+    \item \textbf{Incapsulamento e framing}: aggiunta di intestazioni; delimitazione dei messaggi.
+    \item \textbf{Segmentazione e riassemblaggio}, \textbf{multiplazione} (più applicazioni sullo stesso canale tramite le porte).
+    \item \textbf{Controllo degli errori}: checksum/CRC, ACK, timeout, ritrasmissione.
+    \item \textbf{Controllo di flusso}: il ricevitore limita il ritmo del mittente (finestra).
+    \item \textbf{Controllo di congestione}: il mittente adatta il ritmo allo stato della rete.
+    \item \textbf{Instaurazione e chiusura} della connessione.
+    \item \textbf{Instradamento} (routing).
+    \item \textbf{Sicurezza}: autenticazione, riservatezza, integrità.
+\end{itemize}
+
+\subsection{Servizio, protocollo e stratificazione}
+In un'architettura a \textbf{strati}, il \textbf{servizio} è ciò che uno strato offre a quello superiore (interfaccia \emph{verticale}); il \textbf{protocollo} è l'insieme di regole tra due strati pari su sistemi diversi (comunicazione \emph{orizzontale}). Ogni strato incapsula la PDU di quello superiore: \texttt{dati applicativi} $\to$ \emph{segmento} (trasporto) $\to$ \emph{pacchetto} (rete) $\to$ \emph{frame} (collegamento).
+
+\textbf{Perché stratificare}: \textbf{modularità} (si cambia uno strato, per esempio da Ethernet a Wi-Fi, senza toccare gli altri), \textbf{interoperabilità}, complessità suddivisa, standard per ogni livello. Il costo è un po' di overhead (intestazioni) e, a volte, di prestazioni.
+
+\section{Comunicazione Orientata e Non Orientata alla Connessione}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}XX@{}}
+\toprule
+ & \textbf{Orientata alla connessione} & \textbf{Senza connessione} \\
+\midrule
+Fasi & Instaurazione $\to$ trasferimento $\to$ chiusura & Si invia direttamente \\
+Stato & Gli estremi \textbf{mantengono uno stato} (numeri di sequenza, finestre) & Nessuno stato condiviso; ogni messaggio è indipendente \\
+Affidabilità & Può garantire consegna, ordine, assenza di duplicati & \emph{Best effort}: nessuna garanzia \\
+Overhead & Handshake iniziale (latenza di almeno 1 RTT), intestazioni più grandi, stato da mantenere & Minimo; nessuna latenza di apertura \\
+Scalabilità & Lo stato per connessione limita il numero di client & Ottima: il server non ricorda i client \\
+Controllo & Flusso e congestione & Nessuno (se serve, lo fa l'applicazione) \\
+Esempi & \textbf{TCP}, TLS sopra TCP, ATM, MPLS & \textbf{UDP}, \textbf{IP}, DNS (su UDP), streaming, VoIP, giochi \\
+Ambiti & Trasferimento di file, web, posta, accesso remoto, database: servono \emph{tutti} i dati, nell'ordine corretto & Tempo reale (un pacchetto in ritardo è inutile), \emph{query} brevi (DNS), broadcast/multicast, sensori IoT \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Dove sta la scelta}: dipende dal requisito. Se un dato perso va \emph{recuperato} (un file) $\Rightarrow$ connessione. Se un dato in ritardo è \emph{peggio} di un dato perso (voce in diretta) o se il messaggio è breve e unico (richiesta DNS) $\Rightarrow$ senza connessione. È anche possibile costruire l'affidabilità \emph{sopra} UDP a livello applicativo (come fa QUIC).
+
+\section{Lo Stack TCP/IP e i Principali Protocolli}
+Lo stack TCP/IP ha quattro (o cinque) livelli. È il modello \emph{effettivamente} usato da Internet; ISO/OSI è il modello di riferimento teorico.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{2.8cm}X@{}}
+\toprule
+\textbf{TCP/IP} & \textbf{OSI} & \textbf{Protocolli ed esempi} \\
+\midrule
+\textbf{Applicazione} & Applicazione, Presentazione, Sessione & HTTP/HTTPS, DNS, DHCP, SMTP/IMAP, SSH, FTP, MQTT, gRPC, WebSocket \\
+\textbf{Trasporto} & Trasporto & TCP, UDP, QUIC \\
+\textbf{Internet (rete)} & Rete & IPv4, IPv6, ICMP; protocolli di routing (OSPF, BGP) \\
+\textbf{Accesso alla rete (collegamento + fisico)} & Collegamento dati, Fisico & Ethernet, Wi-Fi (IEEE 802.11), ARP, PPP \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Applicazione}
+\begin{itemize}
+    \item \textbf{HTTP/HTTPS} (porta 80/443): web e API REST; richiesta/risposta, \emph{stateless}. HTTP/1.1 usa connessioni persistenti; \textbf{HTTP/2} multiplexa più richieste su una connessione TCP; \textbf{HTTP/3} usa QUIC su UDP.
+    \item \textbf{DNS} (porta 53): traduce nomi in indirizzi IP.
+    \item \textbf{DHCP} (UDP 67/68): assegna automaticamente indirizzo IP, maschera, gateway e DNS.
+    \item \textbf{SMTP} (25/587): invio della posta; \textbf{IMAP/POP3}: lettura.
+    \item \textbf{SSH} (22): accesso remoto cifrato; \textbf{FTP} (21): trasferimento file.
+    \item \textbf{MQTT}: protocollo \emph{publish/subscribe} leggero per l'IoT, con un \emph{broker}.
+\end{itemize}
+
+\subsection{Trasporto}
+\begin{itemize}
+    \item \textbf{TCP}: affidabile, orientato alla connessione, flusso di byte, controllo di flusso e congestione.
+    \item \textbf{UDP}: datagrammi, intestazione di 8 byte, nessuna garanzia.
+    \item \textbf{QUIC}: affidabilità, multiplexing e cifratura (TLS~1.3) \emph{sopra UDP}, handshake in 0--1 RTT, senza il blocco di coda (\emph{head-of-line blocking}) di TCP; base di HTTP/3.
+\end{itemize}
+
+\subsection{Rete e collegamento}
+\begin{itemize}
+    \item \textbf{IP}: indirizzamento logico e instradamento dei pacchetti, \emph{senza connessione} e \emph{best effort}. IPv4: indirizzi a 32 bit; IPv6: 128 bit.
+    \item \textbf{ICMP}: messaggi di controllo ed errore (\texttt{ping}, \texttt{traceroute}, ``destination unreachable'', ``time exceeded'').
+    \item \textbf{ARP}: associa un indirizzo IP a un indirizzo MAC nella stessa rete locale, con una richiesta in \emph{broadcast}.
+    \item \textbf{Ethernet / Wi-Fi}: trasmissione di frame tra nodi adiacenti, con indirizzi MAC e controllo di errore (CRC).
+\end{itemize}
+
+\section{TCP in Dettaglio}
+
+\subsection{Intestazione e porte}
+L'intestazione TCP (almeno 20 byte) contiene: porta sorgente e destinazione (16 bit), \textbf{numero di sequenza} e \textbf{numero di riscontro} (32 bit), flag (\texttt{SYN}, \texttt{ACK}, \texttt{FIN}, \texttt{RST}), \textbf{finestra di ricezione} (16 bit), checksum. Una connessione è identificata dalla quaterna (IP sorgente, porta sorgente, IP destinazione, porta destinazione).
+
+\subsection{Apertura e chiusura}
+\begin{itemize}
+    \item \textbf{Handshake a tre vie}: il client invia \texttt{SYN} (con il proprio numero di sequenza iniziale), il server risponde \texttt{SYN-ACK}, il client conferma con \texttt{ACK}. \textbf{Perché tre messaggi}: ciascun lato deve \emph{dichiarare} il proprio numero iniziale e \emph{vedere confermato} l'altro; servono quindi quattro informazioni, e il secondo messaggio ne combina due.
+    \item \textbf{Chiusura}: scambio di \texttt{FIN} e \texttt{ACK} in ciascuna direzione (la connessione è full-duplex e si chiude per direzione); \texttt{RST} chiude bruscamente.
+\end{itemize}
+
+\subsection{Affidabilità}
+\begin{itemize}
+    \item \textbf{Numeri di sequenza e ACK cumulativi}: il riscontro indica il prossimo byte atteso.
+    \item \textbf{Timeout di ritrasmissione (RTO)}: stimato dall'RTT misurato ($\text{RTO} = \text{SRTT} + 4\cdot\text{RTTVAR}$).
+    \item \textbf{Ritrasmissione rapida}: tre ACK duplicati fanno ritrasmettere il segmento senza aspettare il timeout.
+    \item \textbf{Finestra scorrevole}: il mittente può avere più segmenti \emph{in volo} senza riscontro (pipelining), per non sprecare la capacità del canale.
+\end{itemize}
+
+\subsection{Controllo di flusso e di congestione}
+\begin{itemize}
+    \item \textbf{Controllo di flusso}: il ricevitore comunica la finestra \texttt{rwnd} (spazio libero nel buffer); il mittente non supera \texttt{rwnd}. Protegge il \emph{ricevitore}.
+    \item \textbf{Controllo di congestione}: il mittente mantiene una finestra di congestione \texttt{cwnd}; invia al più $\min(\texttt{cwnd}, \texttt{rwnd})$. Protegge la \emph{rete}.
+    \begin{itemize}
+        \item \textbf{Slow start}: \texttt{cwnd} parte da 1 MSS e \emph{raddoppia} ogni RTT (cresce di 1 MSS per ogni ACK) fino alla soglia \texttt{ssthresh}.
+        \item \textbf{Congestion avoidance}: oltre la soglia cresce di circa 1 MSS per RTT (\emph{additive increase}).
+        \item \textbf{Perdita}: con timeout, \texttt{ssthresh} $=$ \texttt{cwnd}$/2$ e \texttt{cwnd} $=1$ MSS (si riparte da slow start); con tre ACK duplicati (Reno), \texttt{cwnd} si dimezza (\emph{multiplicative decrease}) e si prosegue in congestion avoidance.
+        \item Il comportamento complessivo è detto \textbf{AIMD} (\emph{Additive Increase, Multiplicative Decrease}): converge a una ripartizione equa della capacità tra i flussi.
+    \end{itemize}
+\end{itemize}
+
+\section{Indirizzamento, Routing e Servizi di Rete}
+
+\subsection{IP, DHCP e NAT}
+\begin{itemize}
+    \item \textbf{Indirizzo IPv4}: 32 bit (rete + host); la maschera di sottorete separa le due parti (vedi \emph{Subnetting}). \textbf{IPv6}: 128 bit, intestazione semplificata a lunghezza fissa (40 byte), nessuna frammentazione nei router, risolve l'esaurimento degli indirizzi.
+    \item \textbf{Indirizzi privati} (non instradati in Internet), in particolare \texttt{10.0.0.0/8}, \texttt{172.16.0.0/12} e \texttt{192.168.0.0/16}.
+    \item \textbf{DHCP}: il nuovo host trasmette in broadcast \emph{Discover}; il server risponde \emph{Offer}; l'host chiede \emph{Request}; il server conferma \emph{Ack} (sequenza \textbf{DORA}). L'indirizzo è \emph{noleggiato} per un tempo limitato (\emph{lease}).
+    \item \textbf{NAT}: il router di bordo traduce gli indirizzi privati in uno (o pochi) indirizzo pubblico, usando le \emph{porte} per distinguere le connessioni (\emph{PAT}). \textbf{Perché}: risparmia indirizzi IPv4 e nasconde la rete interna. \textbf{Costo}: rompe il principio end-to-end (un host interno non è raggiungibile dall'esterno senza configurazioni).
+\end{itemize}
+
+\subsection{Routing e forwarding}
+\begin{itemize}
+    \item \textbf{Forwarding}: azione locale del router su ogni pacchetto: guarda l'indirizzo di destinazione, cerca nella tabella con la regola del \textbf{prefisso più lungo} (\emph{longest prefix match}) e inoltra sull'interfaccia indicata.
+    \item \textbf{Routing}: costruzione \emph{globale} della tabella tramite algoritmi e protocolli.
+\end{itemize}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.1cm}XXX@{}}
+\toprule
+ & \textbf{Distance vector} & \textbf{Link state} & \textbf{Path vector} \\
+\midrule
+Idea & Ogni router comunica ai vicini le distanze verso tutte le destinazioni & Ogni router conosce l'\textbf{intero grafo} e calcola i cammini minimi & Si annunciano i percorsi (sequenze di sistemi autonomi) \\
+Algoritmo & Bellman--Ford & Dijkstra & Policy e selezione del percorso \\
+Protocollo & RIP & \textbf{OSPF} & \textbf{BGP} \\
+Ambito & Reti piccole & Interno a un'organizzazione (\emph{intra-AS}) & \textbf{Tra} organizzazioni, Internet (\emph{inter-AS}) \\
+Problemi & Convergenza lenta, \emph{count to infinity} & Più memoria e traffico iniziale & Complessità, rischio di errori di configurazione \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Internet è diviso in \textbf{sistemi autonomi} (AS): all'interno si usa un protocollo come OSPF per ottimizzare le prestazioni; tra AS si usa BGP, dove contano le \emph{politiche} (accordi commerciali) più dei costi.
+
+\subsection{DNS}
+Il \textbf{DNS} è un database distribuito e gerarchico che traduce nomi (\texttt{www.esempio.it}) in indirizzi IP.
+\begin{itemize}
+    \item \textbf{Gerarchia}: radice (\texttt{.}) $\to$ TLD (\texttt{.it}, \texttt{.com}) $\to$ server autoritativi del dominio.
+    \item \textbf{Risoluzione}: il client chiede al \emph{resolver ricorsivo} (del provider o pubblico), che interroga in modo iterativo radice, TLD e server autoritativo e restituisce la risposta.
+    \item \textbf{Caching} con \textbf{TTL}: le risposte sono memorizzate per ridurre carico e latenza.
+    \item \textbf{Record}: \texttt{A} (IPv4), \texttt{AAAA} (IPv6), \texttt{CNAME} (alias), \texttt{MX} (posta), \texttt{NS} (server dei nomi), \texttt{TXT}.
+    \item \textbf{Perché è distribuito}: una tabella centrale sarebbe un \emph{singolo punto di guasto} e di carico; la gerarchia e il caching lo rendono scalabile e resiliente. Per le richieste brevi usa \textbf{UDP}.
+\end{itemize}
+
+\section[Protocolli nei Sistemi Distribuiti]{Protocolli nei Sistemi Distribuiti e nelle Applicazioni Internet}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.2cm}X@{}}
+\toprule
+\textbf{Protocollo} & \textbf{Modello} & \textbf{Uso e motivazione} \\
+\midrule
+HTTP/REST & Richiesta/risposta, stateless & API web e mobile; semplice, diffuso, cacheabile, facile da scalare con load balancer \\
+gRPC (HTTP/2) & RPC tipizzato, streaming & Comunicazione interna tra microservizi: efficiente, contratto esplicito (Protocol Buffers) \\
+WebSocket & Canale bidirezionale persistente & Chat, notifiche, quotazioni in tempo reale: evita il polling \\
+MQTT & Publish/subscribe con broker & IoT: leggero, funziona su reti poco affidabili, tre livelli di qualità del servizio \\
+AMQP / Kafka & Code e log di messaggi & Disaccoppiare servizi, assorbire picchi, elaborazione di eventi in streaming \\
+DNS & Richiesta/risposta su UDP & Scoperta di servizi per nome; bilanciamento semplice \\
+SSH / TLS & Canale cifrato sopra TCP & Accesso sicuro e protezione di altri protocolli (HTTPS, IMAPS) \\
+\bottomrule
+\end{tabularx}
+\end{center}
+Nei sistemi distribuiti i protocolli devono gestire guasti e latenza: \textbf{timeout}, \textbf{ritentativi con attesa crescente}, operazioni \textbf{idempotenti}, \textbf{controllo di flusso} con code (\emph{backpressure}); vedi il capitolo \emph{Sistemi Distribuiti}.
+
+\section{Sicurezza di Rete: TLS e HTTPS}
+\textbf{TLS} aggiunge \textbf{riservatezza}, \textbf{integrità} e \textbf{autenticazione} sopra TCP; \textbf{HTTPS} è HTTP sopra TLS.
+\begin{enumerate}
+    \item Il client propone i parametri di cifratura (\emph{ClientHello}); il server sceglie e invia il proprio \textbf{certificato}.
+    \item Il client \textbf{verifica il certificato}: firma di una \emph{autorità di certificazione} fidata, validità, nome del dominio.
+    \item I due lati concordano una \textbf{chiave di sessione} con uno scambio di chiavi (per esempio ECDHE), che garantisce la \emph{forward secrecy}.
+    \item Il traffico è cifrato con \textbf{crittografia simmetrica} (per esempio AES-GCM), che è veloce, e autenticato.
+\end{enumerate}
+\textbf{Perché ibrida}: la crittografia asimmetrica serve per autenticare e scambiare la chiave, ma è lenta; la simmetrica è veloce e protegge i dati. Altri strumenti: \textbf{firewall} (filtro dei pacchetti per indirizzi e porte), \textbf{VPN}, \textbf{IDS/IPS}.
+
+\section{Programmazione con i Socket}
+Un \textbf{socket} è il punto di accesso del programma alla rete. Il \emph{tipo} di socket riflette la scelta tra connessione e assenza di connessione: \texttt{SOCK\_STREAM} (TCP) e \texttt{SOCK\_DGRAM} (UDP).
+
+\begin{lstlisting}[language=Python, caption={Server TCP: orientato alla connessione}]
+import socket
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as srv:     # TCP
+    srv.bind(("0.0.0.0", 8080))
+    srv.listen()                              # passivo: attende connessioni
+    conn, addr = srv.accept()                 # completa l'handshake a tre vie
+    with conn:
+        while True:
+            dati = conn.recv(1024)            # flusso di byte, non messaggi
+            if not dati:                      # il client ha chiuso (FIN)
+                break
+            conn.sendall(dati.upper())        # risponde: stesso canale affidabile
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Client TCP}]
+import socket
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect(("127.0.0.1", 8080))            # SYN, SYN-ACK, ACK
+    s.sendall(b"ciao")
+    print(s.recv(1024))                       # b'CIAO'
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption={Client e server UDP: senza connessione}]
+import socket
+
+# Server UDP: nessuna connessione, ogni datagramma e' indipendente
+srv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+srv.bind(("0.0.0.0", 8081))
+# Client UDP
+cli = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+cli.sendto(b"ciao", ("127.0.0.1", 8081))      # nessun handshake, nessuna garanzia
+dati, mittente = srv.recvfrom(1024)           # un datagramma intero (con il mittente)
+srv.sendto(dati.upper(), mittente)
+print(cli.recvfrom(1024)[0])                  # b'CIAO'
+\end{lstlisting}
+
+\textbf{Differenze da sottolineare}
+\begin{itemize}
+    \item TCP: \texttt{listen} e \texttt{accept} per il server, \texttt{connect} per il client; \textbf{flusso di byte} senza confini di messaggio ($\Rightarrow$ il programma deve delimitare i messaggi, per esempio con una lunghezza o con un carattere di fine riga).
+    \item UDP: nessuna \texttt{connect} o \texttt{accept}; ogni \texttt{sendto}/\texttt{recvfrom} è un datagramma con i propri confini; la perdita non viene segnalata.
+    \item Un server TCP reale serve molti client contemporaneamente con thread, un pool di thread o I/O asincrono (\texttt{select}/\texttt{epoll}); vedi la parte sui thread.
+\end{itemize}
+
+\section{Scaletta per il Tema ``Protocolli nei Sistemi Distribuiti''}
+\begin{enumerate}
+    \item Definire il protocollo (sintassi, semantica, temporizzazione) e il contesto: canale inaffidabile, sistemi eterogenei.
+    \item Il ruolo: \textbf{interoperabilità} (standard), \textbf{affidabilità} (ACK, ritrasmissioni), \textbf{sincronizzazione} (handshake, numeri di sequenza, timer).
+    \item Funzioni: indirizzamento, framing, controllo di errori, di flusso e di congestione, instaurazione, routing, sicurezza.
+    \item Stratificazione e incapsulamento; servizio contro protocollo; modelli OSI e TCP/IP.
+    \item Orientato alla connessione e non: tabella con vantaggi, svantaggi e ambiti.
+    \item Esempi dello stack: HTTP, DNS, TCP, UDP, IP, ARP; come si combinano in una richiesta web (DNS $\to$ TCP handshake $\to$ TLS $\to$ HTTP).
+    \item Impiego nei sistemi distribuiti: REST, gRPC, code di messaggi, MQTT; gestione dei guasti.
+\end{enumerate}
+
+\paragraph{Cosa succede digitando un URL nel browser} (domanda tipica, che riunisce tutto): (1) il browser cerca l'indirizzo con il \textbf{DNS} (cache locale, poi resolver); (2) se l'host è nella stessa sottorete usa \textbf{ARP}, altrimenti invia al \textbf{gateway}; (3) stabilisce una connessione \textbf{TCP} (handshake a tre vie); (4) per HTTPS esegue l'handshake \textbf{TLS}; (5) invia la richiesta \textbf{HTTP}; (6) il pacchetto attraversa i router (\textbf{forwarding} IP, eventualmente \textbf{NAT}); (7) il server risponde e il browser mostra la pagina.
